@@ -2,12 +2,13 @@ package com.chahar.keycloak.config;
 
 import java.util.Properties;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -15,16 +16,16 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 public class HibernateConfig {
-	@Value("${db.driver}")
+//	@Value("${db.driver}")
 	private String DRIVER;
 
-	@Value("${db.password}")
+//	@Value("${db.password}")
 	private String PASSWORD;
 
-	@Value("${db.url}")
+//	@Value("${db.url}")
 	private String URL;
 
-	@Value("${db.username}")
+//	@Value("${db.username}")
 	private String USERNAME;
 
 	@Value("${hibernate.dialect}")
@@ -45,13 +46,39 @@ public class HibernateConfig {
 	@Value("${hibernate.enable_lazy_load_no_trans}")
 	private String ENABLE_LAZY_LOAD_NO_TRANS;
 
-	@Bean
+//	@Bean
+//	public DataSource dataSource() {
+//		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//		dataSource.setDriverClassName(DRIVER);
+//		dataSource.setUrl(URL);
+//		dataSource.setUsername(USERNAME);
+//		dataSource.setPassword(PASSWORD);
+//		return dataSource;
+//	}
+
 	public DataSource dataSource() {
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName(DRIVER);
-		dataSource.setUrl(URL);
-		dataSource.setUsername(USERNAME);
-		dataSource.setPassword(PASSWORD);
+		DataSource dataSource = null;
+		System.out.println("value of datasource" + dataSource);
+		try {
+
+			Context initialContex = new InitialContext();
+			System.out.println("value of datasource" + dataSource);
+
+			dataSource = (DataSource) (initialContex.lookup("java:/ndmc_db"));
+
+			System.out.println("value of datasource" + dataSource);
+
+			if (dataSource != null) {
+				dataSource.getConnection();
+
+			} else {
+				dataSource = (DataSource) (initialContex.lookup("java:/ndmc_db"));
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return dataSource;
 	}
 

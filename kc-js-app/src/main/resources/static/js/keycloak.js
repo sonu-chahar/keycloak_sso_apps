@@ -1193,7 +1193,8 @@
             iframe.setAttribute('src', src );
             iframe.setAttribute('title', 'keycloak-session-iframe' );
             iframe.style.display = 'none';
-            document.body.appendChild(iframe);
+            var docBody=document.getElementsByTagName("body")[0];
+            docBody.appendChild(iframe);
 
             var messageCallback = function(event) {
                 if ((event.origin !== loginIframe.iframeOrigin) || (loginIframe.iframe.contentWindow !== event.source)) {

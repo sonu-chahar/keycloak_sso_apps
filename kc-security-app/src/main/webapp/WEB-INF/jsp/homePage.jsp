@@ -21,7 +21,36 @@
 								</div>
 								<div class="base-innar">
 									<a class="hvr-icon-wobble-horizontal"
-										href="http://127.0.0.1:8081/">More Info</a>
+										href="http://127.0.0.1:8081">More Info</a>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-4 col-md-4 col-lg-4">
+							<div class="base hvr-float-shadow">
+								<a href="https://eservices.ndmc.gov.in/obnd/B_Enquery.aspx" >
+								<h2>Birth Certificate</h2></a>
+													
+								<div class="circle bg-circle1">
+									<img src="images/icons/my-profile.png">
+								</div>
+								<div class="base-innar">
+									<a class="hvr-icon-wobble-horizontal"
+										href="https://eservices.ndmc.gov.in/obnd/B_Enquery.aspx">More Info</a>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-4 col-md-4 col-lg-4">
+							<div class="base hvr-float-shadow">
+								<a href="http://192.168.10.215:8083/welcome" >
+								<h2>JS-App</h2></a>
+								 <p>Some text for MyProfile...</p>
+								
+								<div class="circle bg-circle1">
+									<img src="images/icons/my-profile.png">
+								</div>
+								<div class="base-innar">
+									<a class="hvr-icon-wobble-horizontal"
+										href="http://192.168.10.215:8083/welcome">More Info</a>
 								</div>
 							</div>
 						</div>

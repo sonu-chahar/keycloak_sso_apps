@@ -92,7 +92,7 @@ public class MyProfileController extends AbstractPageController {
 			userMasterDTO.setUsername(oldUserMaster.getUsername());
 			userMasterDTO.setPassword(oldUserMaster.getPassword());
 			userMasterDTO.setId(oldUserMaster.getId());
-			userMasterDTO.setRoles(oldUserMaster.getRoles());
+			//userMasterDTO.setRoles(oldUserMaster.getRoles());
 			userMasterDTO.setIsActive(true);
 			userMasterDTO = userMasterService.save(userMasterDTO);
 			request.getSession(false).setAttribute(SESSION_ATTRIBTE_FOR_USER_MASTER, userMasterDTO);

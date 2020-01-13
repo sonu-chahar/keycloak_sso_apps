@@ -41,7 +41,7 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		super.configure(http);
-		http.authorizeRequests().antMatchers("/images/**", "/myProfile/updateProfile").permitAll().antMatchers("/books")
+		http.authorizeRequests().antMatchers("/images/**" ,"/myProfile/updateProfile").permitAll().antMatchers("/books")
 				.hasAnyRole("NDMC_EMPLOYEE", "Citizen").antMatchers("/manager").hasRole("NDMC_EMPLOYEE").anyRequest()
 				.authenticated();
 		http.csrf().disable();

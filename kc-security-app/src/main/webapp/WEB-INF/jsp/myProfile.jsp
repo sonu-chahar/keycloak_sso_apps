@@ -152,15 +152,19 @@
 					key="label.personalInformation.userType" />
 			</label>
 			<div class="col-sm-3 required">
-				<form:select class="form-control" id="fUserType" path="userType.id">
+				<form:select class="form-control" id="fUserType" path="userType">
 					<form:option selected="selected" value="">---- Select <fmt:message
 							key="label.personalInformation.userType" /> ----</form:option>
-					<c:forEach items="${userTypeList}" var="userType">
+					<%-- <c:forEach items="${userTypeList}" var="userType">
 						<option value="${userType.id}">${userType.name}</option>
-					</c:forEach>
+					</c:forEach> --%>
+					<form:option  value="Citizen">Citizen</form:option>
+					<form:option  value="Birth">Birth Certificate</form:option>
+					<form:option  value="Barat">Barat Ghar</form:option>
+					<form:option  value="yellow">Yellow Fever</form:option>
 				</form:select>
 				*
-				<form:errors path="userType.id" cssClass="error" />
+				<form:errors path="userType" cssClass="error" />
 			</div>
 			<label class="col-sm-2 control-label label-inn"> <fmt:message
 					key="label.personalInformation.adharCardNumber" />
@@ -601,7 +605,7 @@ $(document).ready(function() {
 		//$("#fPinCode").attr('readonly', true);
 	}
 	if("${userMaster.userType}"!=null){
-		$("#fUserType").val('${userMaster.userType.id}');
+		$("#fUserType").val('${userMaster.userType}');
 		//$("#fUserType").attr('readonly', true);
 	}
 	if("${userMaster.adharCardNumber}"!=null){

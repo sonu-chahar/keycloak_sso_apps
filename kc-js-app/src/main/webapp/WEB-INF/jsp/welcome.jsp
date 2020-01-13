@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html lang="en">
 <head>
@@ -8,11 +8,11 @@
 	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
 
 
-	<%-- <spring:url value="/css/main.css" var="springCss" />
+<%-- <spring:url value="/css/main.css" var="springCss" />
 	<link href="${springCss}" rel="stylesheet" /> --%>
-	
-	
-	
+
+
+
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
 
@@ -30,7 +30,7 @@
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="/">Home</a></li>
 					<li><a href="#about">About</a></li>
-					<li><a href="/welcome">WecomePage</a></li>
+					<li><a class=".testClick" href="/welcome">WecomePage</a></li>
 				</ul>
 			</div>
 		</div>
@@ -46,6 +46,8 @@
 	</div>
 	<!-- /.container -->
 
+	<script type="text/javascript"
+		src="/webjars/jquery/3.4.1/jquery.min.js"></script>
 	<script type="text/javascript"
 		src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 

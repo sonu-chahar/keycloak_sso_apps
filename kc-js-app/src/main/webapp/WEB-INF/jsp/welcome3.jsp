@@ -15,32 +15,23 @@
 <link href="${jstlCss}" rel="stylesheet" />
 
 <c:url value="/js/keycloak.js" var="kcjs" />
-<c:url value="/js/kc.js" var="kcimpl" />
 <script src="${kcjs}"></script>
-<script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
-<script src="${kcimpl}"></script>
 <script>
-
-  
-/* $( document ).ready(function() { */
-	/* var keycloak = Keycloak({
+  var keycloak = Keycloak({
 	  url:"http://127.0.0.1:8180/auth",
 	  realm:"testRealm1",
 	  clientId:"testJSApp"
-	}); */   
-/* var keycloak = Keycloak('http://192.168.10.215:8083/keycloak.json');
-	
-	alert(keycloak); */
+	});   
+ // var keycloak = Keycloak('http://192.168.10.215:8083/keycloak.json');
 	/* var keycloak = Keycloak({
 		url : 'http://127.0.0.1:8180/auth',
 		realm : 'testRealm1',
 		clientId : 'NDMC_EMPLOYEE'
 	}); */
-	/* keycloak.init({
+	keycloak.init({
 		onLoad : 'login-required',
-		checkLoginIframe: false,
-		flow: 'hybrid'
-	})  */
+		checkLoginIframe: false
+	}) 
 	// keycloak.init({onLoad : 'login-required'})
 	/*    keycloak.init({ onLoad: 'login-required' }).success(function(authenticated) {
 	       alert(authenticated ? 'authenticated' : 'not authenticated');
@@ -48,54 +39,48 @@
 	       alert('failed to initialize');
 	   }); */
 
-	 /*  keycloak.init({promiseType:'native'}).then(function(authenticated){
-		  alert(authenticated?'authenticated':'not authenticated');
-	  }).catch(function (){
-		  alert('failed to initialize');
-	  }); */
-	/* var loadData = function() {
+	/*  keycloak.init().success(function(authenticated) {
+	     alert(authenticated ? 'authenticated' : 'not authenticated');
+	 }).error(function() {
+	     alert('failed to initialize');
+	 }); */
+
+	var loadData = function() {
 		//$('<input>').attr('type','hidden').appendTo('form');
 		
-		/* document.getElementById('username').innerText = keycloak.subject;
-		alert($("#username").val()); 
+		document.getElementById('username').innerText = keycloak.subject;
+		alert($("#username").val());
 
 		var url = window.location.href;
 
 		var req = new XMLHttpRequest();
 		req.open('GET', url, true);
-		
 		req.setRequestHeader('Accept', 'application/json');
 		req.setRequestHeader('Authorization', 'Bearer ' + keycloak.token);
-		keycloak.onAuthSuccess = function() { alert('authenticated'); }
-		 req.onreadystatechange = function() {
-			 alert(req.readyState);
+
+		req.onreadystatechange = function() {
 			if (req.readyState == 4) {
-				alert(req.readyState)
 				if (req.status == 200) {
 					alert('Success');
 				} else if (req.status == 403) {
 					alert('Forbidden');
 				}
 			}
-		} 
+		}
 
 		req.send();
-		alert("abc")
-		keycloak.onAuthSuccess = function() { alert('authenticated'); 
-		req.setRequestHeader('Authorization', 'Bearer ' + keycloak.token);}
-	}; */
-	
-	 /* keycloak.updateToken(30).success(function() {
+	};
+	/* 
+	 keycloak.updateToken(30).success(function() {
 	    loadData();
 	}).error(function() {
 	    alert('Failed to refresh token');
-	});   */
-/* }); */
-	
+	});  */
 </script>
+
 </head>
 <body>
-	<input type="hidden" id="name"/>
+
 	<nav class="navbar navbar-inverse">
 		<div class="container">
 			<div class="navbar-header">
@@ -114,13 +99,14 @@
 	<div class="container">
 
 		<div class="starter-template">
-			<h1>Spring Boot Web JSP Exampless</h1>
+			<h1>Spring Boot Web JSP Example</h1>
 			<h2>Message: ${message}</h2>
 		</div>
 
 	</div>
 	<!-- /.container -->
-
+	<script type="text/javascript"
+		src="/webjars/jquery/3.4.1/jquery.min.js"></script>
 	<script type="text/javascript"
 		src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 

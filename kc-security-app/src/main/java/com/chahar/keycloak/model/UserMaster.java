@@ -41,7 +41,7 @@ public class UserMaster implements Serializable {
 	private String state;
 	private String country;
 	private Integer pinCode;
-	private UserTypeMaster userType;
+	private String userType;
 	private String adharCardNumber;
 	private String voterIdNumber;
 	private String passportNumber;
@@ -62,7 +62,7 @@ public class UserMaster implements Serializable {
 	private Boolean isSSOUserCreated;
 	private String tempPassword;
 
-	private Set<RoleMaster> roles;
+	//private Set<RoleMaster> roles;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -174,13 +174,12 @@ public class UserMaster implements Serializable {
 		this.pinCode = pinCode;
 	}
 
-	@ManyToOne(targetEntity = UserTypeMaster.class, fetch = FetchType.EAGER)
-	@JoinColumn(name = "fk_userTypeMaster", referencedColumnName = "pk_userTypeMaster", foreignKey = @ForeignKey(name = "fk_userType_um_test_db"))
-	public UserTypeMaster getUserType() {
+	@Column(name = "userType")
+	public String getUserType() {
 		return userType;
 	}
 
-	public void setUserType(UserTypeMaster userType) {
+	public void setUserType(String userType) {
 		this.userType = userType;
 	}
 
@@ -311,14 +310,11 @@ public class UserMaster implements Serializable {
 		this.confirmPassword = confirmPassword;
 	}
 
-	@ManyToMany
-	public Set<RoleMaster> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<RoleMaster> roles) {
-		this.roles = roles;
-	}
+	/*
+	 * @ManyToMany public Set<RoleMaster> getRoles() { return roles; }
+	 * 
+	 * public void setRoles(Set<RoleMaster> roles) { this.roles = roles; }
+	 */
 
 	@Column(name = "mobileNumber")
 	public String getMobileNumber() {

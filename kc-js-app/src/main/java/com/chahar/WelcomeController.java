@@ -24,5 +24,10 @@ public class WelcomeController {
 		model.put("message", this.message+"  ::  "+new Date());
 		return "welcome2";
 	}
+	@RequestMapping("/welcome2")
+	public String welcome3(Map<String, Object> model) {
+		model.put("message", this.message+"  ::  "+new Date());
+		return "welcome3";
+	}
 
 }

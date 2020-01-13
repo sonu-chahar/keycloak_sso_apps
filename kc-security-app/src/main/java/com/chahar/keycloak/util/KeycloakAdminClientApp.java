@@ -146,16 +146,15 @@ public class KeycloakAdminClientApp {
 	}
 
 	private static Keycloak connectUserAccount(UserMaster userMaster) {
-		Keycloak keycloak = KeycloakBuilder.builder() //
-				.serverUrl(SSO_SERVER_URL) //
-				.realm(SSO_REALM_NAME) //
-				.grantType(OAuth2Constants.PASSWORD) //
-				.clientId(userMaster.getUserType().getClientId()) //
-				.clientSecret(userMaster.getUserType().getClientSecretId()) //
-				.username(userMaster.getUsername()) //
-				.password(userMaster.getConfirmPassword()) //
-				.build();
-		return keycloak;
+		/*
+		 * Keycloak keycloak = KeycloakBuilder.builder() // .serverUrl(SSO_SERVER_URL)
+		 * // .realm(SSO_REALM_NAME) // .grantType(OAuth2Constants.PASSWORD) //
+		 * .clientId(userMaster.getUserType()) //
+		 * .clientSecret(userMaster.getUserType().getClientSecretId()) //
+		 * .username(userMaster.getUsername()) //
+		 * .password(userMaster.getConfirmPassword()) // .build();
+		 */
+		return null;
 	}
 
 	private static Keycloak connectUserAccount2(UserMaster userMaster) {
@@ -171,15 +170,15 @@ public class KeycloakAdminClientApp {
 	}
 
 	private static Keycloak connectToUserAccountByUserType(UserMaster userMaster) {
-		Keycloak keycloak = KeycloakBuilder.builder() //
-				.serverUrl(SSO_SERVER_URL) //
-				.realm(SSO_REALM_NAME) //
-				.grantType(OAuth2Constants.PASSWORD) //
-				.clientId(userMaster.getUserType().getClientId()) //
-				.clientSecret(userMaster.getUserType().getClientSecretId())//
-				.username(userMaster.getUsername()) //
-				.password(userMaster.getPassword()).build();
-		return keycloak;
+		/*
+		 * Keycloak keycloak = KeycloakBuilder.builder() // .serverUrl(SSO_SERVER_URL)
+		 * // .realm(SSO_REALM_NAME) // .grantType(OAuth2Constants.PASSWORD) //
+		 * .clientId(userMaster.getUserType().getClientId()) //
+		 * .clientSecret(userMaster.getUserType().getClientSecretId())//
+		 * .username(userMaster.getUsername()) //
+		 * .password(userMaster.getPassword()).build();
+		 */
+		return null;
 	}
 
 	public static void getAccessToken(UserMaster userMaster) {

@@ -16,10 +16,7 @@ import org.springframework.orm.hibernate5.support.OpenSessionInViewFilter;
 import com.chahar.keycloak.config.MyWebConfiguration;
 
 @SpringBootApplication(exclude = { HibernateJpaAutoConfiguration.class, JpaRepositoriesAutoConfiguration.class,
-		DataSourceAutoConfiguration.class,
-		DataSourceTransactionManagerAutoConfiguration.class/*
-															 * , ErrorMvcAutoConfiguration.class
-															 */ })
+		DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class })
 @Import({ MyWebConfiguration.class })
 public class Application extends SpringBootServletInitializer {
 	public static void main(String[] args) {

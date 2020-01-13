@@ -1,6 +1,5 @@
 package com.chahar.keycloak.controller;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.keycloak.KeycloakSecurityContext;

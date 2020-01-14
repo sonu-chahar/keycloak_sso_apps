@@ -1,1 +1,0 @@
-https://wjw465150.gitbooks.io/keycloak-documentation/securing_apps/topics/oidc/javascript-adapter.html

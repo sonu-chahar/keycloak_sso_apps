@@ -13,11 +13,10 @@
 	 -->
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
-
-<c:url value="/js/keycloak.js" var="kcjs" />
-<c:url value="/js/kc.js" var="kcimpl" />
-<script src="${kcjs}"></script>
 <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+<c:url value="/js/keycloak.js" var="kcjs" />
+<script src="${kcjs}"></script>
+<c:url value="/js/kc-sso.js" var="kcimpl" />
 <script src="${kcimpl}"></script>
 <script>
 
@@ -28,9 +27,9 @@
 	  realm:"testRealm1",
 	  clientId:"testJSApp"
 	}); */   
-/* var keycloak = Keycloak('http://192.168.10.215:8083/keycloak.json');
+// var keycloak = Keycloak('http://192.168.10.215:8083/keycloak.json');
 	
-	alert(keycloak); */
+	//alert(keycloak); 
 	/* var keycloak = Keycloak({
 		url : 'http://127.0.0.1:8180/auth',
 		realm : 'testRealm1',
@@ -53,11 +52,11 @@
 	  }).catch(function (){
 		  alert('failed to initialize');
 	  }); */
-	/* var loadData = function() {
+	/*  var loadData = function() {
 		//$('<input>').attr('type','hidden').appendTo('form');
 		
-		/* document.getElementById('username').innerText = keycloak.subject;
-		alert($("#username").val()); 
+		//document.getElementById('username').innerText = keycloak.subject;
+		//alert($("#username").val()); 
 
 		var url = window.location.href;
 
@@ -83,13 +82,13 @@
 		alert("abc")
 		keycloak.onAuthSuccess = function() { alert('authenticated'); 
 		req.setRequestHeader('Authorization', 'Bearer ' + keycloak.token);}
-	}; */
+	}; 
 	
-	 /* keycloak.updateToken(30).success(function() {
+	keycloak.updateToken(30).success(function() {
 	    loadData();
 	}).error(function() {
 	    alert('Failed to refresh token');
-	});   */
+	});  */  
 /* }); */
 	
 </script>
@@ -117,7 +116,7 @@
 			<h1>Spring Boot Web JSP Exampless</h1>
 			<h2>Message: ${message}</h2>
 		</div>
-
+		<div id="tokenInfo"></div>
 	</div>
 	<!-- /.container -->
 

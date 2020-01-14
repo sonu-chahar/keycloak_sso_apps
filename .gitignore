@@ -4,6 +4,9 @@
 **/.settings/
 **/bin/
 
+#maven
+**/target
+
 # STS
 **/.apt_generated
 **/.factorypath

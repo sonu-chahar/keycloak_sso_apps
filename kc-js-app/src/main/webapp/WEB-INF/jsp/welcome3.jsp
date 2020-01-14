@@ -15,23 +15,26 @@
 <link href="${jstlCss}" rel="stylesheet" />
 
 <c:url value="/js/keycloak.js" var="kcjs" />
+<c:url value="/js/kc2.js" var="kcimpl" />
 <script src="${kcjs}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+<script src="${kcimpl}"></script>
 <script>
-  var keycloak = Keycloak({
+  /* var keycloak = Keycloak({
 	  url:"http://127.0.0.1:8180/auth",
 	  realm:"testRealm1",
 	  clientId:"testJSApp"
-	});   
+	});    */
  // var keycloak = Keycloak('http://192.168.10.215:8083/keycloak.json');
 	/* var keycloak = Keycloak({
 		url : 'http://127.0.0.1:8180/auth',
 		realm : 'testRealm1',
 		clientId : 'NDMC_EMPLOYEE'
 	}); */
-	keycloak.init({
+	/* keycloak.init({
 		onLoad : 'login-required',
 		checkLoginIframe: false
-	}) 
+	})  */
 	// keycloak.init({onLoad : 'login-required'})
 	/*    keycloak.init({ onLoad: 'login-required' }).success(function(authenticated) {
 	       alert(authenticated ? 'authenticated' : 'not authenticated');
@@ -45,10 +48,10 @@
 	     alert('failed to initialize');
 	 }); */
 
-	var loadData = function() {
+	/* var loadData = function() { */
 		//$('<input>').attr('type','hidden').appendTo('form');
 		
-		document.getElementById('username').innerText = keycloak.subject;
+		/* document.getElementById('username').innerText = keycloak.subject;
 		alert($("#username").val());
 
 		var url = window.location.href;
@@ -69,7 +72,7 @@
 		}
 
 		req.send();
-	};
+	}; */
 	/* 
 	 keycloak.updateToken(30).success(function() {
 	    loadData();

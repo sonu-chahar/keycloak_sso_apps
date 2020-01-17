@@ -1,18 +1,12 @@
 package com.chahar.keycloak.model;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -61,8 +55,17 @@ public class UserMaster implements Serializable {
 
 	private Boolean isSSOUserCreated;
 	private String tempPassword;
+	private String kcUserId;
 
-	//private Set<RoleMaster> roles;
+	// private Set<RoleMaster> roles;
+	@Column(name = "kcUserId")
+	public String getKcUserId() {
+		return kcUserId;
+	}
+
+	public void setKcUserId(String kcUserId) {
+		this.kcUserId = kcUserId;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.chahar.keycloak.model.RoleMaster;
 import com.chahar.keycloak.model.UserMaster;
 import com.chahar.keycloak.service.UserMasterService;
 

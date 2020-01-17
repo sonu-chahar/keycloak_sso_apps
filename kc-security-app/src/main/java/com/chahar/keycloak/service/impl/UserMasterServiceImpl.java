@@ -1,7 +1,5 @@
 package com.chahar.keycloak.service.impl;
 
-import java.util.HashSet;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -29,8 +29,8 @@ public class Application extends SpringBootServletInitializer {
 	}
 
 	@Bean
-	public FilterRegistrationBean lazyLoadingFilter() {
-		FilterRegistrationBean filter = new FilterRegistrationBean();
+	public FilterRegistrationBean<OpenSessionInViewFilter> lazyLoadingFilter() {
+		FilterRegistrationBean<OpenSessionInViewFilter> filter = new FilterRegistrationBean<>();
 		System.out.println("before lazyLoadingFilter Registration");
 		OpenSessionInViewFilter openSessionInViewFilter = new OpenSessionInViewFilter();
 		filter.addUrlPatterns("/*");

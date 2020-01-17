@@ -13,13 +13,11 @@ import javax.ws.rs.core.Response;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
-import org.keycloak.admin.client.resource.ClientResource;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.RolesResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.admin.client.token.TokenManager;
-import org.keycloak.representations.AccessToken;
 import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
@@ -129,7 +127,7 @@ public class KeycloakAdminClientApp {
 		return keycloak;
 	}
 
-	private static Keycloak connectServiceAccount2(UserMaster userMaster) {
+	public static Keycloak connectServiceAccount2(UserMaster userMaster) {
 		// Client "idm-client" needs service-account with at least "manage-users,
 		// view-clients, view-realm, view-users" roles for "realm-management"
 
@@ -145,7 +143,7 @@ public class KeycloakAdminClientApp {
 		return keycloak;
 	}
 
-	private static Keycloak connectUserAccount(UserMaster userMaster) {
+	public static Keycloak connectUserAccount(UserMaster userMaster) {
 		/*
 		 * Keycloak keycloak = KeycloakBuilder.builder() // .serverUrl(SSO_SERVER_URL)
 		 * // .realm(SSO_REALM_NAME) // .grantType(OAuth2Constants.PASSWORD) //
@@ -169,7 +167,7 @@ public class KeycloakAdminClientApp {
 		return keycloak;
 	}
 
-	private static Keycloak connectToUserAccountByUserType(UserMaster userMaster) {
+	public static Keycloak connectToUserAccountByUserType(UserMaster userMaster) {
 		/*
 		 * Keycloak keycloak = KeycloakBuilder.builder() // .serverUrl(SSO_SERVER_URL)
 		 * // .realm(SSO_REALM_NAME) // .grantType(OAuth2Constants.PASSWORD) //

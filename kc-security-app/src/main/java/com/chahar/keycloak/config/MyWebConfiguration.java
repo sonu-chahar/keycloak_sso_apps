@@ -27,7 +27,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.XmlViewResolver;
@@ -40,7 +40,7 @@ import com.opensymphony.module.sitemesh.filter.PageFilter;
 @ImportResource({ "classpath:dwr-config.xml", "classpath:jasper-views.xml" })
 @Import({ HibernateConfig.class, KeycloakSecurityConfig.class })
 //@PropertySource("classpath:applicationResources.properties")
-public class MyWebConfiguration extends WebMvcConfigurerAdapter implements WebApplicationInitializer {
+public class MyWebConfiguration  implements WebMvcConfigurer,WebApplicationInitializer {
 
 	@Bean
 	public DispatcherServlet dispatcherServlet() {
@@ -51,9 +51,9 @@ public class MyWebConfiguration extends WebMvcConfigurerAdapter implements WebAp
 	}
 
 	@Bean
-	public ServletRegistrationBean dispatcherServletRegistration1() {
+	public ServletRegistrationBean<DispatcherServlet> dispatcherServletRegistration1() {
 
-		ServletRegistrationBean registration = new ServletRegistrationBean(dispatcherServlet());
+		ServletRegistrationBean<DispatcherServlet> registration = new ServletRegistrationBean<>(dispatcherServlet());
 		registration.setUrlMappings(Arrays.asList(new String[] { "/", "/dwr/*" }));
 		registration.setLoadOnStartup(0);
 		registration.setName(DispatcherServletAutoConfiguration.DEFAULT_DISPATCHER_SERVLET_REGISTRATION_BEAN_NAME);
@@ -96,8 +96,8 @@ public class MyWebConfiguration extends WebMvcConfigurerAdapter implements WebAp
 	}
 
 	@Bean
-	public FilterRegistrationBean pageFilter() {
-		FilterRegistrationBean filter = new FilterRegistrationBean();
+	public FilterRegistrationBean<PageFilter> pageFilter() {
+		FilterRegistrationBean<PageFilter> filter = new FilterRegistrationBean<>();
 //		System.out.println("before sitemesh filter registration");
 //		SiteMeshFilter pageFilter = new SiteMeshFilter();
 		PageFilter pageFilter = new PageFilter();

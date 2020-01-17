@@ -63,6 +63,11 @@ public class MainPageController extends AbstractPageController {
 		// KeycloakClientAuthApp.getToken(userMaster);
 //		String accessToken=KeycloakHttpClientGetPostApp.demoPostRESTAPI(userMaster);
 //		response.addHeader("Authorization", "Bearer "+accessToken);
+
+		if (userMaster == null) {
+			model.addAttribute(SESSION_ATTRIBTE_FOR_USER_MASTER, userMaster);
+			return new ModelAndView(VIEW_NAME_HOME_PAGE, model);
+		}
 		if (userMaster.getImageName() == null) {
 			return new ModelAndView(REDIRECT_URL_FOR_PROFILE, model);
 		}

@@ -5,9 +5,12 @@
 
 <%
 	UserMaster user = (UserMaster) request.getSession(false).getAttribute("userMaster");
-	String imageUrl = "myProfile/getImage/" + user.getMobileNumber() + "/" + user.getImageName() + "/"
-			+ user.getFileExtension();
-	request.setAttribute("imageUrl", imageUrl);
+	
+	if(user!=null){
+		String imageUrl = "myProfile/getImage/" + user.getMobileNumber() + "/" + user.getImageName() + "/"
+				+ user.getFileExtension();
+		request.setAttribute("imageUrl", imageUrl);
+	}
 %>
 
 <div class="main-gap form-horizontal user-portal">
@@ -557,6 +560,10 @@ function isNumberKey(evt) {
 </script>
 <script>
 $(document).ready(function() {
+	
+	if("${userMaster}" == null){
+		$("#btnSave").attr("disabled", true);
+	}
 	if("${userMaster.firstName}"!=null){
 		$("#fFirstName").val('${userMaster.firstName}');
 	}

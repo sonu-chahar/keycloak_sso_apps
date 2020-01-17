@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.keycloak.OAuth2Constants;
-import org.keycloak.RSATokenVerifier;
+import org.keycloak.TokenVerifier;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.common.VerificationException;
@@ -87,19 +87,23 @@ public class KeycloakClientAuthApp {
 			return tokenResponse == null ? null : tokenResponse.getToken();
 		}
 
-		private AccessToken extractAccessTokenFrom(Keycloak keycloak, String token) {
+		private AccessToken extractAccessTokenFrom(Keycloak keycloak, String tokenString) {
 
-			if (token == null) {
+			if (tokenString == null) {
 				return null;
 			}
 
 			try {
-				RSATokenVerifier verifier = RSATokenVerifier.create(token);
-				PublicKey publicKey = getRealmPublicKey(keycloak, verifier.getHeader());
-				return verifier.realmUrl(getRealmUrl()) //
-						.publicKey(publicKey) //
-						.verify() //
-						.getToken();
+				AccessToken token = TokenVerifier.create(tokenString, AccessToken.class).getToken();
+//				String sub  = token.getSubject();
+				
+				/*
+				 * RSATokenVerifier verifier = RSATokenVerifier.create(token); PublicKey
+				 * publicKey = getRealmPublicKey(keycloak, verifier.getHeader()); return
+				 * verifier.realmUrl(getRealmUrl()) // .publicKey(publicKey) // .verify() //
+				 * .getToken();
+				 */
+				 return token;
 			} catch (VerificationException e) {
 				return null;
 			}
@@ -136,6 +140,7 @@ public class KeycloakClientAuthApp {
 			return getRealmUrl() + "/protocol/openid-connect/certs";
 		}
 
+		@SuppressWarnings("unused")
 		private PublicKey getRealmPublicKey(Keycloak keycloak, JWSHeader jwsHeader) {
 
 // Variant 1: use openid-connect /certs endpoint
@@ -155,6 +160,7 @@ public class KeycloakClientAuthApp {
 				@SuppressWarnings("unchecked")
 				Map<String, Object> certInfos = om.readValue(new URL(getRealmCertsUrl()).openStream(), Map.class);
 
+				@SuppressWarnings("unchecked")
 				List<Map<String, Object>> keys = (List<Map<String, Object>>) certInfos.get("keys");
 
 				Map<String, Object> keyInfo = null;

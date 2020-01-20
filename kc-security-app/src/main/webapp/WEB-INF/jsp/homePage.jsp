@@ -41,7 +41,7 @@
 						</div>
 						<div class="col-sm-4 col-md-4 col-lg-4">
 							<div class="base hvr-float-shadow">
-								<a href="http://192.168.10.215:8083/welcome" >
+								<a href="http://127.0.0.1:8083/welcome" >
 								<h2>JS-App</h2></a>
 								 <p>Some text for MyProfile...</p>
 								
@@ -50,7 +50,7 @@
 								</div>
 								<div class="base-innar">
 									<a class="hvr-icon-wobble-horizontal"
-										href="http://192.168.10.215:8083/welcome">More Info</a>
+										href="http://127.0.0.1:8083/welcome">More Info</a>
 								</div>
 							</div>
 						</div>

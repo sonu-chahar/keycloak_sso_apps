@@ -24,6 +24,7 @@ import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -121,4 +122,8 @@ public class MyWebConfiguration  implements WebMvcConfigurer,WebApplicationIniti
 		multipartResolver.setMaxUploadSize(20848820);
 		return multipartResolver;
 	}
+//	@Override
+//	public void addCorsMappings(CorsRegistry registry) {
+//		WebMvcConfigurer.super.addCorsMappings(registry);
+//	}
 }

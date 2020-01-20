@@ -1,5 +1,7 @@
 package com.chahar.keycloak.config;
 
+import java.util.Arrays;
+
 import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
@@ -16,6 +18,9 @@ import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @KeycloakConfiguration
 public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
@@ -41,14 +46,12 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		super.configure(http);
-		http.authorizeRequests().antMatchers("/images/**" ,"/myProfile/updateProfile").permitAll().antMatchers("/books")
-				.hasAnyRole("NDMC_EMPLOYEE", "Citizen").antMatchers("/manager").hasRole("NDMC_EMPLOYEE").anyRequest()
-				.authenticated();
+		http.authorizeRequests().antMatchers("/images/**", "/myProfile/updateProfile", "landingPage").permitAll()
+				.antMatchers("/books").hasAnyRole("NDMC_EMPLOYEE", "Citizen").antMatchers("/manager")
+				.hasRole("NDMC_EMPLOYEE").anyRequest().authenticated().and().logout()
+				.addLogoutHandler(keycloakLogoutHandler()).logoutUrl("/sso/logout").permitAll()
+				.logoutSuccessUrl("/landingPage");
 		http.csrf().disable();
-		/*
-		 * .and().logout().addLogoutHandler(keycloakLogoutHandler()).logoutUrl(
-		 * "/sso/logout") .permitAll().logoutSuccessUrl("/landingPage")
-		 */;
 	}
 
 	@Bean
@@ -67,6 +70,16 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOrigins(Arrays.asList("*"));
+		configuration.setAllowedMethods(Arrays.asList("GET", "POST"));
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
 	}
 
 }

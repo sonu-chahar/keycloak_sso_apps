@@ -94,7 +94,8 @@
 </script>
 </head>
 <body>
-	<input type="hidden" id="name"/>
+	<input type="hidden" id="fUsername" />
+	<input type="hidden" id="fKcUserId" />
 	<nav class="navbar navbar-inverse">
 		<div class="container">
 			<div class="navbar-header">
@@ -117,11 +118,63 @@
 			<h2>Message: ${message}</h2>
 		</div>
 		<div id="tokenInfo"></div>
+		<input type="button" value="Get Login Details" id="getLoginDetails"
+			class="btn btn-warning" onclick="checkLoginDetails2()">
 	</div>
 	<!-- /.container -->
 
 	<script type="text/javascript"
 		src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script>
+		function checkLoginDetails(){
+			alert(keycloak.idTokenParsed.preferred_username);
+			alert(keycloak.idTokenParsed.sub);
+			var effUrl='http://127.0.0.1:8080/kc-security-app/fetchUserDetails'+'/'
+						+keycloak.idTokenParsed.preferred_username+'/'+keycloak.idTokenParsed.sub+'/jsonpCallback';
+			
+			$.ajax({
+				url :effUrl,
+//				headers: {  'Access-Control-Allow-Origin': 'http://127.0.0.1:8083' },
+//				 headers: {
+//			            'Access-Control-Allow-Origin': '*',
+//			            'Content-Type':'application/json'
+//			        },
+//				success : checkDetailSuccessCallback,
+				crossDomain: true,
+				success:jsonpCallback,
+				error : checkDetailErrorCallback,
+				dataType : "jsonp",
+				contentType:'application/json',
+				async: false,
+				type : "get"
+			})
+		}
+		function checkDetailSuccessCallback(data,status,xhr){
+			alert("Success");
+			alert(data);
+		}
+		function checkDetailErrorCallback(data,status,xhr){
+			alert("Errorr");
+//			alert(data);
+		}
+
+		function jsonpCallback(data){
+			  console.log(json);
+			  alert(data)
+		}
+		function checkLoginDetails2(){
+			var effUrl='http://127.0.0.1:8080/kc-security-app/fetchUserDetails'+'/'
+			+keycloak.idTokenParsed.preferred_username+'/'+keycloak.idTokenParsed.sub+'/jsonpCallback';
+			$.getScript( effUrl, function( data, textStatus, jqxhr ) {
+				  console.log( data ); // Data returned
+				  console.log( textStatus ); // Success
+				  console.log( jqxhr.status ); // 200
+				  console.log( "Load was performed." );
+			});
+		}
+
+	
+	</script>
 
 </body>
 

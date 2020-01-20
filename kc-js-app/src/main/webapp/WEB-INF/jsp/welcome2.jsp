@@ -119,28 +119,29 @@
 		</div>
 		<div id="tokenInfo"></div>
 		<input type="button" value="Get Login Details" id="getLoginDetails"
-			class="btn btn-warning" onclick="checkLoginDetails2()">
+			class="btn btn-warning" onclick="checkLoginDetails3()">
+		<div id="jsonp"></div>
 	</div>
 	<!-- /.container -->
 
 	<script type="text/javascript"
 		src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script>
-		function checkLoginDetails(){
-			alert(keycloak.idTokenParsed.preferred_username);
-			alert(keycloak.idTokenParsed.sub);
-			var effUrl='http://127.0.0.1:8080/kc-security-app/fetchUserDetails'+'/'
+		/* function checkLoginDetails(){ */
+			//alert(keycloak.idTokenParsed.preferred_username);
+			//alert(keycloak.idTokenParsed.sub);
+		/* 	var effUrl='http://127.0.0.1:8080/kc-security-app/fetchUserDetails'+'/'
 						+keycloak.idTokenParsed.preferred_username+'/'+keycloak.idTokenParsed.sub+'/jsonpCallback';
-			
+			alert(effUrl);
 			$.ajax({
-				url :effUrl,
+				url :effUrl, */
 //				headers: {  'Access-Control-Allow-Origin': 'http://127.0.0.1:8083' },
 //				 headers: {
 //			            'Access-Control-Allow-Origin': '*',
 //			            'Content-Type':'application/json'
 //			        },
 //				success : checkDetailSuccessCallback,
-				crossDomain: true,
+			/* 	crossDomain: true,
 				success:jsonpCallback,
 				error : checkDetailErrorCallback,
 				dataType : "jsonp",
@@ -148,34 +149,66 @@
 				async: false,
 				type : "get"
 			})
-		}
+		} */
 		function checkDetailSuccessCallback(data,status,xhr){
 			alert("Success");
 			alert(data);
 		}
 		function checkDetailErrorCallback(data,status,xhr){
 			alert("Errorr");
-//			alert(data);
+			alert(data);
 		}
 
-		function jsonpCallback(data){
-			  console.log(json);
-			  alert(data)
-		}
-		function checkLoginDetails2(){
+		/* function fnjsonpCallback(dataWeGotViaJsonp){
+			  alert("abc");
+			  console.log(dataWeGotViaJsonp);
+			  alert(dataWeGotViaJsonp)
+		} */
+		/* function checkLoginDetails2(){
 			var effUrl='http://127.0.0.1:8080/kc-security-app/fetchUserDetails'+'/'
-			+keycloak.idTokenParsed.preferred_username+'/'+keycloak.idTokenParsed.sub+'/jsonpCallback';
+			+keycloak.idTokenParsed.preferred_username+'/'+keycloak.idTokenParsed.sub+'/fnjsonpCallback';
 			$.getScript( effUrl, function( data, textStatus, jqxhr ) {
 				  console.log( data ); // Data returned
 				  console.log( textStatus ); // Success
 				  console.log( jqxhr.status ); // 200
 				  console.log( "Load was performed." );
 			});
+		} */
+		
+		/* function checkLoginDetails3(){
+			var effUrl='http://127.0.0.1:8080/kc-security-app/fetchUserDetails'+'/'
+			+keycloak.idTokenParsed.preferred_username+'/'+keycloak.idTokenParsed.sub+'/fnjsonpCallback?callback=fnjsonpCallback';
+			
+			alert(effUrl);
+			$.ajax({ */
+//		        crossDomain: true,
+//		        type:"GET",
+//		      	contentType: "application/json; charset=utf-8",
+		      //  async:false,
+		       /*  url: effUrl,
+		        dataType: "jsonp",  */  
+		        //success:checkDetailSuccessCallback
+				/* error : checkDetailErrorCallback,
+		        jsonpCallback: 'fnjsonpCallback'
+		    });
+		} */
+		function checkLoginDetails4(){
+		  var body = document.getElementsByTagName("body")[0];
+		  var effUrl='http://127.0.0.1:8080/kc-security-app/fetchUserDetails'+'/'
+			+keycloak.idTokenParsed.preferred_username+'/'+keycloak.idTokenParsed.sub+'/fnjsonpCallback?callback=fnjsonpCallback';
+			
+		  //url for the javascript resource for JSONP call.
+		 
+		  
+		  //Appending the script tag to the head element.
+		  //This triggers a JSONP call to get the data.
+		  var scriptTag = document.createElement("script");
+		  scriptTag.setAttribute("src",effUrl);
+		  body.appendChild(scriptTag);
 		}
-
 	
 	</script>
-
+	
 </body>
 
 </html>

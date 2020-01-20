@@ -560,93 +560,97 @@ function isNumberKey(evt) {
 </script>
 <script>
 $(document).ready(function() {
+	if("${userMaster.imageName}"==""){
+		alert("Kindly complete your profile to proceed further");
+	}
 	
-	if("${userMaster}" == null){
+	
+	if("${userMaster}" == ""){
 		$("#btnSave").attr("disabled", true);
 	}
-	if("${userMaster.firstName}"!=null){
+	if("${userMaster.firstName}"!=""){
 		$("#fFirstName").val('${userMaster.firstName}');
 	}
-	if("${userMaster.lastName}"!=null){
+	if("${userMaster.lastName}"!=""){
 		$("#fLastName").val('${userMaster.lastName}');
 		//$("#fLastName").attr('readonly', true);
 	}
-	if("${userMaster.fatherName}"!=null){
+	if("${userMaster.fatherName}"!=""){
 		$("#fFatherName").val('${userMaster.fatherName}');
 		//$("#fFatherName").attr('readonly', true);
 	}
-	if("${userMaster.dateOfBirth}"!=null){
+	if("${userMaster.dateOfBirth}"!=""){
 		$("#dateOfBirth").val('${userMaster.dateOfBirth}');
 		//$("#dateOfBirth").attr('readonly', true);
 	}
-	if("${userMaster.emailId}"!=null){
+	if("${userMaster.emailId}"!=""){
 		$("#emailId").val('${userMaster.emailId}');
 		//$("#emailId").attr('readonly', true);
 	}
-	if("${userMaster.mobileNumber}"!=null){
+	if("${userMaster.mobileNumber}"!=""){
 		$("#fMobileNumber").val('${userMaster.mobileNumber}');
 		//$("#fMobileNumber").attr('readonly', true);
 	}
-	if("${userMaster.gender}"!=null){
+	if("${userMaster.gender}"!=""){
 		$("#fGender").val('${userMaster.gender}');
 		//$("#fGender").attr('readonly', true);
 	}
-	if("${userMaster.locality}"!=null){
+	if("${userMaster.locality}"!=""){
 		$("#fLocality").val('${userMaster.locality}');
 		//$("#fLocality").attr('readonly', true);
 	}
-	if("${userMaster.city}"!=null){
+	if("${userMaster.city}"!=""){
 		$("#fCity").val('${userMaster.city}');
 		//$("#fCity").attr('readonly', true);
 	}
-	if("${userMaster.state}"!=null){
+	if("${userMaster.state}"!=""){
 		$("#fState").val('${userMaster.state}');
 		//$("#fState").attr('readonly', true);
 	}
-	if("${userMaster.country}"!=null){
+	if("${userMaster.country}"!=""){
 		$("#fCountry").val('${userMaster.country}');
 		//$("#fCountry").attr('readonly', true);
 	}
-	if("${userMaster.pinCode}"!=null){
+	if("${userMaster.pinCode}"!=""){
 		$("#fPinCode").val('${userMaster.pinCode}');
 		//$("#fPinCode").attr('readonly', true);
 	}
-	if("${userMaster.userType}"!=null){
+	if("${userMaster.userType}"!=""){
 		$("#fUserType").val('${userMaster.userType}');
 		//$("#fUserType").attr('readonly', true);
 	}
-	if("${userMaster.adharCardNumber}"!=null){
+	if("${userMaster.adharCardNumber}"!=""){
 		$("#fAdharCardNumber").val('${userMaster.adharCardNumber}');
 		//$("#fAdharCardNumber").attr('readonly', true);
 	}
-	if("${userMaster.voterIdNumber}"!=null){
+	if("${userMaster.voterIdNumber}"!=""){
 		$("#fVoterIdNumber").val('${userMaster.voterIdNumber}');
 		//$("#fVoterIdNumber").attr('readonly', true);
 	}
-	if("${userMaster.passportNumber}"!=null){
+	if("${userMaster.passportNumber}"!=""){
 		$("#fPassportNumber").val('${userMaster.passportNumber}');
 		//$("#fPassportNumber").attr('readonly', true);
 	}
-	if("${userMaster.waterConsumerNumber}"!=null){
+	if("${userMaster.waterConsumerNumber}"!=""){
 		$("#fWaterConsumerNumber").val('${userMaster.waterConsumerNumber}');
 		//$("#fWaterConsumerNumber").attr('readonly', true);
 	}
-	if("${userMaster.electricityConsumerNumber}"!=null){
+	if("${userMaster.electricityConsumerNumber}"!=""){
 		$("#fElectricityConsumerNumber").val('${userMaster.propertyId}');
 		//$("#fElectricityConsumerNumber").attr('readonly', true);
 	}
-	if("${userMaster.propertyId}"!=null){
+	if("${userMaster.propertyId}"!=""){
 		$("#fPropertyId").val('${userMaster.propertyId}');
 		//$("#fPropertyId").attr('readonly', true);
 	}
-	if("${userMaster.estatePropertyId}"!=null){
+	if("${userMaster.estatePropertyId}"!=""){
 		$("#fEstatePropertyId").val('${userMaster.estatePropertyId}');
 		//$("#fEstatePropertyId").attr('readonly', true);
 	}
-	if("${userMaster.imageName}"!=null){
+	if("${userMaster.imageName}"!=""){
 		$("#imageName").val('${userMaster.imageName}');
 	}
-	if("${userMaster.fileExtension}"!=null){
+	if("${userMaster.fileExtension}"!=""){
 		$("#fileExtension").val('${userMaster.fileExtension}');
 	}
 	

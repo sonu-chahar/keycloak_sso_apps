@@ -1653,3 +1653,27 @@
 
     return Keycloak;
 })
+
+function checkLoginDetails(){
+	var effUrl='http://127.0.0.1:8080/kc-security-app/fetchUserDetails'+'/'
+	+keycloak.idTokenParsed.preferred_username+'/'+keycloak.idTokenParsed.sub+'?callback=userDetails';
+	
+	$.ajax({
+        url: effUrl,
+        dataType: "jsonp",   
+		error : checkDetailErrorCallback,
+        jsonpCallback: 'userDetails'
+    });
+}
+function userDetails(user){
+	 // alert("abc");
+	 // console.log(dataWeGotViaJsonp);
+	  if(user.username == undefined){
+		 
+		  $(location).attr('href', 'http://127.0.0.1:8080/kc-security-app/viewHomePage')
+	  }
+//	  else{
+//		  alert("true")
+//		  isUserDetailsNotFound=false;
+//	  }
+}

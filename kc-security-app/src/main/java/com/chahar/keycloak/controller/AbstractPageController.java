@@ -6,6 +6,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.keycloak.KeycloakSecurityContext;
+import org.keycloak.representations.IDToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -87,20 +89,20 @@ public abstract class AbstractPageController {
 			if (userMasterFromSession != null) {
 				userMaster = userMasterFromSession;
 			} else {
-				userMaster = getUserMasterFromSecurityContext();
+				userMaster = getUserMasterFromSecurityContext(request);
 				session = request.getSession();
 				LOGGER.debug(session);
 				session.setAttribute(SESSION_ATTRIBTE_FOR_USER_MASTER, userMaster);
 			}
 		} else {
-			userMaster = getUserMasterFromSecurityContext();
+			userMaster = getUserMasterFromSecurityContext(request);
 			session = request.getSession();
 			session.setAttribute(SESSION_ATTRIBTE_FOR_USER_MASTER, userMaster);
 		}
 		return userMaster;
 	}
 
-	private UserMaster getUserMasterFromSecurityContext() {
+	private UserMaster getUserMasterFromSecurityContext(HttpServletRequest request) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = null;
 		UserMaster persistedUserMaster = null;
@@ -115,6 +117,17 @@ public abstract class AbstractPageController {
 			persistedUserMaster = userMasterService.findByUsername(username);
 			if (persistedUserMaster != null) {
 				persistedUserMaster.setConfirmPassword(password);
+			} else {
+				KeycloakSecurityContext context = (KeycloakSecurityContext) request
+						.getAttribute(KeycloakSecurityContext.class.getName());
+				persistedUserMaster = new UserMaster();
+				IDToken token = context.getIdToken();
+				persistedUserMaster.setUsername(token.getPreferredUsername());
+				persistedUserMaster.setEmailId(token.getEmail());
+				persistedUserMaster.setFirstName(token.getGivenName());
+				persistedUserMaster.setLastName(token.getFamilyName());
+				persistedUserMaster = userMasterService.save(persistedUserMaster);
+
 			}
 		}
 		return persistedUserMaster;

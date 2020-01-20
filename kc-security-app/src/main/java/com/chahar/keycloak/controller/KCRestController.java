@@ -2,6 +2,8 @@ package com.chahar.keycloak.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,9 +37,10 @@ public class KCRestController extends AbstractPageController {
 		return null;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fetchUserDetails/{username}/{kcUserId}/{jsonpCallback}")
+	@RequestMapping(method = RequestMethod.GET, value = "/fetchUserDetails/{username}/{kcUserId}")
 	public Object fetchUserJSonp(@PathVariable("username") String username, @PathVariable("kcUserId") String kcUserId,
-			@PathVariable("jsonpCallback") String jsonpCallback) {
+			HttpServletResponse response) {
+		response.addHeader("Content-Type", "application/x-javascript");
 
 		String columns[] = new String[] { "username", "kcUserId" };
 		String values[] = new String[] { username, kcUserId };
@@ -45,9 +48,9 @@ public class KCRestController extends AbstractPageController {
 		if (userMasterList.size() == 1) {
 			UserMasterVO userMasterVO = new UserMasterVO();
 			BeanUtils.copyProperties(userMasterList.get(0), userMasterVO);
-			return convertToJsonP(userMasterVO, jsonpCallback);
+			return convertToJsonP(userMasterVO);
 		}
-		return null;
+		return "userDetails({})";
 	}
 
 //	http://127.0.0.1:8080/kc-security-app/fetchUserDetails/ndmc/ea5218cd-e111-425c-8b3f-b7ddde2d2a34
@@ -65,12 +68,12 @@ public class KCRestController extends AbstractPageController {
 		if (userMasterList.size() == 1) {
 			UserMasterVO persistedUserMasterVO = new UserMasterVO();
 			BeanUtils.copyProperties(userMasterList.get(0), persistedUserMasterVO);
-			return convertToJsonP(persistedUserMasterVO, userMasterVO.getJsonpCallback());
+			return convertToJsonP(persistedUserMasterVO);
 		}
-		return null;
+		return "userDetails()";
 	}
 
-	private String convertToJsonP(Object o, String jsonpCallback) {
+	private String convertToJsonP(Object o) {
 		String outputmessage = null;
 		ObjectMapper mapper = new ObjectMapper();
 		try {
@@ -79,7 +82,7 @@ public class KCRestController extends AbstractPageController {
 			e.printStackTrace();
 		}
 		if (outputmessage != null) {
-			outputmessage = jsonpCallback + "(" + outputmessage + ")";
+			outputmessage = "userDetails(" + outputmessage + ")";
 		}
 		return outputmessage;
 	}

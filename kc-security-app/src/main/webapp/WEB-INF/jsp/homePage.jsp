@@ -1,9 +1,10 @@
 <%@ include file="/static-resources/common/taglibs.jsp"%>
-<div>
-	<h1>SSO enabled Applications (${userMaster.firstName})</h1>
-</div>
+
 
 <div class="col-sm-12 col-md-12 col-lg-12">
+	<div>
+		<h2>SSO enabled Applications (${userMaster.firstName})</h2>
+	</div>
 	<div class="row">
 		<div class="main-gap keycloak-portal">
 			<h1 class="dashbord-heading">Welcome to keycloak Portal</h1>
@@ -12,34 +13,36 @@
 					<div class="row">
 						<div class="col-sm-4 col-md-4 col-lg-4">
 							<div class="base hvr-float-shadow">
-								<a href="http://127.0.0.1:8081/" >
-								<h2>Citizen</h2></a>
-								 <p>Some text for MyProfile...</p>
-								
+								<h2>
+									<a href="http://uat.ndmc.gov.in/yellow"> YELLOW FEVER</a>
+								</h2>
+								<p>Some text for YELLOW FEVER...</p>
+
 								<div class="circle bg-circle1">
 									<img src="images/icons/my-profile.png">
 								</div>
 								<div class="base-innar">
 									<a class="hvr-icon-wobble-horizontal"
-										href="http://127.0.0.1:8081">More Info</a>
+										href="http://uat.ndmc.gov.in/yellow">More Info</a>
 								</div>
 							</div>
 						</div>
 						<div class="col-sm-4 col-md-4 col-lg-4">
 							<div class="base hvr-float-shadow">
-								<a href="https://eservices.ndmc.gov.in/obnd/B_Enquery.aspx" >
-								<h2>Birth Certificate</h2></a>
-													
+								<h2>
+									<a href="http://uat.ndmc.gov.in/bnd"> Birth Certificate</a>
+								</h2>
+								<p>Some text for Birth Certificate...</p>
 								<div class="circle bg-circle1">
 									<img src="images/icons/my-profile.png">
 								</div>
 								<div class="base-innar">
 									<a class="hvr-icon-wobble-horizontal"
-										href="https://eservices.ndmc.gov.in/obnd/B_Enquery.aspx">More Info</a>
+										href="http://uat.ndmc.gov.in/bnd">More Info</a>
 								</div>
 							</div>
 						</div>
-						<div class="col-sm-4 col-md-4 col-lg-4">
+						<!-- <div class="col-sm-4 col-md-4 col-lg-4">
 							<div class="base hvr-float-shadow">
 								<a href="http://127.0.0.1:8083/welcome" >
 								<h2>JS-App</h2></a>
@@ -53,7 +56,7 @@
 										href="http://127.0.0.1:8083/welcome">More Info</a>
 								</div>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>

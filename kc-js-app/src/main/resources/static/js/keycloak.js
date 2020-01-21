@@ -1655,7 +1655,7 @@
 })
 
 function checkLoginDetails(){
-	var effUrl='http://127.0.0.1:8080/kc-security-app/fetchUserDetails'+'/'
+	var effUrl='http://172.16.200.195:8080/ndmc-app/fetchUserDetails'+'/'
 	+keycloak.idTokenParsed.preferred_username+'/'+keycloak.idTokenParsed.sub+'?callback=userDetails';
 	
 	$.ajax({
@@ -1666,14 +1666,16 @@ function checkLoginDetails(){
     });
 }
 function userDetails(user){
-	 // alert("abc");
-	 // console.log(dataWeGotViaJsonp);
+	  cosole.log(JSON.stringify(user));
 	  if(user.username == undefined){
-		 
-		  $(location).attr('href', 'http://127.0.0.1:8080/kc-security-app/viewHomePage')
+		  $(location).attr('href', 'http://172.16.200.195:8080/ndmc-app/viewHomePage')
 	  }
-//	  else{
-//		  alert("true")
-//		  isUserDetailsNotFound=false;
-//	  }
+}
+function checkDetailErrorCallback(data,status,xhr){
+	alert("Errorr");
+//	alert(data);
+}
+
+function performLogout(){
+	keycloak.logout();
 }

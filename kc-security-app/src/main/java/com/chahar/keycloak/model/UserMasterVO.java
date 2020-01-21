@@ -1,7 +1,5 @@
 package com.chahar.keycloak.model;
 
-import javax.persistence.Transient;
-
 public class UserMasterVO {
 
 	private String username;
@@ -19,9 +17,6 @@ public class UserMasterVO {
 	private Integer pinCode;
 	private String userType;
 	private String kcUserId;
-
-	@Transient
-	private String jsonpCallback;
 
 	public String getUsername() {
 		return username;
@@ -142,13 +137,4 @@ public class UserMasterVO {
 	public void setKcUserId(String kcUserId) {
 		this.kcUserId = kcUserId;
 	}
-	
-	public String getJsonpCallback() {
-		return jsonpCallback;
-	}
-
-	public void setJsonpCallback(String jsonpCallback) {
-		this.jsonpCallback = jsonpCallback;
-	}
-
 }

@@ -2,12 +2,12 @@
 
 
 <div class="col-sm-12 col-md-12 col-lg-12">
-	<div>
+	<%-- <div>
 		<h2>SSO enabled Applications (${userMaster.firstName})</h2>
-	</div>
+	</div> --%>
 	<div class="row">
 		<div class="main-gap keycloak-portal">
-			<h1 class="dashbord-heading">Welcome to keycloak Portal</h1>
+			<h1 class="dashbord-heading">Welcome to NDMC Portal</h1>
 			<div class="row">
 				<div class="col-md-12">
 					<div class="row">
@@ -33,7 +33,7 @@
 									<a href="http://uat.ndmc.gov.in/bnd"> Birth Certificate</a>
 								</h2>
 								<p>Some text for Birth Certificate...</p>
-								<div class="circle bg-circle1">
+								<div class="circle bg8-circle">
 									<img src="images/icons/my-profile.png">
 								</div>
 								<div class="base-innar">

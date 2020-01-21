@@ -1,7 +1,7 @@
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 body {
 	font-family: 'Poppins', sans-serif !important;
-	background: #EDF5E1;
+	background: #fff;
 	font-size: 12px;
 	color: #333;
 }
@@ -18,10 +18,9 @@ a, a:hover, a:focus {
 }
 .navbar {
 	padding: 0;
-	/* background: rgba(16,89,44,.94); */
-	background:rgba(255,255,255,.94) !important;
+	background: rgb(244, 255, 229) !important
 	border: none;
-	border-radius: 0;
+	border-radius: 0; 
 	margin-bottom: 15px;
 	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
@@ -45,14 +44,14 @@ a, a:hover, a:focus {
 	align-items: stretch;
 }
 #sidebar {
-    min-width: 250px;
-    max-width: 250px;
+    min-width: 280px;
+    max-width: 280px;
     background: rgba(16,89,44,.94);
     color: #fff;
     transition: all 0.3s;
 }
 #sidebar.active {
-	margin-left: -250px;
+	margin-left: -280px;
 }
 #sidebar .sidebar-header {
 	padding: 0;
@@ -139,7 +138,7 @@ a.article, a.article:hover {
 ----------------------------------------------------- */
 @media (max-width: 768px) {
  #sidebar {
- margin-left: -250px;
+ margin-left: -280px;
 }
  #sidebar.active {
  margin-left: 0;
@@ -210,8 +209,8 @@ a.article, a.article:hover {
 }
 .btn-warning {
 	color: #fff;
-	background-color: #3c9455;
-	border-color: #3c9455;
+	background-color: #f3a638;
+    border-color: #ef9a22;
 }
 .btn-warning:hover {
 	color: #fff;
@@ -219,8 +218,8 @@ a.article, a.article:hover {
 	/* background-color: rgba(16,89,44,.94);
 	border-color: rgba(16,89,44,.94); */
 	
-	background-color: #ff8a00;
-	border-color: #ff8a00;
+	background-color: #e49525;
+	border-color: #e49525;
 }
 .logout_btn a {
 	color:#ffa81f;
@@ -245,13 +244,14 @@ a.article, a.article:hover {
 	height: 10%;
 	padding: 2px 5px;
 }
-.student-portal {
+.user-portal {
     background-color: #fff;
     border-radius: 8px;
     padding: 15px 15px 2000px 15px;
     margin-bottom: -2000px;
+    box-shadow: 0px 0px 16px #00000061;
 }
-.student-portal h1.heading {
+.user-portal h1.heading {
     color: #ff8400;
     font-size: 18px;
     font-weight: 600;
@@ -260,7 +260,7 @@ a.article, a.article:hover {
     padding-bottom: 8px;
     margin-bottom: 15px;
 }
-.student-portal h2.subheading {
+.user-portal h2.subheading {
     color: #ff8400;
     font-size: 15px;
 	font-style:italic;
@@ -272,7 +272,7 @@ a.article, a.article:hover {
 }
 .base {
 	width: 100%;
-	background: #e5edf5;
+	background: #edffed;
 	position: relative;
 	margin-top: 45px;
 	border-top-left-radius: 10px;
@@ -306,15 +306,15 @@ a.article, a.article:hover {
 	text-align: center;
 	font-weight: 500;
 	padding-top: 55px;
-	color: #3b5998;
+	color: #1a6938;
 }
 .base p {
-	color:#FFF;
+	color:#1e6238;
 	padding: 0px 15px 0px 15px;
 }
 .base-innar {
-	background-color:#dde8f3;
-	color:#3b5998;
+	background-color: #dff1df;
+    color: #1e6238;
 	width:100%;
 	text-align:center;
 	padding:12px 0px 12px 0px;
@@ -441,7 +441,7 @@ a.article, a.article:hover {
 	background-color:#404f5c;
 }
 .footer {
-	background: rgba(16,89,44,.94);
+	background: #fff9f9;
 	padding: 10px;
 	text-align: center;
 	color: #fff;
@@ -457,12 +457,12 @@ a.article, a.article:hover {
 	vertical-align: middle;
 	-webkit-transform: perspective(1px) translateZ(0);
 	transform: perspective(1px) translateZ(0);
-	box-shadow: 0 0 1px transparent;
 	position: relative;
 	-webkit-transition-duration: 0.3s;
 	transition-duration: 0.3s;
 	-webkit-transition-property: transform;
 	transition-property: transform;
+	box-shadow: 0px 0px 10px #00000042;
 }
 .hvr-float-shadow:before {
 	pointer-events: none;
@@ -1141,4 +1141,8 @@ a.article, a.article:hover {
     border-radius: 8px;
     padding: 15px 15px 2000px 15px;
     margin-bottom: -2000px;
+}
+.sidebar-header img {
+	filter: brightness(0) invert(1);
+	width: 280px;
 }

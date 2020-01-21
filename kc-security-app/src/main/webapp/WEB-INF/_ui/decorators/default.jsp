@@ -76,7 +76,9 @@
 	<div class="wrapper">
 		<!-- Sidebar Holder -->
 		<nav id="sidebar">
-			<!-- <div class="sidebar-header"></div> -->
+			<div class="sidebar-header">
+				<h3><img alt="" src="<%=request.getContextPath()%>/resources/images/logo1.png" /></h3>
+			</div>
 			<ul class="list-unstyled components">
 				<p class="centered user_image">
 					<a href="#"> <c:choose>
@@ -211,11 +213,7 @@
 							<i class="glyphicon glyphicon-align-left"></i> <span></span>
 						</button>
 					</div>
-					<div>
-						<img alt=""
-							src="<%=request.getContextPath()%>/resources/images/logo1.png"
-							height="54px" width="300px" />
-					</div>
+					
 
 					<button class="right-menu btn btn-info navbar-btn">
 						<i class="fa fa-fw fa-bars"></i>
@@ -241,7 +239,7 @@
 
 
 	<div class="footer">
-		<span>An ChaharCorp Product</span>
+		<!-- <span>An ChaharCorp Product</span> -->
 	</div>
 
 

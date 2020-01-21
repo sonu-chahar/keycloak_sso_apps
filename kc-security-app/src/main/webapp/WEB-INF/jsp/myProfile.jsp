@@ -1,12 +1,14 @@
 <%@ include file="/static-resources/common/taglibs.jsp"%>
-<%@page import="com.chahar.keycloak.model.UserMaster"%>
+<%@page import="com.keycloak.model.UserMaster"%>
+<script src="<%=request.getContextPath()%>/resources/js/countries.js"></script>
+
 <title>My Profile</title>
 
 
 <%
 	UserMaster user = (UserMaster) request.getSession(false).getAttribute("userMaster");
-	
-	if(user!=null){
+
+	if (user != null) {
 		String imageUrl = "myProfile/getImage/" + user.getMobileNumber() + "/" + user.getImageName() + "/"
 				+ user.getFileExtension();
 		request.setAttribute("imageUrl", imageUrl);
@@ -17,12 +19,13 @@
 	<form:form modelAttribute="userMasterDTO" method="post"
 		onsubmit="return validate(this);"
 		action="${ctx}/myProfile/updateProfile" enctype="multipart/form-data">
-		
+
 		<h1 class="heading">
 			<i class="fa fa-edit"></i> My Profile
 		</h1>
 		<form:hidden path="id" />
-		 <input type="hidden" id="fRemoveImageFlag" name="removeImageFlag" value="false"/>
+		<input type="hidden" id="fRemoveImageFlag" name="removeImageFlag"
+			value="false" />
 		<div class="form-group form-group-sm">
 			<label class="col-sm-3 control-label label-inn"> <fmt:message
 					key="label.personalInformation.firstName" />
@@ -119,8 +122,13 @@
 					key="label.personalInformation.state" />
 			</label>
 			<div class="col-sm-3 required">
-				<form:input id="fState" path="state" maxlength="100"
-					class="form-control" />
+				<%-- <form:input id="fState" path="state" maxlength="100"
+					class="form-control" /> --%>
+				<form:select class="form-control" id="fState" path="state">
+					<option selected="selected" value="">---- Select
+						<fmt:message key="label.personalInformation.state" /> ----
+					</option>
+				</form:select>
 				*
 				<form:errors path="state" cssClass="error" />
 			</div>
@@ -130,9 +138,13 @@
 					key="label.personalInformation.country" />
 			</label>
 			<div class="col-sm-3 required">
-				<form:input id="fCountry" path="country" maxlength="100"
-					class="form-control" />
-				*
+				<form:select class="form-control" id="fCountry" path="country">
+					<option selected="selected" value="">---- Select
+						<fmt:message key="label.personalInformation.country" /> ----
+					</option>
+					<%-- <form:input id="fCountry" path="country" maxlength="100"
+					class="form-control" /> --%>
+				</form:select> *
 				<form:errors path="country" cssClass="error" />
 			</div>
 			<label class="col-sm-2 control-label label-inn"> <fmt:message
@@ -161,10 +173,10 @@
 					<%-- <c:forEach items="${userTypeList}" var="userType">
 						<option value="${userType.id}">${userType.name}</option>
 					</c:forEach> --%>
-					<form:option  value="Citizen">Citizen</form:option>
-					<form:option  value="Birth">Birth Certificate</form:option>
-					<form:option  value="Barat">Barat Ghar</form:option>
-					<form:option  value="yellow">Yellow Fever</form:option>
+					<form:option value="Citizen">Citizen</form:option>
+					<form:option value="Birth">Birth Certificate</form:option>
+					<form:option value="Barat">Barat Ghar</form:option>
+					<form:option value="yellow">Yellow Fever</form:option>
 				</form:select>
 				*
 				<form:errors path="userType" cssClass="error" />
@@ -261,22 +273,23 @@
 
 
 		<div class="form-group form-group-sm">
-			<label class="col-sm-3 control-label label-inn">&nbsp; </label>
-
-			<input type="button" name="RemoveImage" value="Remove Image"
-					id="removeImage" class="btn btn-warning" onclick="clearImage()" />&nbsp;&nbsp;
-			<input type="submit" name="" value="Update"
-									id="btnSave" class="btn btn-warning" /> &nbsp;&nbsp;<!-- <input
+			<label class="col-sm-3 control-label label-inn">&nbsp; </label> <input
+				type="button" name="RemoveImage" value="Remove Image"
+				id="removeImage" class="btn btn-warning" onclick="clearImage()" />&nbsp;&nbsp;
+			<input type="submit" name="" value="Update" id="btnSave"
+				class="btn btn-warning" /> &nbsp;&nbsp;
+			<!-- <input
 									type="reset" name="reset" value="RESET" id="btnReset"
 									class="btn btn-warning" onclick="hideMsg()" -->
-									<input
-									type="reset" name="reset" value="RESET" id="btnReset"
-									class="btn btn-warning" onclick="window.location.href='${ctx}/myProfile/showProfile'">
-									&nbsp;&nbsp;<c:if test="${not empty message}">
-										<span id="msg" class="message">${message}</span>
-									</c:if>
+			<input type="reset" name="reset" value="RESET" id="btnReset"
+				class="btn btn-warning"
+				onclick="window.location.href='${ctx}/myProfile/showProfile'">
+			&nbsp;&nbsp;
+			<c:if test="${not empty message}">
+				<span id="msg" class="message">${message}</span>
+			</c:if>
 		</div>
-		
+
 	</form:form>
 </div>
 
@@ -560,99 +573,103 @@ function isNumberKey(evt) {
 </script>
 <script>
 $(document).ready(function() {
+	populateCountries("fCountry", "fState");
 	if("${userMaster.imageName}"==""){
 		alert("Kindly complete your profile to proceed further");
 	}
 	
-	
-	if("${userMaster}" == ""){
+	/* if("${userMaster ne null}"){
 		$("#btnSave").attr("disabled", true);
-	}
-	if("${userMaster.firstName}"!=""){
+	} */
+	
+	
+	if(${userMaster.firstName ne null}){
 		$("#fFirstName").val('${userMaster.firstName}');
 	}
-	if("${userMaster.lastName}"!=""){
+	if(${userMaster.lastName ne null}){
 		$("#fLastName").val('${userMaster.lastName}');
 		//$("#fLastName").attr('readonly', true);
 	}
-	if("${userMaster.fatherName}"!=""){
+	if(${userMaster.fatherName ne null}){
 		$("#fFatherName").val('${userMaster.fatherName}');
 		//$("#fFatherName").attr('readonly', true);
 	}
-	if("${userMaster.dateOfBirth}"!=""){
+	if(${userMaster.dateOfBirth ne null}){
 		$("#dateOfBirth").val('${userMaster.dateOfBirth}');
 		//$("#dateOfBirth").attr('readonly', true);
 	}
-	if("${userMaster.emailId}"!=""){
+	if(${userMaster.emailId ne null}){
 		$("#emailId").val('${userMaster.emailId}');
 		//$("#emailId").attr('readonly', true);
 	}
-	if("${userMaster.mobileNumber}"!=""){
+	if(${userMaster.mobileNumber ne null}){
 		$("#fMobileNumber").val('${userMaster.mobileNumber}');
 		//$("#fMobileNumber").attr('readonly', true);
 	}
-	if("${userMaster.gender}"!=""){
+	if(${userMaster.gender ne null}){
 		$("#fGender").val('${userMaster.gender}');
 		//$("#fGender").attr('readonly', true);
 	}
-	if("${userMaster.locality}"!=""){
+	if(${userMaster.locality ne null}){
 		$("#fLocality").val('${userMaster.locality}');
 		//$("#fLocality").attr('readonly', true);
 	}
-	if("${userMaster.city}"!=""){
+	if(${userMaster.city ne null}){
 		$("#fCity").val('${userMaster.city}');
 		//$("#fCity").attr('readonly', true);
 	}
-	if("${userMaster.state}"!=""){
+	 
+	if(${userMaster.country ne null}){
+		$("#fCountry").val('${userMaster.country}');
+		$("#fCountry").trigger("change");
+		//$("#fCountry").attr('readonly', true);
+	} 
+	if(${userMaster.state ne null}){
+		alert("abc"+'${userMaster.state}')
 		$("#fState").val('${userMaster.state}');
 		//$("#fState").attr('readonly', true);
 	}
-	if("${userMaster.country}"!=""){
-		$("#fCountry").val('${userMaster.country}');
-		//$("#fCountry").attr('readonly', true);
-	}
-	if("${userMaster.pinCode}"!=""){
+	if(${userMaster.pinCode ne null}){
 		$("#fPinCode").val('${userMaster.pinCode}');
 		//$("#fPinCode").attr('readonly', true);
 	}
-	if("${userMaster.userType}"!=""){
+	if(${userMaster.userType ne null}){
 		$("#fUserType").val('${userMaster.userType}');
 		//$("#fUserType").attr('readonly', true);
 	}
-	if("${userMaster.adharCardNumber}"!=""){
+	if(${userMaster.adharCardNumber ne null}){
 		$("#fAdharCardNumber").val('${userMaster.adharCardNumber}');
 		//$("#fAdharCardNumber").attr('readonly', true);
 	}
-	if("${userMaster.voterIdNumber}"!=""){
+	if(${userMaster.voterIdNumber ne null}){
 		$("#fVoterIdNumber").val('${userMaster.voterIdNumber}');
 		//$("#fVoterIdNumber").attr('readonly', true);
 	}
-	if("${userMaster.passportNumber}"!=""){
+	if(${userMaster.passportNumber ne null}){
 		$("#fPassportNumber").val('${userMaster.passportNumber}');
 		//$("#fPassportNumber").attr('readonly', true);
 	}
-	if("${userMaster.waterConsumerNumber}"!=""){
+	if(${userMaster.waterConsumerNumber ne null}){
 		$("#fWaterConsumerNumber").val('${userMaster.waterConsumerNumber}');
 		//$("#fWaterConsumerNumber").attr('readonly', true);
 	}
-	if("${userMaster.electricityConsumerNumber}"!=""){
+	if(${userMaster.electricityConsumerNumber ne null}){
 		$("#fElectricityConsumerNumber").val('${userMaster.propertyId}');
 		//$("#fElectricityConsumerNumber").attr('readonly', true);
 	}
-	if("${userMaster.propertyId}"!=""){
+	if(${userMaster.propertyId ne null}){
 		$("#fPropertyId").val('${userMaster.propertyId}');
 		//$("#fPropertyId").attr('readonly', true);
 	}
-	if("${userMaster.estatePropertyId}"!=""){
+	if(${userMaster.estatePropertyId ne null}){
 		$("#fEstatePropertyId").val('${userMaster.estatePropertyId}');
 		//$("#fEstatePropertyId").attr('readonly', true);
 	}
-	if("${userMaster.imageName}"!=""){
+	if(${userMaster.imageName ne null}){
 		$("#imageName").val('${userMaster.imageName}');
 	}
-	if("${userMaster.fileExtension}"!=""){
+	if(${userMaster.fileExtension ne null}){
 		$("#fileExtension").val('${userMaster.fileExtension}');
 	}
-	
 });
 </script>

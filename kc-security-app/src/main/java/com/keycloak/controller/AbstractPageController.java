@@ -115,13 +115,19 @@ public abstract class AbstractPageController {
 		}
 		if (username != null) {
 			persistedUserMaster = userMasterService.findByUsername(username);
+			
 			if (persistedUserMaster != null) {
+				if(persistedUserMaster.getKcUserId()==null) {
+					userMasterService.remove(persistedUserMaster.getId());
+				}
 				persistedUserMaster.setConfirmPassword(password);
 			} else {
 				KeycloakSecurityContext context = (KeycloakSecurityContext) request
 						.getAttribute(KeycloakSecurityContext.class.getName());
 				persistedUserMaster = new UserMaster();
+				
 				IDToken token = context.getIdToken();
+				persistedUserMaster.setKcUserId(token.getId());
 				persistedUserMaster.setUsername(token.getPreferredUsername());
 				persistedUserMaster.setEmailId(token.getEmail());
 				persistedUserMaster.setFirstName(token.getGivenName());

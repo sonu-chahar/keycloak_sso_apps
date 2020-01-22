@@ -16,15 +16,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.CacheControl;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.DispatcherServlet;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -33,6 +34,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.XmlViewResolver;
 
+import com.keycloak.model.UserMaster;
 import com.opensymphony.module.sitemesh.filter.PageFilter;
 
 @SuppressWarnings("deprecation")
@@ -41,7 +43,7 @@ import com.opensymphony.module.sitemesh.filter.PageFilter;
 @ImportResource({ "classpath:dwr-config.xml", "classpath:jasper-views.xml" })
 @Import({ HibernateConfig.class, KeycloakSecurityConfig.class })
 //@PropertySource("classpath:applicationResources.properties")
-public class MyWebConfiguration  implements WebMvcConfigurer,WebApplicationInitializer {
+public class MyWebConfiguration implements WebMvcConfigurer, WebApplicationInitializer {
 
 	@Bean
 	public DispatcherServlet dispatcherServlet() {
@@ -122,6 +124,13 @@ public class MyWebConfiguration  implements WebMvcConfigurer,WebApplicationIniti
 		multipartResolver.setMaxUploadSize(20848820);
 		return multipartResolver;
 	}
+
+	/*
+	 * @Bean
+	 * 
+	 * @Scope(WebApplicationContext.SCOPE_SESSION) public UserMaster userMaster() {
+	 * UserMaster userMaster = new UserMaster(); return userMaster; }
+	 */
 //	@Override
 //	public void addCorsMappings(CorsRegistry registry) {
 //		WebMvcConfigurer.super.addCorsMappings(registry);

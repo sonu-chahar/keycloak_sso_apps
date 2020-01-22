@@ -92,6 +92,7 @@ public class MyProfileController extends AbstractPageController {
 			userMasterDTO.setUsername(oldUserMaster.getUsername());
 			userMasterDTO.setPassword(oldUserMaster.getPassword());
 			userMasterDTO.setId(oldUserMaster.getId());
+			userMasterDTO.setKcUserId(oldUserMaster.getKcUserId());
 			if (oldUserMaster.getUserIpAddress() == null) {
 				userMasterDTO.setUserIpAddress(getClientIp(request));
 			}

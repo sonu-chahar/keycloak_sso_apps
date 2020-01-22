@@ -1655,9 +1655,9 @@
 })
 
 function checkLoginDetails(){
-	var effUrl='http://172.16.200.195:8080/ndmc-app/fetchUserDetails'+'/'
+	var effUrl='http://192.168.10.215:8080/kc-security-app/fetchUserDetails'+'/'
 	+keycloak.idTokenParsed.preferred_username+'/'+keycloak.idTokenParsed.sub+'?callback=userDetails';
-	
+	alert(effUrl);
 	$.ajax({
         url: effUrl,
         dataType: "jsonp",   
@@ -1666,9 +1666,10 @@ function checkLoginDetails(){
     });
 }
 function userDetails(user){
-	  cosole.log(JSON.stringify(user));
-	  if(user.username == undefined){
-		  $(location).attr('href', 'http://172.16.200.195:8080/ndmc-app/viewHomePage')
+	  console.log(JSON.stringify(user));
+	  if(user.fatherName == undefined){
+		/*  $(location).attr('href', 'http://172.16.200.195:8080/ndmc-app/viewHomePage')*/
+		  $(location).attr('href', 'http://192.168.10.215:8080/kc-security-app/viewHomePage')
 	  }
 }
 function checkDetailErrorCallback(data,status,xhr){

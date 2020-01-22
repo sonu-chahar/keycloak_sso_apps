@@ -100,25 +100,23 @@
 				*
 				<form:errors path="gender" cssClass="error" />
 			</div>
-			<label class="col-sm-2 control-label label-inn"><fmt:message
-					key="label.personalInformation.locality" /></label>
-			<div class="col-sm-3 required">
-				<form:input id="fLocality" path="locality" cssClass="form-control" />
-				*
-				<form:errors path="locality" cssClass="error" />
-			</div>
-		</div>
-		<div class="form-group form-group-sm">
-			<label class="col-sm-3 control-label label-inn"> <fmt:message
-					key="label.personalInformation.city" />
+			<label class="col-sm-2 control-label label-inn"> <fmt:message
+					key="label.personalInformation.country" />
 			</label>
 			<div class="col-sm-3 required">
-				<form:input id="fCity" path="city" maxlength="50"
-					class="form-control" />
-				*
-				<form:errors path="city" cssClass="error" />
+				<form:select class="form-control" id="fCountry" path="country">
+					<option selected="selected" value="">---- Select
+						<fmt:message key="label.personalInformation.country" /> ----
+					</option>
+					<%-- <form:input id="fCountry" path="country" maxlength="100"
+					class="form-control" /> --%>
+				</form:select> *
+				<form:errors path="country" cssClass="error" />
 			</div>
-			<label class="col-sm-2 control-label label-inn"> <fmt:message
+			
+		</div>
+		<div class="form-group form-group-sm">
+		<label class="col-sm-3 control-label label-inn"> <fmt:message
 					key="label.personalInformation.state" />
 			</label>
 			<div class="col-sm-3 required">
@@ -132,20 +130,24 @@
 				*
 				<form:errors path="state" cssClass="error" />
 			</div>
-		</div>
-		<div class="form-group form-group-sm">
-			<label class="col-sm-3 control-label label-inn"> <fmt:message
-					key="label.personalInformation.country" />
+			<label class="col-sm-2 control-label label-inn"> <fmt:message
+					key="label.personalInformation.city" />
 			</label>
 			<div class="col-sm-3 required">
-				<form:select class="form-control" id="fCountry" path="country">
-					<option selected="selected" value="">---- Select
-						<fmt:message key="label.personalInformation.country" /> ----
-					</option>
-					<%-- <form:input id="fCountry" path="country" maxlength="100"
-					class="form-control" /> --%>
-				</form:select> *
-				<form:errors path="country" cssClass="error" />
+				<form:input id="fCity" path="city" maxlength="50"
+					class="form-control" />
+				*
+				<form:errors path="city" cssClass="error" />
+			</div>
+			
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-sm-3 control-label label-inn"><fmt:message
+					key="label.personalInformation.locality" /></label>
+			<div class="col-sm-3 required">
+				<form:input id="fLocality" path="locality" cssClass="form-control" />
+				*
+				<form:errors path="locality" cssClass="error" />
 			</div>
 			<label class="col-sm-2 control-label label-inn"> <fmt:message
 					key="label.personalInformation.pinCode" />
@@ -625,7 +627,6 @@ $(document).ready(function() {
 		//$("#fCountry").attr('readonly', true);
 	} 
 	if(${userMaster.state ne null}){
-		alert("abc"+'${userMaster.state}')
 		$("#fState").val('${userMaster.state}');
 		//$("#fState").attr('readonly', true);
 	}

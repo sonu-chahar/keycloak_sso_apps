@@ -2,6 +2,7 @@ package com.keycloak.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.BeanUtils;
@@ -39,18 +40,23 @@ public class KCRestController extends AbstractPageController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/fetchUserDetails/{username}/{kcUserId}")
 	public Object fetchUserJSonp(@PathVariable("username") String username, @PathVariable("kcUserId") String kcUserId,
-			HttpServletResponse response) {
+			HttpServletResponse response, HttpServletRequest request) {
+		request.getSession(false).invalidate();
 		response.addHeader("Content-Type", "application/x-javascript");
 
 		String columns[] = new String[] { "username", "kcUserId" };
 		String values[] = new String[] { username, kcUserId };
 		List<UserMaster> userMasterList = userMasterService.findValuesByColumns(columns, values);
-		if (userMasterList.size() == 1) {
+		if (userMasterList.size() == 0) {
+			UserMaster userMaster = getUserMasterFromSession(request);
+			UserMasterVO userMasterVO = new UserMasterVO();
+			BeanUtils.copyProperties(userMaster, userMasterVO);
+			return convertToJsonP(userMasterVO);
+		} else {
 			UserMasterVO userMasterVO = new UserMasterVO();
 			BeanUtils.copyProperties(userMasterList.get(0), userMasterVO);
 			return convertToJsonP(userMasterVO);
 		}
-		return "userDetails({})";
 	}
 
 //	http://127.0.0.1:8080/kc-security-app/fetchUserDetails/ndmc/ea5218cd-e111-425c-8b3f-b7ddde2d2a34

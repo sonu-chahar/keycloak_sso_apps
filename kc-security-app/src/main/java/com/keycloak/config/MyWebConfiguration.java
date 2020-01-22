@@ -125,12 +125,13 @@ public class MyWebConfiguration implements WebMvcConfigurer, WebApplicationIniti
 		return multipartResolver;
 	}
 
-	/*
-	 * @Bean
-	 * 
-	 * @Scope(WebApplicationContext.SCOPE_SESSION) public UserMaster userMaster() {
-	 * UserMaster userMaster = new UserMaster(); return userMaster; }
-	 */
+	@Bean
+	@Scope(WebApplicationContext.SCOPE_SESSION)
+	public UserMaster userMaster() {
+		UserMaster userMaster = new UserMaster();
+		return userMaster;
+	}
+
 //	@Override
 //	public void addCorsMappings(CorsRegistry registry) {
 //		WebMvcConfigurer.super.addCorsMappings(registry);

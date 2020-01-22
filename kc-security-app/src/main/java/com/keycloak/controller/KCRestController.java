@@ -1,5 +1,6 @@
 package com.keycloak.controller;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,7 +46,7 @@ public class KCRestController extends AbstractPageController {
 		response.addHeader("Content-Type", "application/x-javascript");
 
 		String columns[] = new String[] { "username", "kcUserId" };
-		String values[] = new String[] { username, kcUserId };
+		Serializable values[] = new Serializable[] { username, kcUserId };
 		List<UserMaster> userMasterList = userMasterService.findValuesByColumns(columns, values);
 		if (userMasterList.size() == 0) {
 			UserMaster userMaster = getUserMasterFromSession(request);

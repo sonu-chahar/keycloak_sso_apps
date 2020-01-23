@@ -34,7 +34,7 @@
 								</h2>
 								<p>Some text for Birth Certificate...</p>
 								<div class="circle bg8-circle">
-									<img src="images/icons/my-profile.png">
+									<img src="images/icons/certificate-request.png">
 								</div>
 								<div class="base-innar">
 									<a class="hvr-icon-wobble-horizontal"

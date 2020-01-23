@@ -33,10 +33,11 @@ public class MainPageController extends AbstractPageController {
 
 	@GetMapping(value = "/landingPage")
 	public String getLandingPage() {
-		return "index";
+//		return "index";
+		return "redirect:/viewHomePage";
 	}
 
-	@GetMapping(value = "/logout")
+	@GetMapping(value = "/sso/logout")
 	public String logout() throws ServletException {
 		request.logout();
 		return "redirect:/viewHomePage";

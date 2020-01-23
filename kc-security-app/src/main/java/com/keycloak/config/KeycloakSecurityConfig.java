@@ -46,12 +46,13 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		super.configure(http);
-		http.authorizeRequests().antMatchers("/images/**", "/myProfile/updateProfile", "landingPage").permitAll()
+		http.authorizeRequests().antMatchers("/images/**", "/myProfile/updateProfile", "/landingPage").permitAll()
 				.antMatchers("/books").hasAnyRole("NDMC_EMPLOYEE", "Citizen").antMatchers("/manager")
-				.hasRole("NDMC_EMPLOYEE").anyRequest().authenticated();
-//				.and().logout()
-//				.addLogoutHandler(keycloakLogoutHandler()).logoutUrl("/sso/logout").permitAll()
-//				.logoutSuccessUrl("/landingPage");
+				.hasRole("NDMC_EMPLOYEE").antMatchers("/fetchUserDetail**").authenticated().anyRequest().authenticated();
+		/*
+		 * .and().logout().addLogoutHandler(keycloakLogoutHandler()).logoutUrl(
+		 * "/sso/logout").permitAll() .logoutSuccessUrl("/viewHomePage");
+		 */
 		http.csrf().disable();
 	}
 

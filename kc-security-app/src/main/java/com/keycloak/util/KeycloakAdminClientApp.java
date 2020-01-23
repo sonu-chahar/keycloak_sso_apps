@@ -38,6 +38,8 @@ public class KeycloakAdminClientApp {
 	public static final String SSO_USERNAME_SERVICE_ACCOUNT = Constants.pathString("SSO_USERNAME_SERVICE_ACCOUNT");
 	public static final String SSO_PASSWORD_SERVICE_ACCOUNT = Constants.pathString("SSO_PASSWORD_SERVICE_ACCOUNT");
 
+	private static Keycloak serviceKeycloak = null;
+
 	public static boolean createUserAtKeycloak(UserMaster userMaster) {
 		Keycloak keycloak = connectServiceAccount();
 		UserRepresentation user = setUserForKeycloak(userMaster);
@@ -204,6 +206,7 @@ public class KeycloakAdminClientApp {
 		// Keycloak keycloak =Keycloak.getInstance(SSO_SERVER_URL, SSO_REALM_NAME,
 		// userMaster.getUsername(), userMaster.getPassword(),
 		// userMaster.getUserType().getClientId());
+
 		Keycloak keycloak = connectServiceAccount();
 		// Keycloak keycloak = connectToUserAccountByUserType(userMaster);
 		TokenManager tokenManager = keycloak.tokenManager();
@@ -212,14 +215,38 @@ public class KeycloakAdminClientApp {
 	}
 
 	public static boolean resetPassword(UserMaster userMaster) {
-		Keycloak keycloak = connectServiceAccount();
+		if (serviceKeycloak == null) {
+			serviceKeycloak = connectServiceAccount();
+		}
 		// Get realm
-		RealmResource realmResource = keycloak.realm(SSO_REALM_NAME);
+		RealmResource realmResource = serviceKeycloak.realm(SSO_REALM_NAME);
 
 		UsersResource usersRessource = realmResource.users();
 
 		try {
-			UserResource userResource = usersRessource.get(userMaster.getUsername());
+			UserResource userResource = usersRessource.get(userMaster.getKcUserId());
+//			UserResource userResource = usersRessource.get("e55f79cf-f75c-4628-9642-a5f73fff4800");
+			CredentialRepresentation passwordCred = new CredentialRepresentation();
+			passwordCred.setTemporary(false);
+			passwordCred.setType(CredentialRepresentation.PASSWORD);
+			passwordCred.setValue(userMaster.getConfirmPassword());
+			userResource.resetPassword(passwordCred);
+			return true;
+		} catch (ClientErrorException e) {
+			handleClientErrorException(e);
+		} catch (Exception e) {
+			Throwable cause = e.getCause();
+			if (cause instanceof ClientErrorException) {
+				handleClientErrorException((ClientErrorException) cause);
+			} else {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	public static boolean resetPassword(UserResource userResource, UserMaster userMaster) {
+		try {
 			CredentialRepresentation passwordCred = new CredentialRepresentation();
 			passwordCred.setTemporary(false);
 			passwordCred.setType(CredentialRepresentation.PASSWORD);

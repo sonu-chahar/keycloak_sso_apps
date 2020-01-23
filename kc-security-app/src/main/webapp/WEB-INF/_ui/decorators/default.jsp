@@ -43,7 +43,7 @@
 			} else if (window.ActiveXObject) {
 				http = new ActiveXObject("Microsoft.XMLHTTP");
 			}
-			http.open('GET', '<c:url value="/logout.jsp"/>', true);
+			http.open('GET', '<c:url value="/sso/logout.jsp"/>', true);
 			http.send(null);
 		}
 	}
@@ -100,7 +100,7 @@
 					${userMaster.firstName}</h5>
 				<h5 class="centered user_name">${userMaster.emailId}</h5>
 				<h5 class="centered logout_btn " style="font-weight: bold">
-					<a href='<c:url value="/logout"/>'> <i class="fa fa-sign-out"></i>
+					<a href='<c:url value="/sso/logout"/>'> <i class="fa fa-sign-out"></i>
 						Log Out
 					</a>
 				</h5>
@@ -225,7 +225,7 @@
 							<li class="btn-custom"><a
 								href="<%=request.getContextPath()%>/myProfile/showChangePwdPage"><i
 									class="fa fa-fw fa-key"></i> Change Password</a></li>
-							<li class="btn-custom"><a href="${ctx}/logout"><i class="fa fa-fw fa-sign-out"></i>Logout</a></li>
+							<li class="btn-custom"><a href="${ctx}/sso/logout"><i class="fa fa-fw fa-sign-out"></i>Logout</a></li>
 						</ul>
 					</div>
 				</div>

@@ -54,7 +54,8 @@ public class HibernateConfig {
 		dataSource.setPassword(PASSWORD);
 		return dataSource;
 	}
-
+	
+	
 //	public DataSource dataSource() {
 //		DataSource dataSource = null;
 //		System.out.println("value of datasource" + dataSource);

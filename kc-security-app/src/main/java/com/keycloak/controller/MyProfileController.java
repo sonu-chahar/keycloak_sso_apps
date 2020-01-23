@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileDeleteStrategy;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.exception.ConstraintViolationException;
+import org.keycloak.admin.client.resource.UserResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,7 @@ import com.keycloak.model.UserTypeMaster;
 import com.keycloak.service.GenServicein;
 import com.keycloak.service.UserMasterService;
 import com.keycloak.util.Constants;
+import com.keycloak.util.KeycloakAdminClientApp;
 
 @Controller
 @RequestMapping("**/myProfile")
@@ -50,6 +52,15 @@ public class MyProfileController extends AbstractPageController {
 
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+//	@Autowired
+//	private Keycloak keycloak;
+	
+//	@Autowired
+//	private UserResource userResource;
+//	
+//	@Autowired
+//	private KeyCloakService keycloakService;
 
 	@RequestMapping(value = "**/showProfile", method = RequestMethod.GET)
 	public ModelAndView showMyProfile(@ModelAttribute(MODEL_ATTRIBUTE_FOR_USER_MASTER) UserMaster userMasterDTO,
@@ -220,20 +231,38 @@ public class MyProfileController extends AbstractPageController {
 			@ModelAttribute(MODEL_ATTRIBUTE_FOR_USER_MASTER) UserMaster userMasterDTO, BindingResult bindingResult,
 			HttpServletRequest request, ModelMap model) {
 		UserMaster userMasterFetchedFromSession = getUserMasterFromSession(request);
-		String oldPassword = userMasterFetchedFromSession.getPassword();
-		userMasterFetchedFromSession.setPassword(bCryptPasswordEncoder.encode(userMasterDTO.getPassword()));
-
-		String status = BLANK_STRING;
-		try {
-
-			userMasterFetchedFromSession = userMasterService.save(userMasterFetchedFromSession);
-			request.getSession(false).setAttribute(SESSION_ATTRIBTE_FOR_USER_MASTER, userMasterFetchedFromSession);
-			status = "Password has been updated Successfully";
-		} catch (Exception e) {
-			userMasterFetchedFromSession.setPassword(oldPassword);
-			LOGGER.debug(e.getStackTrace());
-			status = "Error occurred while updating password...";
-		}
+		userMasterDTO.setUsername(userMasterFetchedFromSession.getUsername());
+		userMasterDTO.setKcUserId(userMasterFetchedFromSession.getKcUserId());
+		String status=null;
+		/*if(userResource!=null) {
+			if(KeycloakAdminClientApp.resetPassword(userResource,userMasterDTO)) {
+				status = "Password has been updated Successfully";
+			}else {
+				status = "Error occurred while updating password...";
+			}
+		}else {*/
+			if(KeycloakAdminClientApp.resetPassword(userMasterDTO)) {
+				status = "Password has been updated Successfully";
+			}else {
+				status = "Error occurred while updating password...";
+			}
+		/* } */
+		
+//		UserMaster userMasterFetchedFromSession = getUserMasterFromSession(request);
+//		String oldPassword = userMasterFetchedFromSession.getPassword();
+//		userMasterFetchedFromSession.setPassword(bCryptPasswordEncoder.encode(userMasterDTO.getPassword()));
+//
+//		String status = BLANK_STRING;
+//		try {
+//
+//			userMasterFetchedFromSession = userMasterService.save(userMasterFetchedFromSession);
+//			request.getSession(false).setAttribute(SESSION_ATTRIBTE_FOR_USER_MASTER, userMasterFetchedFromSession);
+//			status = "Password has been updated Successfully";
+//		} catch (Exception e) {
+//			userMasterFetchedFromSession.setPassword(oldPassword);
+//			LOGGER.debug(e.getStackTrace());
+//			status = "Error occurred while updating password...";
+//		}
 
 		/*
 		 * return new ModelAndView( "redirect:" + request.getContextPath() +

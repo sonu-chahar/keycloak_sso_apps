@@ -84,7 +84,7 @@
 					<a href="#"> <c:choose>
 							<c:when
 								test="${userMaster.imageName ne null and userMaster.imageName ne '' and  userMaster.fileExtension ne null and userMaster.fileExtension ne ''}">
-								<img border="0" width="240px"
+								<img border="0" width="65px"
 									src="${baseURL}/myProfile/getImage/${userMaster.mobileNumber}/${userMaster.imageName}/${userMaster.fileExtension}" />
 								<%-- <img border="0" class="img-circle" width="100" height="100"
 									src="<%=request.getContextPath()%>/images/default-image.jpg" /> --%>

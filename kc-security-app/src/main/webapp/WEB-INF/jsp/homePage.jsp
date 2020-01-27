@@ -11,35 +11,24 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="row">
-						<div class="col-sm-4 col-md-4 col-lg-4">
+						<div class="col-sm-2">
 							<div class="base hvr-float-shadow">
-								<h2>
-									<a href="http://uat.ndmc.gov.in/yellow"> YELLOW FEVER</a>
-								</h2>
-								<p>Some text for YELLOW FEVER...</p>
-
 								<div class="circle bg-circle1">
 									<img src="images/icons/my-profile.png">
 								</div>
-								<div class="base-innar">
-									<a class="hvr-icon-wobble-horizontal"
-										href="http://uat.ndmc.gov.in/yellow">More Info</a>
-								</div>
+								<h2>
+									<a href="http://uat.ndmc.gov.in/yellow"> YELLOW FEVER</a>
+								</h2>
 							</div>
 						</div>
-						<div class="col-sm-4 col-md-4 col-lg-4">
-							<div class="base hvr-float-shadow">
-								<h2>
-									<a href="http://uat.ndmc.gov.in/bnd"> Birth Certificate</a>
-								</h2>
-								<p>Some text for Birth Certificate...</p>
+						<div class="col-sm-2">
+							<div class="base hvr-float-shadow"> 
 								<div class="circle bg8-circle">
 									<img src="images/icons/certificate-request.png">
 								</div>
-								<div class="base-innar">
-									<a class="hvr-icon-wobble-horizontal"
-										href="http://uat.ndmc.gov.in/bnd">More Info</a>
-								</div>
+								<h2>
+									<a href="http://uat.ndmc.gov.in/bnd"> Birth Certificate</a>
+								</h2> 
 							</div>
 						</div>
 						<!-- <div class="col-sm-4 col-md-4 col-lg-4">

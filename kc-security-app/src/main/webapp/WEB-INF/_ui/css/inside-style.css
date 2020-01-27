@@ -28,7 +28,7 @@ a, a:hover, a:focus {
 	box-shadow: none;
 	outline: none !important;
 	border: none;
-	margin-top: 90px;
+	margin-top: 92px;
 }
 .line {
 	width: 100%;
@@ -44,14 +44,14 @@ a, a:hover, a:focus {
 	align-items: stretch;
 }
 #sidebar {
-    min-width: 280px;
-    max-width: 280px;
+    min-width: 240px;
+    max-width: 240px;
     background: rgba(16,89,44,.94);
     color: #fff;
     transition: all 0.3s;
 }
 #sidebar.active {
-	margin-left: -280px;
+	margin-left: -240px;
 }
 #sidebar .sidebar-header {
 	padding: 0;
@@ -138,7 +138,7 @@ a.article, a.article:hover {
 ----------------------------------------------------- */
 @media (max-width: 768px) {
  #sidebar {
- margin-left: -280px;
+ margin-left: -240px;
 }
  #sidebar.active {
  margin-left: 0;
@@ -278,20 +278,21 @@ a.article, a.article:hover {
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
 	margin-bottom: 15px;
-	min-height:175px;
+	min-height:112px;
 }
 .circle {
     position: absolute;
     height: 90px;
     width: 90px;
     border-radius: 50%;
-    left: 33.50%;
+    left: 19.5%;
     top: -40px;
     text-align: center;
     padding: 19px 0px 15px 0px;
 }
 .circle img {
 	width:50px;
+	height:50px;
 	margin-top: -3px;
 	filter: brightness(0) invert(1);
 	/*-webkit-filter: contrast(0);
@@ -302,7 +303,7 @@ a.article, a.article:hover {
     border: 2px solid #4bdcce;
 }
 .base h2 {
-	font-size: 14px;
+	font-size: 13px;
 	text-align: center;
 	font-weight: 500;
 	padding-top: 55px;
@@ -731,7 +732,7 @@ a.article, a.article:hover {
     Form Page Start
 ----------------------------------------------------- */
 .label-inn{
-	color: #363636;
+	color: #676767;
 }
 .right-menu {
 	display:none;
@@ -1144,5 +1145,10 @@ a.article, a.article:hover {
 }
 .sidebar-header img {
 	filter: brightness(0) invert(1);
-	width: 280px;
+	width: 242px;
+}
+.navbar-default {
+    background-color: #1e6238;
+    min-height: 52px;
+    border-color: #1e6238;
 }

@@ -123,22 +123,22 @@ public abstract class AbstractPageController {
 			if (persistedUserMaster != null) {
 				if (persistedUserMaster.getKcUserId() == null) {
 					userMasterService.remove(persistedUserMaster.getId());
-				} else if (!token.getId().equals(persistedUserMaster.getKcUserId())) {
-					persistedUserMaster.setKcUserId(token.getId());
+				} else if (!token.getSubject().equals(persistedUserMaster.getKcUserId())) {
+					persistedUserMaster.setKcUserId(token.getSubject());
 					userMasterService.save(persistedUserMaster);
 				}
-			}
-			persistedUserMaster.setConfirmPassword(password);
-		} else {
-			persistedUserMaster = new UserMaster();
-			persistedUserMaster.setKcUserId(token.getId());
-			persistedUserMaster.setUsername(token.getPreferredUsername());
-			persistedUserMaster.setEmailId(token.getEmail());
-			persistedUserMaster.setFirstName(token.getGivenName());
-			persistedUserMaster.setLastName(token.getFamilyName());
-			persistedUserMaster = userMasterService.save(persistedUserMaster);
+				persistedUserMaster.setConfirmPassword(password);
+			}else {
+				persistedUserMaster = new UserMaster();
+				persistedUserMaster.setKcUserId(token.getId());
+				persistedUserMaster.setUsername(token.getPreferredUsername());
+				persistedUserMaster.setEmailId(token.getEmail());
+				persistedUserMaster.setFirstName(token.getGivenName());
+				persistedUserMaster.setLastName(token.getFamilyName());
+				persistedUserMaster = userMasterService.save(persistedUserMaster);
 
-		}
+			}
+		} 
 
 		return persistedUserMaster;
 	}

@@ -224,6 +224,7 @@ public class KeycloakAdminClientApp {
 		UsersResource usersRessource = realmResource.users();
 
 		try {
+			
 			UserResource userResource = usersRessource.get(userMaster.getKcUserId());
 //			UserResource userResource = usersRessource.get("e55f79cf-f75c-4628-9642-a5f73fff4800");
 			CredentialRepresentation passwordCred = new CredentialRepresentation();

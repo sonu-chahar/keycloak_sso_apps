@@ -28,7 +28,6 @@ import org.springframework.context.annotation.PropertySource;
 
 import com.keycloak.model.UserMaster;
 
-@PropertySource("applicationResources.properties")
 public class KeycloakAdminClientApp {
 	public static Map<String, AccessTokenResponse> map = new HashMap<>();
 	public static final String SSO_SERVER_URL = Constants.pathString("SSO_SERVER_URL");
@@ -116,7 +115,7 @@ public class KeycloakAdminClientApp {
 	private static Keycloak connectServiceAccount() {
 		// Client "idm-client" needs service-account with at least "manage-users,
 		// view-clients, view-realm, view-users" roles for "realm-management"
-
+//		Keycloak keycloak=Keycloak.getInstance(SSO_SERVER_URL,SSO_REALM_NAME, SSO_USERNAME_SERVICE_ACCOUNT, SSO_PASSWORD_SERVICE_ACCOUNT,SSO_CLIENT_ID);
 		Keycloak keycloak = KeycloakBuilder.builder() //
 				.serverUrl(SSO_SERVER_URL) //
 				.realm(SSO_REALM_NAME) //
@@ -125,6 +124,8 @@ public class KeycloakAdminClientApp {
 				.clientSecret(SSO_CLIENT_SECRET_ID) //
 				.username(SSO_USERNAME_SERVICE_ACCOUNT) //
 				.password(SSO_PASSWORD_SERVICE_ACCOUNT) //
+//				.resteasyClient(new ResteasyClientBuilderImpl().connectionPoolSize(10)
+//						.register(new CustomJacksonProvider()).build())
 				.build();
 		return keycloak;
 	}
@@ -220,11 +221,36 @@ public class KeycloakAdminClientApp {
 		}
 		// Get realm
 		RealmResource realmResource = serviceKeycloak.realm(SSO_REALM_NAME);
-
+		System.out.println(realmResource.toString());
 		UsersResource usersRessource = realmResource.users();
+		System.err.println(usersRessource.toString());
 
+//		
+		System.out.println(userMaster);
+		Response response = null;
 		try {
-			
+//			List<UserRepresentation> userList = realmResource.users().search("test-admin", null, null);
+
+			List<UserRepresentation> userList = usersRessource.list();
+			for (UserRepresentation user : userList) {
+
+				System.out.println("User Name: " + user.getUsername() + ", ID: " + user.getId() + ", Service :"
+						+ user.getServiceAccountClientId());
+			}
+//			UserRepresentation user1=new UserRepresentation();
+//			user1.setUsername("test-admin-1");
+//			user1.setFirstName("test-admin-1");
+//			user1.setLastName("test-admin-1");
+//			user1.setEmail("test33@test33.com");
+//			user1.setEnabled(true);
+//			user1.setRequiredActions(Collections.<String>emptyList());
+
+//			response =usersRessource.create(user1);
+//			System.out.println("Repsonse: " + response.getStatusInfo());
+//			System.out.println(response.getLocation());
+//			String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
+//
+//			System.out.printf("User created with userId: %s%n", userId);
 			UserResource userResource = usersRessource.get(userMaster.getKcUserId());
 //			UserResource userResource = usersRessource.get("e55f79cf-f75c-4628-9642-a5f73fff4800");
 			CredentialRepresentation passwordCred = new CredentialRepresentation();

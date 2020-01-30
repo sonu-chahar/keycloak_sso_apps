@@ -31,7 +31,7 @@
 					key="label.personalInformation.firstName" />
 			</label>
 			<div class="col-sm-3 required">
-				<form:input id="fFirstName" path="firstName" cssClass="form-control" />
+				<form:input id="fFirstName" path="firstName" cssClass="form-control denyNumber" />
 				*
 				<form:errors path="firstName" cssClass="error" />
 			</div>
@@ -39,7 +39,7 @@
 					key="label.personalInformation.lastName" />
 			</label>
 			<div class="col-sm-3 required">
-				<form:input id="fLastName" path="lastName" cssClass="form-control" />
+				<form:input id="fLastName" path="lastName" cssClass="form-control denyNumber" />
 				*
 				<form:errors path="lastName" cssClass="error" />
 			</div>
@@ -51,7 +51,7 @@
 			</label>
 			<div class="col-sm-3 required">
 				<form:input id="fFatherName" path="fatherName"
-					cssClass="form-control" />
+					cssClass="form-control denyNumber" />
 				*
 				<form:errors path="fatherName" cssClass="error" />
 			</div>
@@ -135,7 +135,7 @@
 			</label>
 			<div class="col-sm-3 required">
 				<form:input id="fCity" path="city" maxlength="50"
-					class="form-control" />
+					class="form-control denyNumber" />
 				*
 				<form:errors path="city" cssClass="error" />
 			</div>
@@ -655,7 +655,7 @@ $(document).ready(function() {
 		//$("#fWaterConsumerNumber").attr('readonly', true);
 	}
 	if(${userMaster.electricityConsumerNumber ne null}){
-		$("#fElectricityConsumerNumber").val('${userMaster.propertyId}');
+		$("#fElectricityConsumerNumber").val('${userMaster.electricityConsumerNumber}');
 		//$("#fElectricityConsumerNumber").attr('readonly', true);
 	}
 	if(${userMaster.propertyId ne null}){
@@ -672,5 +672,14 @@ $(document).ready(function() {
 	if(${userMaster.fileExtension ne null}){
 		$("#fileExtension").val('${userMaster.fileExtension}');
 	}
+});
+
+jQuery('.denyNumber').keyup(function () { 
+    //this.value = this.value.replace(/[^0-9\.]/g,'');
+	if(this.value!=="" && !isNaN(this.value)){
+    	alert("Name can't be a number!")
+    }
+    this.value = this.value.replace(/[^a-z\.]/g,'');
+    
 });
 </script>

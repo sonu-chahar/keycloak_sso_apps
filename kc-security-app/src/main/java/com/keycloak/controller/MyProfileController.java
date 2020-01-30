@@ -11,11 +11,15 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.FileDeleteStrategy;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.exception.ConstraintViolationException;
-import org.keycloak.admin.client.resource.UserResource;
+import org.keycloak.KeycloakSecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -35,7 +39,6 @@ import com.keycloak.model.UserTypeMaster;
 import com.keycloak.service.GenServicein;
 import com.keycloak.service.UserMasterService;
 import com.keycloak.util.Constants;
-import com.keycloak.util.KeycloakAdminClientApp;
 
 @Controller
 @RequestMapping("**/myProfile")
@@ -43,6 +46,15 @@ public class MyProfileController extends AbstractPageController {
 
 	private static final String VIEW_NAME_FOR_PROFILE = "myProfile";
 	private static final String VIEW_NAME_FOR_UPDATE_PASSWORD = "changePasswordPage";
+	
+	public static final String CONSTANT_FOR_SLASH = "/";
+	public static final String SSO_SERVER_URL = Constants.pathString("SSO_SERVER_URL");
+	public static final String SSO_REALM_NAME = Constants.pathString("SSO_REALM_NAME");
+	public static final String SSO_CLIENT_ID = Constants.pathString("SSO_CLIENT_ID");
+	public static final String SSO_CLIENT_SECRET_ID = Constants.pathString("SSO_CLIENT_SECRET_ID");
+	public static final String SSO_USERNAME_SERVICE_ACCOUNT = Constants.pathString("SSO_USERNAME_SERVICE_ACCOUNT");
+	public static final String SSO_PASSWORD_SERVICE_ACCOUNT = Constants.pathString("SSO_PASSWORD_SERVICE_ACCOUNT");
+
 
 	@Autowired
 	private UserMasterService userMasterService;
@@ -52,10 +64,10 @@ public class MyProfileController extends AbstractPageController {
 
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+
 //	@Autowired
 //	private Keycloak keycloak;
-	
+
 //	@Autowired
 //	private UserResource userResource;
 //	
@@ -229,7 +241,7 @@ public class MyProfileController extends AbstractPageController {
 	@RequestMapping(value = "**/updatePassword", method = RequestMethod.POST)
 	public ModelAndView showUserRegistrationForm(
 			@ModelAttribute(MODEL_ATTRIBUTE_FOR_USER_MASTER) UserMaster userMasterDTO, BindingResult bindingResult,
-			HttpServletRequest request, ModelMap model) {
+			HttpServletRequest request, ModelMap model) throws Exception {
 		UserMaster userMasterFetchedFromSession = getUserMasterFromSession(request);
 		userMasterDTO.setUsername(userMasterFetchedFromSession.getUsername());
 		userMasterDTO.setKcUserId(userMasterFetchedFromSession.getKcUserId());
@@ -241,11 +253,16 @@ public class MyProfileController extends AbstractPageController {
 				status = "Error occurred while updating password...";
 			}
 		}else {*/
-			if(KeycloakAdminClientApp.resetPassword(userMasterDTO)) {
-				status = "Password has been updated Successfully";
-			}else {
-				status = "Error occurred while updating password...";
-			}
+//			if(KeycloakAdminClientApp.resetPassword(userMasterDTO)) {
+//				status = "Password has been updated Successfully";
+//			}else {
+//				status = "Error occurred while updating password...";
+//			}
+//			if(KeycloakResetPasswordUtil.resetPassword(request,userMasterDTO)) {
+//				status = "Password has been updated Successfully";
+//			}else {
+//				status = "Error occurred while updating password...";
+//			}
 		/* } */
 		
 //		UserMaster userMasterFetchedFromSession = getUserMasterFromSession(request);
@@ -268,6 +285,23 @@ public class MyProfileController extends AbstractPageController {
 		 * return new ModelAndView( "redirect:" + request.getContextPath() +
 		 * "/myProfile/showChangePwdPage?status=" + status);
 		 */
+		
+		KeycloakSecurityContext session = (KeycloakSecurityContext)request.getAttribute(KeycloakSecurityContext.class.getName());
+		String url = SSO_SERVER_URL + CONSTANT_FOR_SLASH + "admin/realms" + CONSTANT_FOR_SLASH + SSO_REALM_NAME
+				+ CONSTANT_FOR_SLASH + "users" + CONSTANT_FOR_SLASH + userMasterDTO.getKcUserId() + CONSTANT_FOR_SLASH
+				+ "reset-password";
+		String jsonBody = "{\"type\":\"password\",\"value\":\""+userMasterDTO.getConfirmPassword()+"\",\"temporary\":\"false\"}";
+
+//		ClientRequest clientRequest = new ClientRequest(url);
+//		clientRequest.body("application/json", jsonBody);
+//		clientRequest.accept("application/json");
+//		clientRequest.header("Authorization", "Bearer " + session.getTokenString());
+//		ClientResponse clientresponse = clientRequest.put(String.class);
+//		String resp = (String) clientresponse.getEntity();
+//		Client client = ClientBuilder.newClient();
+		 Client client = ClientBuilder.newBuilder().build();
+		 WebTarget target = client.target(url);
+		 Response response = target.request().put(String.class);
 		return new ModelAndView(REDIRECT_URL_FOR_UPDATE_PASSWORD + status);
 	}
 

@@ -10,7 +10,8 @@
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
 <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
-<c:url value="/js/keycloak.js" var="kcjs" />
+<%-- <c:url value="/js/keycloak.js" var="kcjs" /> --%>
+<c:url value="/js/keycloak_8.0.1.js" var="kcjs" />
 <script src="${kcjs}"></script>
 <c:url value="/js/kc-sso.js" var="kcimpl" />
 <script src="${kcimpl}"></script>
@@ -29,8 +30,6 @@
 					<li><a href="/">Home</a></li>
 					<li><a href="#about">About</a></li>
 					<li class="active"><a href="/welcome">WecomePage</a></li>
-					<li><input type="button" value="Log Out" id="fLogOut"
-						class="btn btn-warning" onclick="performLogout()"></li>
 				</ul>
 			</div>
 		</div>

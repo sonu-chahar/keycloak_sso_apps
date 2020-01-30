@@ -301,7 +301,7 @@ public class MyProfileController extends AbstractPageController {
 //		Client client = ClientBuilder.newClient();
 		 Client client = ClientBuilder.newBuilder().build();
 		 WebTarget target = client.target(url);
-		 Response response = target.request().put(String.class);
+//		 Response response = target.request().put(String.class);
 		return new ModelAndView(REDIRECT_URL_FOR_UPDATE_PASSWORD + status);
 	}
 

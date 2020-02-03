@@ -249,8 +249,45 @@
 		</dependency>
 	</dependencies>
 
+	<profiles>
+
+		<profile>
+			<id>dev</id>
+			<properties>
+				<activatedProperties>dev</activatedProperties>
+				<warName>kc-security-app</warName>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>env</name>
+					<value>dev</value>
+				</property>
+			</activation>
+		</profile>
+
+		<profile>
+			<id>prod</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>prod</value>
+				</property>
+			</activation>
+			<properties>
+				<activatedProperties>prod</activatedProperties>
+				<warName>ndmc-app</warName>
+			</properties>
+		</profile>
+	</profiles>
 	<build>
-		<finalName>ndmc-app</finalName>
+		<finalName>${warName}</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

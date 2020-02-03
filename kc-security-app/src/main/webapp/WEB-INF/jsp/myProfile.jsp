@@ -679,7 +679,7 @@ jQuery('.denyNumber').keyup(function () {
 	if(this.value!=="" && !isNaN(this.value)){
     	alert("Name can't be a number!")
     }
-    this.value = this.value.replace(/[^a-z\.]/g,'');
+    this.value = this.value.replace(/[^a-zA-Z\s]/g,'');
     
 });
 </script>

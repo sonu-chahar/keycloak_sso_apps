@@ -1,5 +1,7 @@
 package com.keycloak.util;
 
-public class CustomJacksonProvider /* extends ResteasyJackson2Provider */  {
+import org.jboss.resteasy.plugins.providers.jackson.ResteasyJackson2Provider;
+
+public class CustomJacksonProvider  extends ResteasyJackson2Provider   {
 
 }

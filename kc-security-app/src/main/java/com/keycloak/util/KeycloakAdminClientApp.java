@@ -24,8 +24,8 @@ import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.keycloak.util.JsonSerialization;
-import org.springframework.context.annotation.PropertySource;
 
+import com.keycloak.controller.AbstractPageController;
 import com.keycloak.model.UserMaster;
 
 public class KeycloakAdminClientApp {
@@ -215,52 +215,38 @@ public class KeycloakAdminClientApp {
 		return tokenManager.getAccessTokenString();
 	}
 
-	public static boolean resetPassword(UserMaster userMaster) {
+	public static String resetPassword(UserMaster userMaster) {
 		if (serviceKeycloak == null) {
 			serviceKeycloak = connectServiceAccount();
 		}
-		// Get realm
 		RealmResource realmResource = serviceKeycloak.realm(SSO_REALM_NAME);
-		System.out.println(realmResource.toString());
+		System.out.println(realmResource);
 		UsersResource usersRessource = realmResource.users();
-		System.err.println(usersRessource.toString());
+		System.err.println(usersRessource);
 
 //		
 		System.out.println(userMaster);
-		Response response = null;
 		try {
-//			List<UserRepresentation> userList = realmResource.users().search("test-admin", null, null);
-
-			List<UserRepresentation> userList = usersRessource.list();
-			for (UserRepresentation user : userList) {
-
-				System.out.println("User Name: " + user.getUsername() + ", ID: " + user.getId() + ", Service :"
-						+ user.getServiceAccountClientId());
-			}
-//			UserRepresentation user1=new UserRepresentation();
-//			user1.setUsername("test-admin-1");
-//			user1.setFirstName("test-admin-1");
-//			user1.setLastName("test-admin-1");
-//			user1.setEmail("test33@test33.com");
-//			user1.setEnabled(true);
-//			user1.setRequiredActions(Collections.<String>emptyList());
-
-//			response =usersRessource.create(user1);
-//			System.out.println("Repsonse: " + response.getStatusInfo());
-//			System.out.println(response.getLocation());
-//			String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
-//
-//			System.out.printf("User created with userId: %s%n", userId);
 			UserResource userResource = usersRessource.get(userMaster.getKcUserId());
-//			UserResource userResource = usersRessource.get("e55f79cf-f75c-4628-9642-a5f73fff4800");
 			CredentialRepresentation passwordCred = new CredentialRepresentation();
 			passwordCred.setTemporary(false);
 			passwordCred.setType(CredentialRepresentation.PASSWORD);
 			passwordCred.setValue(userMaster.getConfirmPassword());
 			userResource.resetPassword(passwordCred);
-			return true;
+			return AbstractPageController.STATUS_FOR_UPDATE;
 		} catch (ClientErrorException e) {
-			handleClientErrorException(e);
+			e.printStackTrace();
+			Response response = e.getResponse();
+			try {
+				System.out.println("status: " + response.getStatus());
+				System.out.println("reason: " + response.getStatusInfo().getReasonPhrase());
+				Map error = JsonSerialization.readValue((ByteArrayInputStream) response.getEntity(), Map.class);
+				System.out.println("error: " + error.get("error"));
+				System.out.println("error_description: " + error.get("error_description"));
+				return (String) error.get("error_description");
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
 		} catch (Exception e) {
 			Throwable cause = e.getCause();
 			if (cause instanceof ClientErrorException) {
@@ -269,7 +255,7 @@ public class KeycloakAdminClientApp {
 				e.printStackTrace();
 			}
 		}
-		return false;
+		return AbstractPageController.STATUS_FOR_ERROR;
 	}
 
 	public static boolean resetPassword(UserResource userResource, UserMaster userMaster) {
@@ -354,8 +340,44 @@ public class KeycloakAdminClientApp {
 			Map error = JsonSerialization.readValue((ByteArrayInputStream) response.getEntity(), Map.class);
 			System.out.println("error: " + error.get("error"));
 			System.out.println("error_description: " + error.get("error_description"));
+
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	public static String updateUserRepresentation(UserMaster userMaster) {
+		if (serviceKeycloak == null) {
+			serviceKeycloak = connectServiceAccount();
+		}
+		// Get realm
+		RealmResource realmResource = serviceKeycloak.realm(SSO_REALM_NAME);
+		System.out.println(realmResource);
+		UsersResource usersRessource = realmResource.users();
+		System.err.println(usersRessource);
+
+//		
+		System.out.println(userMaster);
+//		Response response = null;
+		try {
+			UserResource userResource = usersRessource.get(userMaster.getKcUserId());
+			UserRepresentation userRepresentation = userResource.toRepresentation();
+			userRepresentation.setFirstName(userMaster.getFirstName());
+			userRepresentation.setLastName(userMaster.getLastName());
+			userRepresentation.setEmail(userMaster.getEmailId());
+			userRepresentation.setEnabled(userMaster.getIsActive());
+			userResource.update(userRepresentation);
+			return AbstractPageController.STATUS_FOR_UPDATE;
+		} catch (ClientErrorException e) {
+			handleClientErrorException(e);
+		} catch (Exception e) {
+			Throwable cause = e.getCause();
+			if (cause instanceof ClientErrorException) {
+				handleClientErrorException((ClientErrorException) cause);
+			} else {
+				e.printStackTrace();
+			}
+		}
+		return AbstractPageController.STATUS_FOR_ERROR;
 	}
 }

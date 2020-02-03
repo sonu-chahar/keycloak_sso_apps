@@ -46,6 +46,7 @@ public class HibernateConfig {
 	private String ENABLE_LAZY_LOAD_NO_TRANS;
 
 	@Bean
+//	@Profile("dev")
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName(DRIVER);
@@ -55,7 +56,9 @@ public class HibernateConfig {
 		return dataSource;
 	}
 
-//	public DataSource dataSource() {
+//	@Bean
+//	@Profile("prod")
+//	public DataSource jndiDataSource() {
 //		DataSource dataSource = null;
 //		System.out.println("value of datasource" + dataSource);
 //		try {

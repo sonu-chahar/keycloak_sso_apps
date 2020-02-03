@@ -6,20 +6,22 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 
 public class Constants {
-
 	public static String pathString(HttpServletRequest request) {
 
-		//For Tomcat 
+		// For Tomcat
 
-		String pathString = "http://" + request.getLocalName() + ":"
-				+ request.getLocalPort() + request.getContextPath() + "";
+		String pathString = "http://" + request.getLocalName() + ":" + request.getLocalPort() + request.getContextPath()
+				+ "";
 		/*
 		 * for Jboss
 		 */
-/*		 String pathString =
-		 "http://"+request.getLocalName()+request.getContextPath()+"";*/
+		/*
+		 * String pathString =
+		 * "http://"+request.getLocalName()+request.getContextPath()+"";
+		 */
 		return pathString;
 	}
+
 	public static String pathString(String property) {
 		Properties prop = new Properties();
 		try {

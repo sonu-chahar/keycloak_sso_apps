@@ -2,11 +2,14 @@ package com.keycloak.config;
 
 import java.util.Properties;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -46,7 +49,7 @@ public class HibernateConfig {
 	private String ENABLE_LAZY_LOAD_NO_TRANS;
 
 	@Bean
-//	@Profile("dev")
+	@Profile("dev")
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName(DRIVER);
@@ -56,33 +59,33 @@ public class HibernateConfig {
 		return dataSource;
 	}
 
-//	@Bean
-//	@Profile("prod")
-//	public DataSource jndiDataSource() {
-//		DataSource dataSource = null;
-//		System.out.println("value of datasource" + dataSource);
-//		try {
-//
-//			Context initialContex = new InitialContext();
-//			System.out.println("value of datasource" + dataSource);
-//
-//			dataSource = (DataSource) (initialContex.lookup("java:/ndmc_db"));
-//
-//			System.out.println("value of datasource" + dataSource);
-//
-//			if (dataSource != null) {
-//				dataSource.getConnection();
-//
-//			} else {
-//				dataSource = (DataSource) (initialContex.lookup("java:/ndmc_db"));
-//
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//		return dataSource;
-//	}
+	@Bean
+	@Profile("prod")
+	public DataSource jndiDataSource() {
+		DataSource dataSource = null;
+		System.out.println("value of datasource" + dataSource);
+		try {
+
+			Context initialContex = new InitialContext();
+			System.out.println("value of datasource" + dataSource);
+
+			dataSource = (DataSource) (initialContex.lookup("java:/ndmc_db"));
+
+			System.out.println("value of datasource" + dataSource);
+
+			if (dataSource != null) {
+				dataSource.getConnection();
+
+			} else {
+				dataSource = (DataSource) (initialContex.lookup("java:/ndmc_db"));
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return dataSource;
+	}
 
 	@Bean
 	public LocalSessionFactoryBean sessionFactory() {

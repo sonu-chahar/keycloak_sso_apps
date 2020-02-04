@@ -31,7 +31,8 @@
 					key="label.personalInformation.firstName" />
 			</label>
 			<div class="col-sm-3 required">
-				<form:input id="fFirstName" path="firstName" cssClass="form-control denyNumber" />
+				<form:input id="fFirstName" path="firstName"
+					cssClass="form-control denyNumber" />
 				*
 				<form:errors path="firstName" cssClass="error" />
 			</div>
@@ -39,7 +40,8 @@
 					key="label.personalInformation.lastName" />
 			</label>
 			<div class="col-sm-3 required">
-				<form:input id="fLastName" path="lastName" cssClass="form-control denyNumber" />
+				<form:input id="fLastName" path="lastName"
+					cssClass="form-control denyNumber" />
 				*
 				<form:errors path="lastName" cssClass="error" />
 			</div>
@@ -110,13 +112,14 @@
 					</option>
 					<%-- <form:input id="fCountry" path="country" maxlength="100"
 					class="form-control" /> --%>
-				</form:select> *
+				</form:select>
+				*
 				<form:errors path="country" cssClass="error" />
 			</div>
-			
+
 		</div>
 		<div class="form-group form-group-sm">
-		<label class="col-sm-3 control-label label-inn"> <fmt:message
+			<label class="col-sm-3 control-label label-inn"> <fmt:message
 					key="label.personalInformation.state" />
 			</label>
 			<div class="col-sm-3 required">
@@ -139,7 +142,7 @@
 				*
 				<form:errors path="city" cssClass="error" />
 			</div>
-			
+
 		</div>
 		<div class="form-group form-group-sm">
 			<label class="col-sm-3 control-label label-inn"><fmt:message
@@ -271,12 +274,19 @@
 				</div>
 			</div>
 		</div>
-
+		<div class="form-group form-group-sm" id="fOtpDiv">
+			<label class="col-sm-3 control-label label-inn"> Enter OTP </label>
+			<div class="col-sm-3">
+				<input id="fOtp" name="otp" class="form-control" />
+			</div>
+		</div>
 
 
 		<div class="form-group form-group-sm">
-			<label class="col-sm-3 control-label label-inn">&nbsp; </label> <input
-				type="button" name="RemoveImage" value="Remove Image"
+			<label class="col-sm-3 control-label label-inn">&nbsp; </label><input
+				type="button" name="generateOtp" value="Generate Otp"
+				id="bGenerateOtp" class="btn btn-warning" onclick="generateOtp()" />
+			<input type="button" name="RemoveImage" value="Remove Image"
 				id="removeImage" class="btn btn-warning" onclick="clearImage()" />&nbsp;&nbsp;
 			<input type="submit" name="" value="Update" id="btnSave"
 				class="btn btn-warning" /> &nbsp;&nbsp;
@@ -574,10 +584,25 @@ function isNumberKey(evt) {
 }
 </script>
 <script>
+function generateOtp(){
+	if(${userMaster ne null}){
+		if("${userMaster.mobileNumber}"!=$("#mobileNumber").val() ){
+			var effUrl='http://192.168.10.215:8080/kc-security-app/myProfile/generateOtp'+'/'
+			+$("#fMobileNumber").val();
+			$.get(effUrl, function(data, status){
+			  alert("Data: " + data + "\nStatus: " + status);
+			});
+		}
+	}
+} 
 $(document).ready(function() {
 	populateCountries("fCountry", "fState");
 	if("${userMaster.imageName}"==""){
 		alert("Kindly complete your profile to proceed further");
+	}
+	$("#fOtpDiv").hide();
+	if(${userMaster ne null} && ${userMaster.isPhoneVerified ne null } && ${userMaster.isPhoneVerified eq true }){
+		$("#bGenerateOtp").hide();
 	}
 	
 	/* if("${userMaster ne null}"){
@@ -672,7 +697,7 @@ $(document).ready(function() {
 	if(${userMaster.fileExtension ne null}){
 		$("#fileExtension").val('${userMaster.fileExtension}');
 	}
-});
+}); 
 
 jQuery('.denyNumber').keyup(function () { 
     //this.value = this.value.replace(/[^0-9\.]/g,'');

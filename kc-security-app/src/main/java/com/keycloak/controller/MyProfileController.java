@@ -7,16 +7,25 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.io.FileDeleteStrategy;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -29,6 +38,8 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.keycloak.model.OtpDTO;
 import com.keycloak.model.UserMaster;
 import com.keycloak.model.UserTypeMaster;
 import com.keycloak.service.GenServicein;
@@ -57,8 +68,8 @@ public class MyProfileController extends AbstractPageController {
 	@Autowired
 	private GenServicein<UserTypeMaster> genericUserTypeService;
 
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+//	@Autowired
+//	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 //	@Autowired
 //	private Keycloak keycloak;
@@ -262,5 +273,66 @@ public class MyProfileController extends AbstractPageController {
 		}
 
 		return remoteAddr;
+	}
+
+	@RequestMapping(value = "/generateOtp/{mobileNumber}")
+	@ResponseBody
+	@Produces(MediaType.APPLICATION_JSON)
+	public OtpDTO generateOtpStatusInJSON(@PathVariable("mobileNumber") String mobileNumber) {
+		char[] alphNum = "0123456789".toCharArray();
+		Random rnd = new Random();
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < 6; i++) {
+			sb.append(alphNum[rnd.nextInt(alphNum.length)]);
+		}
+		String generateOtp = sb.toString();
+
+		try {
+			HttpClient client = HttpClientBuilder.create().build();
+			HttpGet request = new HttpGet(
+					"http://sms.ndmc.gov.in/?SenderId=NDMCIT&Mobile=" + mobileNumber + "&message=" + generateOtp);
+			HttpResponse response = client.execute(request);
+
+			int responseCode = response.getStatusLine().getStatusCode();
+
+			System.out.println("**GET** request Url: " + request.getURI());
+			System.out.println("Response Code: " + responseCode);
+			System.out.println("Content:-\n");
+			HttpEntity httpEntity = response.getEntity();
+			String apiOutput = EntityUtils.toString(httpEntity);
+			ObjectMapper objectMapper = new ObjectMapper();
+			OtpDTO responseDTO = objectMapper.readValue(apiOutput, OtpDTO.class);
+			responseDTO.setData(responseDTO.getResponse().toString());
+			responseDTO.setStatus(responseDTO.getStatus());
+
+			// Lets see what we got from API
+			System.out.println(apiOutput); // <user id="10"><firstName>demo</firstName><lastName>user</lastName></user>
+
+//			// In realtime programming, you will need to convert this http response to some
+//			// java object to re-use it.
+//			// Lets see how to jaxb unmarshal the api response content
+//		        JAXBContext jaxbContext = JAXBContext.newInstance(OtpDTO.Response.class);
+//		        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+//		        OtpDTO.Response responseDTO = (OtpDTO.Response) jaxbUnmarshaller.unmarshal(new StringReader(apiOutput));
+//			BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+//
+//			String line = "";
+//			while ((line = rd.readLine()) != null) {
+//				System.out.println(line);
+//			}
+
+			return responseDTO;
+
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (UnsupportedOperationException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		OtpDTO otpDTO=new OtpDTO();
+		otpDTO.setData("error occured while sending otp!!!");
+		otpDTO.setStatus("0");
+		return new OtpDTO();
 	}
 }

@@ -28,21 +28,7 @@ public class UserMaster implements Serializable {
 	private String fatherName;
 	private String dateOfBirth;
 	private String emailId;
-	@Override
-	public String toString() {
-		return "UserMaster [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", fatherName="
-				+ fatherName + ", dateOfBirth=" + dateOfBirth + ", emailId=" + emailId + ", mobileNumber="
-				+ mobileNumber + ", gender=" + gender + ", locality=" + locality + ", city=" + city + ", state=" + state
-				+ ", country=" + country + ", pinCode=" + pinCode + ", userType=" + userType + ", adharCardNumber="
-				+ adharCardNumber + ", voterIdNumber=" + voterIdNumber + ", passportNumber=" + passportNumber
-				+ ", waterConsumerNumber=" + waterConsumerNumber + ", electricityConsumerNumber="
-				+ electricityConsumerNumber + ", propertyId=" + propertyId + ", estatePropertyId=" + estatePropertyId
-				+ ", username=" + username + ", password=" + password + ", confirmPassword=" + confirmPassword
-				+ ", isActive=" + isActive + ", imageName=" + imageName + ", fileExtension=" + fileExtension
-				+ ", imageFile=" + imageFile + ", isSSOUserCreated=" + isSSOUserCreated + ", tempPassword="
-				+ tempPassword + ", kcUserId=" + kcUserId + ", userIpAddress=" + userIpAddress + "]";
-	}
-
+	private Boolean isPhoneVerified;
 	private String mobileNumber;
 	private String gender;
 	private String locality;
@@ -369,5 +355,30 @@ public class UserMaster implements Serializable {
 
 	public void setUserIpAddress(String userIpAddress) {
 		this.userIpAddress = userIpAddress;
+	}
+
+	@Column(name = "isPhoneVerified")
+	public Boolean getIsPhoneVerified() {
+		return isPhoneVerified;
+	}
+
+	public void setIsPhoneVerified(Boolean isPhoneVerified) {
+		this.isPhoneVerified = isPhoneVerified;
+	}
+
+	@Override
+	public String toString() {
+		return "UserMaster [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", fatherName="
+				+ fatherName + ", dateOfBirth=" + dateOfBirth + ", emailId=" + emailId + ", mobileNumber="
+				+ mobileNumber + ", gender=" + gender + ", locality=" + locality + ", city=" + city + ", state=" + state
+				+ ", country=" + country + ", pinCode=" + pinCode + ", userType=" + userType + ", adharCardNumber="
+				+ adharCardNumber + ", voterIdNumber=" + voterIdNumber + ", passportNumber=" + passportNumber
+				+ ", waterConsumerNumber=" + waterConsumerNumber + ", electricityConsumerNumber="
+				+ electricityConsumerNumber + ", propertyId=" + propertyId + ", estatePropertyId=" + estatePropertyId
+				+ ", username=" + username + ", password=" + password + ", confirmPassword=" + confirmPassword
+				+ ", isActive=" + isActive + ", imageName=" + imageName + ", fileExtension=" + fileExtension
+				+ ", imageFile=" + imageFile + ", isSSOUserCreated=" + isSSOUserCreated + ", tempPassword="
+				+ tempPassword + ", kcUserId=" + kcUserId + ", userIpAddress=" + userIpAddress + ", isPhoneVerified="
+				+ isPhoneVerified + "]";
 	}
 }

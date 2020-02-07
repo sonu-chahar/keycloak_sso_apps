@@ -9,8 +9,7 @@
 	UserMaster user = (UserMaster) request.getSession(false).getAttribute("userMaster");
 
 	if (user != null) {
-		String imageUrl = "myProfile/getImage/" + user.getMobileNumber() + "/" + user.getImageName() + "/"
-				+ user.getFileExtension();
+		String imageUrl = "myProfile/getImage/" + user.getMobileNumber() + "/" + user.getImageName() + "/"+ user.getFileExtension();
 		request.setAttribute("imageUrl", imageUrl);
 	}
 %>
@@ -285,7 +284,7 @@
 		<div class="form-group form-group-sm">
 			<label class="col-sm-3 control-label label-inn">&nbsp; </label><input
 				type="button" name="generateOtp" value="Generate Otp"
-				id="bGenerateOtp" class="btn btn-warning" onclick="generateOtp()" />
+				id="bGenerateOtp" class="btn btn-warning" onclick="generateOtpFn()" />
 			<input type="button" name="RemoveImage" value="Remove Image"
 				id="removeImage" class="btn btn-warning" onclick="clearImage()" />&nbsp;&nbsp;
 			<input type="submit" name="" value="Update" id="btnSave"
@@ -503,7 +502,12 @@ function validate(){
 		$("#fAdharCardNumber").focus();
 		return false;
 	}
-//	$("#fAdharCardNumber").val($("#fAdharCardNumber").trim());
+	//for OTP
+	if (${userMaster ne null} && ((${userMaster.isPhoneVerified ne null } && ${userMaster.isPhoneVerified eq false }) || ${userMaster.isPhoneVerified eq null }) && "${userMaster.mobileNumber}"!=$("#fMobileNumber").val() && ($("#fOtp").val() == "" || $("#fOtp").val().length<6)) {
+		alert("Please enter a valid OTP!");
+		$("#fOtp").focus();
+		return false;
+	}
 	
 	//for VoterIdNumber
 /* 	if ($("#fVoterIdNumber").val() == "") {
@@ -566,42 +570,74 @@ function validate(){
 		$("#fUsername").focus();
 		return false;
 	}
-			var file_size = $('#file')[0].files[0].size;
-			if(file_size>50000) {
-				alert("File size should not be greater than 50kb!");
-				return false;
-			} 
+	var file_size = $('#file')[0].files[0].size;
+	if(file_size>50000) {
+		alert("File size should not be greater than 50kb!");
+		return false;
+	} 
 		
 }
-function isNumberKey(evt) {
+
+function isNumberKeyMobileNumber(evt) {
 	var charCode = (evt.which) ? evt.which : event.keyCode;
-	if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+	if (charCode > 31 && (charCode< 48 || charCode >57)) {
 		alert("Phone Number must be a number !");
-		$("#Basic").focus();
+		return false;
+	}
+	return true;
+}
+
+function isNumberKeyCPincode(evt) {
+	var charCode = (evt.which) ? evt.which : event.keyCode;
+	if (charCode > 31 && (charCode< 48 || charCode >57)) {
+		alert("Pincode must be a number !");
+		return false;
+	}
+	return true;
+}
+
+function isNumberKeyAdharCardNumber(evt) {
+	var charCode = (evt.which) ? evt.which : event.keyCode;
+	if (charCode > 31 && (charCode< 48 || charCode >57)) {
+		alert("AdharCardNumber must be a number !");
 		return false;
 	}
 	return true;
 }
 </script>
 <script>
-function generateOtp(){
+function generateOtpFn(){
+	//alert("sadf")
 	if(${userMaster ne null}){
-		if("${userMaster.mobileNumber}"!=$("#mobileNumber").val() ){
-			var effUrl='http://192.168.10.215:8080/kc-security-app/myProfile/generateOtp'+'/'
-			+$("#fMobileNumber").val();
+		if("${userMaster.isPhoneVerified}"!="true" ||  "${userMaster.mobileNumber}" != $("#fMobileNumber").val()){
+			//var effUrl='http://172.16.200.195:8080/ndmc-app/myProfile/generateOtp'+'/'+$("#fMobileNumber").val();
+			var effUrl='http://192.168.10.215:8080/kc-security-app/myProfile/generateOtp'+'/'+$("#fMobileNumber").val();
+			//alert(effUrl);
 			$.get(effUrl, function(data, status){
-			  alert("Data: " + data + "\nStatus: " + status);
+			 // alert("Data: " + data + "\nStatus: " + status);
 			});
+			$("#fOtpDiv").show();
 		}
 	}
 } 
+
 $(document).ready(function() {
+	$("#fMobileNumber").blur(function(){
+//		  alert("This input field has lost its focus.");
+		  if("${userMaster.mobileNumber}" == $("#fMobileNumber").val() &&"${userMaster.isPhoneVerified}"!="true"  ){
+//			  alert("This input field has lost its focus.");
+			  $("#bGenerateOtp").hide();
+		  }else{
+			  $("#bGenerateOtp").show();
+		  }
+	});
 	populateCountries("fCountry", "fState");
 	if("${userMaster.imageName}"==""){
 		alert("Kindly complete your profile to proceed further");
 	}
 	$("#fOtpDiv").hide();
-	if(${userMaster ne null} && ${userMaster.isPhoneVerified ne null } && ${userMaster.isPhoneVerified eq true }){
+	
+	if(${userMaster ne null} && (${userMaster.isPhoneVerified ne null } && ${userMaster.isPhoneVerified eq true }) || ${userMaster.isPhoneVerified eq null }){
 		$("#bGenerateOtp").hide();
 	}
 	

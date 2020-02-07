@@ -20,10 +20,12 @@ public abstract class AbstractPageController {
 	public static final String MODEL_ATTRIBUTE_MESSAGE = "message";
 	public static final String REQUEST_ATTRIBUTE_STATUS = "status";
 	public static final String MODEL_ATTRIBUTE_FOR_USER_MASTER = "userMasterDTO";
+	public static final String MODEL_ATTRIBUTE_FOR_APPLICATION_MASTER_MAPPING = "applicationMasterDTO";
 
 	public static final String REDIRECT_URL_FOR_REGISTRATION = "redirect:/registration/showRegistrationPage?status=";
 	public static final String REDIRECT_URL_FOR_PROFILE = "redirect:/myProfile/showProfile?status=";
 	public static final String REDIRECT_URL_FOR_UPDATE_PASSWORD = "redirect:/myProfile/showChangePwdPage?status=";
+	public static final String REDIRECT_URL_FOR_APPLICATION_MASTER_MAPPING = "redirect:/myProfile/addOrUpdateApplicationMapping?status=";
 
 	public static final String CLASSNAME_FOR_MESSAGE = "User";
 

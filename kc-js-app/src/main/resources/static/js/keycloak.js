@@ -1667,7 +1667,7 @@ function checkLoginDetails(){
 }
 function userDetails(user){
 	  console.log(JSON.stringify(user));
-	  if(user.fatherName == undefined){
+	  if(user.isPhoneVerified == undefined){
 		/*  $(location).attr('href', 'http://172.16.200.195:8080/ndmc-app/viewHomePage')*/
 		  $(location).attr('href', 'http://192.168.10.215:8080/kc-security-app/viewHomePage')
 	  }

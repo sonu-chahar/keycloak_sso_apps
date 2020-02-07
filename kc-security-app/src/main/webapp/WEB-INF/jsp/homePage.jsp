@@ -14,7 +14,7 @@
 						<div class="col-sm-2">
 							<div class="base hvr-float-shadow">
 								<div class="circle bg-circle1">
-									<img src="images/icons/my-profile.png">
+									<img src="<%=request.getContextPath()%>/images/icons/my-profile.png">
 								</div>
 								<h2>
 									<a href="http://uat.ndmc.gov.in/yellow"> YELLOW FEVER</a>
@@ -24,7 +24,7 @@
 						<div class="col-sm-2">
 							<div class="base hvr-float-shadow"> 
 								<div class="circle bg8-circle">
-									<img src="images/icons/certificate-request.png">
+									<img src="<%=request.getContextPath()%>/images/icons/certificate-request.png">
 								</div>
 								<h2>
 									<a href="http://uat.ndmc.gov.in/bnd"> Birth Certificate</a>

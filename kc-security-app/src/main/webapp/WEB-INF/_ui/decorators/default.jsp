@@ -119,6 +119,8 @@
 					href="<%=request.getContextPath()%>/myProfile/showChangePwdPage"
 					class="hvr-shutter-in-vertical"><i class="fa fa-fw fa-key"></i>
 						Change Password </a></li>
+				<li><a href="<%=request.getContextPath()%>/myProfile/addOrUpdateApplicationMapping" class="hvr-shutter-in-vertical"><i
+						class="fa fa-fw fa-cog"></i> Add application </a></li>
 				<li><a href="#" class="hvr-shutter-in-vertical"><i
 						class="fa fa-fw fa-cog"></i> Account Setting </a></li>
 

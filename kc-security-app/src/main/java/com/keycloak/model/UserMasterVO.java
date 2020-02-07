@@ -17,6 +17,7 @@ public class UserMasterVO {
 	private Integer pinCode;
 	private String userType;
 	private String kcUserId;
+	private Boolean isPhoneVerified;
 
 	public String getUsername() {
 		return username;
@@ -136,5 +137,13 @@ public class UserMasterVO {
 
 	public void setKcUserId(String kcUserId) {
 		this.kcUserId = kcUserId;
+	}
+
+	public Boolean getIsPhoneVerified() {
+		return isPhoneVerified;
+	}
+
+	public void setIsPhoneVerified(Boolean isPhoneVerified) {
+		this.isPhoneVerified = isPhoneVerified;
 	}
 }

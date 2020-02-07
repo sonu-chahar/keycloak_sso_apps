@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -39,6 +40,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.keycloak.model.ApplicationMaster;
 import com.keycloak.model.OtpDTO;
 import com.keycloak.model.UserMaster;
 import com.keycloak.model.UserTypeMaster;
@@ -53,6 +55,7 @@ public class MyProfileController extends AbstractPageController {
 
 	private static final String VIEW_NAME_FOR_PROFILE = "myProfile";
 	private static final String VIEW_NAME_FOR_UPDATE_PASSWORD = "changePasswordPage";
+	private static final String VIEW_NAME_FOR_ADD_APPLICATION = "addApplication";
 
 	public static final String CONSTANT_FOR_SLASH = "/";
 	public static final String SSO_SERVER_URL = Constants.pathString("SSO_SERVER_URL");
@@ -105,6 +108,11 @@ public class MyProfileController extends AbstractPageController {
 			BindingResult result, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		LOGGER.debug("Received request to update user");
 		String status = BLANK_STRING;
+		String otp = request.getParameter("otp");
+		if (StringUtils.isNotEmpty(otp) && otp.equals(request.getSession(false).getAttribute("generatedOtp"))) {
+			userMasterDTO.setIsPhoneVerified(true);
+			request.getSession(false).removeAttribute("generatedOtp");
+		}
 
 		try {
 			UserMaster oldUserMaster = (UserMaster) request.getSession(false)
@@ -114,7 +122,12 @@ public class MyProfileController extends AbstractPageController {
 			userMasterDTO.setId(oldUserMaster.getId());
 			userMasterDTO.setKcUserId(oldUserMaster.getKcUserId());
 			userMasterDTO.setIsActive(true);
-			status = KeycloakAdminClientApp.updateUserRepresentation(userMasterDTO);
+			if ((!oldUserMaster.getFirstName().equals(userMasterDTO.getFirstName()))
+					|| (!oldUserMaster.getLastName().equals(userMasterDTO.getLastName()))
+					|| (!oldUserMaster.getEmailId().equals(userMasterDTO.getEmailId()))) {
+				status = KeycloakAdminClientApp.updateUserRepresentation(userMasterDTO);
+			}
+
 			if (STATUS_FOR_ERROR.equals(status)) {
 				return new ModelAndView(REDIRECT_URL_FOR_PROFILE + status);
 			}
@@ -142,7 +155,6 @@ public class MyProfileController extends AbstractPageController {
 			status = STATUS_FOR_ERROR;
 		}
 		request.getSession(false).setAttribute(SESSION_ATTRIBTE_FOR_USER_MASTER, userMasterDTO);
-//		return new ModelAndView("redirect:" + request.getContextPath() + "/myProfile/showProfile?status=" + status);
 		return new ModelAndView(REDIRECT_URL_FOR_PROFILE + status);
 	}
 
@@ -250,9 +262,8 @@ public class MyProfileController extends AbstractPageController {
 	}
 
 	@RequestMapping(value = "**/updatePassword", method = RequestMethod.POST)
-	public ModelAndView showUpdatePasswordPage(
-			@ModelAttribute(MODEL_ATTRIBUTE_FOR_USER_MASTER) UserMaster userMasterDTO, BindingResult bindingResult,
-			HttpServletRequest request, ModelMap model) throws Exception {
+	public ModelAndView updatePassword(@ModelAttribute(MODEL_ATTRIBUTE_FOR_USER_MASTER) UserMaster userMasterDTO,
+			BindingResult bindingResult, HttpServletRequest request, ModelMap model) throws Exception {
 		UserMaster userMasterFetchedFromSession = getUserMasterFromSession(request);
 		userMasterDTO.setUsername(userMasterFetchedFromSession.getUsername());
 		userMasterDTO.setKcUserId(userMasterFetchedFromSession.getKcUserId());
@@ -278,27 +289,31 @@ public class MyProfileController extends AbstractPageController {
 	@RequestMapping(value = "/generateOtp/{mobileNumber}")
 	@ResponseBody
 	@Produces(MediaType.APPLICATION_JSON)
-	public OtpDTO generateOtpStatusInJSON(@PathVariable("mobileNumber") String mobileNumber) {
+	public OtpDTO generateOtpStatusInJSON(HttpServletRequest request,
+			@PathVariable("mobileNumber") String mobileNumber) {
 		char[] alphNum = "0123456789".toCharArray();
 		Random rnd = new Random();
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < 6; i++) {
 			sb.append(alphNum[rnd.nextInt(alphNum.length)]);
 		}
-		String generateOtp = sb.toString();
+		String generatedOtp = sb.toString();
+		request.getSession(false).setAttribute("generatedOtp", generatedOtp);
+		String generatedMsg = "Your OTP for registration in SSO App is " + generatedOtp;
 
 		try {
 			HttpClient client = HttpClientBuilder.create().build();
-			HttpGet request = new HttpGet(
-					"http://sms.ndmc.gov.in/?SenderId=NDMCIT&Mobile=" + mobileNumber + "&message=" + generateOtp);
-			HttpResponse response = client.execute(request);
+			@SuppressWarnings("deprecation")
+			HttpGet getRequest = new HttpGet("http://sms.ndmc.gov.in/?SenderId=NDMCIT&Mobile="
+					+ URLEncoder.encode(mobileNumber) + "&message=" + URLEncoder.encode(generatedMsg));
+			HttpResponse httpResponse = client.execute(getRequest);
 
-			int responseCode = response.getStatusLine().getStatusCode();
+			int responseCode = httpResponse.getStatusLine().getStatusCode();
 
-			System.out.println("**GET** request Url: " + request.getURI());
+			System.out.println("**GET** request Url: " + getRequest.getURI());
 			System.out.println("Response Code: " + responseCode);
 			System.out.println("Content:-\n");
-			HttpEntity httpEntity = response.getEntity();
+			HttpEntity httpEntity = httpResponse.getEntity();
 			String apiOutput = EntityUtils.toString(httpEntity);
 			ObjectMapper objectMapper = new ObjectMapper();
 			OtpDTO responseDTO = objectMapper.readValue(apiOutput, OtpDTO.class);
@@ -330,9 +345,35 @@ public class MyProfileController extends AbstractPageController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		OtpDTO otpDTO=new OtpDTO();
+		OtpDTO otpDTO = new OtpDTO();
 		otpDTO.setData("error occured while sending otp!!!");
 		otpDTO.setStatus("0");
 		return new OtpDTO();
+	}
+
+	@RequestMapping(value = "**/addOrUpdateApplicationMapping", method = RequestMethod.GET)
+	public ModelAndView showAddApplicationPage(
+			@ModelAttribute(MODEL_ATTRIBUTE_FOR_APPLICATION_MASTER_MAPPING) ApplicationMaster applicationMasterDTO,
+			HttpServletRequest request, ModelMap model) {
+		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE, getMessageAttributeForPage(request, CLASSNAME_FOR_MESSAGE));
+		model.addAttribute("applicationList", userMasterService.getApplicationList());
+		return new ModelAndView(VIEW_NAME_FOR_ADD_APPLICATION);
+	}
+
+	@RequestMapping(value = "**/addOrUpdateApplicationMapping", method = RequestMethod.POST)
+	public ModelAndView updateApplicationMapping(
+			@ModelAttribute(MODEL_ATTRIBUTE_FOR_APPLICATION_MASTER_MAPPING) ApplicationMaster applicationMasterDTO,
+			BindingResult bindingResult, HttpServletRequest request, ModelMap model) {
+		String status="";
+		String[] applicationIdsStr = request.getParameterValues("applicationsMapped");
+		if(applicationIdsStr!=null) {
+			for(int i=0;i<applicationIdsStr.length;i++) {
+				
+			}
+		}
+		String[] hiddenIds = request.getParameterValues("applicationMappingToBeRemoved");
+		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE, getMessageAttributeForPage(request, CLASSNAME_FOR_MESSAGE));
+		model.addAttribute("applicationList", userMasterService.getApplicationList());
+		return new ModelAndView(REDIRECT_URL_FOR_APPLICATION_MASTER_MAPPING + status);
 	}
 }

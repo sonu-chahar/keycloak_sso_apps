@@ -1,5 +1,7 @@
 package com.keycloak.service.impl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.keycloak.dao.GenDao;
 import com.keycloak.dao.UserMasterDao;
+import com.keycloak.model.ApplicationMaster;
 import com.keycloak.model.RoleMaster;
 import com.keycloak.model.UserMaster;
 import com.keycloak.service.UserMasterService;
@@ -45,5 +48,15 @@ public class UserMasterServiceImpl extends GenericServiceImpl<UserMaster, Long> 
 		userMaster.setPassword(bCryptPasswordEncoder.encode(userMaster.getPassword()));
 		//userMaster.setRoles(new HashSet<>(genericRoleDao.getAllNew(RoleMaster.class)));
 		return userMasterDao.saveUser(userMaster);
+	}
+
+	@Override
+	public List<ApplicationMaster> getApplicationListByUserId(Long userId) {
+		return userMasterDao.getApplicationListByUserId(userId);
+	}
+
+	@Override
+	public List<ApplicationMaster> getApplicationList() {
+		return userMasterDao.getApplicationList();
 	}
 }

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE xml>
-<jboss-web>
-	<!-- <context-root>ndmc-app</context-root> -->
-	<!-- <context-root>kc-security-app-1</context-root> -->
-	<!-- <context-root>kc-security-app-2</context-root> -->
-	<context-root>kc-security-app</context-root>
-</jboss-web>

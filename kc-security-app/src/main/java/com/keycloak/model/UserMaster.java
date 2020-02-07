@@ -28,7 +28,6 @@ public class UserMaster implements Serializable {
 	private String fatherName;
 	private String dateOfBirth;
 	private String emailId;
-	private Boolean isPhoneVerified;
 	private String mobileNumber;
 	private String gender;
 	private String locality;
@@ -58,6 +57,7 @@ public class UserMaster implements Serializable {
 	private String tempPassword;
 	private String kcUserId;
 	private String userIpAddress;
+	private Boolean isPhoneVerified;
 
 	// private Set<RoleMaster> roles;
 	@Column(name = "kcUserId")
@@ -301,7 +301,6 @@ public class UserMaster implements Serializable {
 		return imageFile;
 	}
 
-	@Transient
 	public void setImageFile(CommonsMultipartFile imageFile) {
 		this.imageFile = imageFile;
 	}

@@ -26,6 +26,7 @@ public abstract class AbstractPageController {
 	public static final String REDIRECT_URL_FOR_PROFILE = "redirect:/myProfile/showProfile?status=";
 	public static final String REDIRECT_URL_FOR_UPDATE_PASSWORD = "redirect:/myProfile/showChangePwdPage?status=";
 	public static final String REDIRECT_URL_FOR_APPLICATION_MASTER_MAPPING = "redirect:/myProfile/addOrUpdateApplicationMapping?status=";
+	public static final String REDIRECT_URL_FOR_APPLICATION_MASTER = "redirect:/myProfile/addOrUpdateApplicationMapping?status=";
 
 	public static final String CLASSNAME_FOR_MESSAGE = "User";
 

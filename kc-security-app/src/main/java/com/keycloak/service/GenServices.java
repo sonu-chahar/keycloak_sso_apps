@@ -87,4 +87,9 @@ public class GenServices<T> implements GenServicein<T> {
 		return null;
 	}
 
+	@Override
+	public void remove(Object object) {
+		genericDao.remove(object);
+	}
+
 }

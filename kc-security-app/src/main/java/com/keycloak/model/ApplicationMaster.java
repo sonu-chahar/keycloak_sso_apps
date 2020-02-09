@@ -10,6 +10,7 @@ import javax.persistence.Transient;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.directwebremoting.annotations.Param;
+import org.directwebremoting.annotations.RemoteProperty;
 import org.directwebremoting.hibernate.H4BeanConverter;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -29,6 +30,7 @@ public class ApplicationMaster {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "pk_applicationMaster")
+	@RemoteProperty
 	public Integer getId() {
 		return id;
 	}
@@ -38,6 +40,7 @@ public class ApplicationMaster {
 	}
 
 	@Column(name = "applicationDisplayName")
+	@RemoteProperty
 	public String getApplicationDisplayName() {
 		return applicationDisplayName;
 	}
@@ -47,6 +50,7 @@ public class ApplicationMaster {
 	}
 
 	@Column(name = "applicationUrl")
+	@RemoteProperty
 	public String getApplicationUrl() {
 		return applicationUrl;
 	}
@@ -56,6 +60,7 @@ public class ApplicationMaster {
 	}
 
 	@Column(name = "isActive")
+	@RemoteProperty
 	public Boolean getIsActive() {
 		return isActive;
 	}
@@ -65,6 +70,7 @@ public class ApplicationMaster {
 	}
 
 	@Column(name = "applicationLanguage")
+	@RemoteProperty
 	public String getApplicationLanguage() {
 		return applicationLanguage;
 	}
@@ -74,6 +80,7 @@ public class ApplicationMaster {
 	}
 
 	@Column(name = "logoImageName")
+	@RemoteProperty
 	public String getLogoImageName() {
 		return logoImageName;
 	}
@@ -83,6 +90,7 @@ public class ApplicationMaster {
 	}
 
 	@Column(name = "logoImageExtension")
+	@RemoteProperty
 	public String getLogoImageExtension() {
 		return logoImageExtension;
 	}

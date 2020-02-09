@@ -68,6 +68,8 @@ public interface GenDao<T> {
 	 */
 	void remove(Integer id);
 
+	void remove(Object object);
+
 	/**
 	 * Gets all records without duplicates.
 	 * <p>
@@ -107,7 +109,7 @@ public interface GenDao<T> {
 	 * @param value
 	 * @return
 	 */
-	public List<T> findValuesByColumn(String columnName, Serializable value ,Class<T> type);
+	public List<T> findValuesByColumn(String columnName, Serializable value, Class<T> type);
 
 	/**
 	 * 
@@ -115,7 +117,7 @@ public interface GenDao<T> {
 	 * @param value
 	 * @return
 	 */
-	public List<T> findValuesByColumns(String[] columns, Serializable[] value,Class<T> type);
+	public List<T> findValuesByColumns(String[] columns, Serializable[] value, Class<T> type);
 
 	public void flushSession();
 

@@ -37,9 +37,10 @@ public class GenDaoClass<T> implements GenDao<T> {
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	public T save(T object) {
 		// TODO Auto-generated method stub
-		return null;
+		return (T) getCurrentSession().merge(object);
 	}
 
 	public void remove(Integer id) {
@@ -96,6 +97,11 @@ public class GenDaoClass<T> implements GenDao<T> {
 	public T get(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void remove(Object object) {
+		 getCurrentSession().delete(object);
 	}
 
 }

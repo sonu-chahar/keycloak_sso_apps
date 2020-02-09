@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -42,6 +44,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.keycloak.model.ApplicationMaster;
 import com.keycloak.model.OtpDTO;
+import com.keycloak.model.UserApplicationMapping;
 import com.keycloak.model.UserMaster;
 import com.keycloak.model.UserTypeMaster;
 import com.keycloak.service.GenServicein;
@@ -70,6 +73,9 @@ public class MyProfileController extends AbstractPageController {
 
 	@Autowired
 	private GenServicein<UserTypeMaster> genericUserTypeService;
+
+	@Autowired
+	private GenServicein<UserApplicationMapping> genericUserApplicationMappingService;
 
 //	@Autowired
 //	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -303,9 +309,9 @@ public class MyProfileController extends AbstractPageController {
 
 		try {
 			HttpClient client = HttpClientBuilder.create().build();
-			@SuppressWarnings("deprecation")
 			HttpGet getRequest = new HttpGet("http://sms.ndmc.gov.in/?SenderId=NDMCIT&Mobile="
-					+ URLEncoder.encode(mobileNumber) + "&message=" + URLEncoder.encode(generatedMsg));
+					+ URLEncoder.encode(mobileNumber, StandardCharsets.UTF_8.toString()) + "&message="
+					+ URLEncoder.encode(generatedMsg, StandardCharsets.UTF_8.toString()));
 			HttpResponse httpResponse = client.execute(getRequest);
 
 			int responseCode = httpResponse.getStatusLine().getStatusCode();
@@ -320,21 +326,7 @@ public class MyProfileController extends AbstractPageController {
 			responseDTO.setData(responseDTO.getResponse().toString());
 			responseDTO.setStatus(responseDTO.getStatus());
 
-			// Lets see what we got from API
-			System.out.println(apiOutput); // <user id="10"><firstName>demo</firstName><lastName>user</lastName></user>
-
-//			// In realtime programming, you will need to convert this http response to some
-//			// java object to re-use it.
-//			// Lets see how to jaxb unmarshal the api response content
-//		        JAXBContext jaxbContext = JAXBContext.newInstance(OtpDTO.Response.class);
-//		        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-//		        OtpDTO.Response responseDTO = (OtpDTO.Response) jaxbUnmarshaller.unmarshal(new StringReader(apiOutput));
-//			BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-//
-//			String line = "";
-//			while ((line = rd.readLine()) != null) {
-//				System.out.println(line);
-//			}
+			System.out.println(apiOutput);
 
 			return responseDTO;
 
@@ -352,10 +344,10 @@ public class MyProfileController extends AbstractPageController {
 	}
 
 	@RequestMapping(value = "**/addOrUpdateApplicationMapping", method = RequestMethod.GET)
-	public ModelAndView showAddApplicationPage(
+	public ModelAndView showApplicationMappingPage(
 			@ModelAttribute(MODEL_ATTRIBUTE_FOR_APPLICATION_MASTER_MAPPING) ApplicationMaster applicationMasterDTO,
 			HttpServletRequest request, ModelMap model) {
-		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE, getMessageAttributeForPage(request, CLASSNAME_FOR_MESSAGE));
+		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE, getMessageAttributeForPage(request, "ApplicationMapping"));
 		model.addAttribute("applicationList", userMasterService.getApplicationList());
 		return new ModelAndView(VIEW_NAME_FOR_ADD_APPLICATION);
 	}
@@ -364,16 +356,30 @@ public class MyProfileController extends AbstractPageController {
 	public ModelAndView updateApplicationMapping(
 			@ModelAttribute(MODEL_ATTRIBUTE_FOR_APPLICATION_MASTER_MAPPING) ApplicationMaster applicationMasterDTO,
 			BindingResult bindingResult, HttpServletRequest request, ModelMap model) {
-		String status="";
-		String[] applicationIdsStr = request.getParameterValues("applicationsMapped");
-		if(applicationIdsStr!=null) {
-			for(int i=0;i<applicationIdsStr.length;i++) {
-				
+		Long userId = getUserMasterFromSession(request).getId();
+		String status = BLANK_STRING;
+		String columns[] = new String[] { "userMasterId"};
+		Serializable values[] = new Serializable[] { userId};
+		List<UserApplicationMapping> userApplicationMappingList = genericUserApplicationMappingService
+				.findValuesByColumns(columns, values, UserApplicationMapping.class);
+		if (userApplicationMappingList != null) {
+			for (int i = 0; i < userApplicationMappingList.size(); i++) {
+				genericUserApplicationMappingService.remove(userApplicationMappingList.get(i));
 			}
 		}
-		String[] hiddenIds = request.getParameterValues("applicationMappingToBeRemoved");
-		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE, getMessageAttributeForPage(request, CLASSNAME_FOR_MESSAGE));
-		model.addAttribute("applicationList", userMasterService.getApplicationList());
+		String[] applicationIdsStr = request.getParameterValues("applicationsMapped");
+		if (applicationIdsStr != null) {
+			for (int i = 0; i < applicationIdsStr.length; i++) {
+				UserApplicationMapping userApplicationMapping = new UserApplicationMapping(userId,
+						Integer.parseInt(applicationIdsStr[i]));
+				userApplicationMapping = genericUserApplicationMappingService.save(userApplicationMapping);
+				if (userApplicationMapping.getId() != null) {
+					status = STATUS_FOR_SUCCESS;
+				} else {
+					status = STATUS_FOR_ERROR;
+				}
+			}
+		}
 		return new ModelAndView(REDIRECT_URL_FOR_APPLICATION_MASTER_MAPPING + status);
 	}
 }

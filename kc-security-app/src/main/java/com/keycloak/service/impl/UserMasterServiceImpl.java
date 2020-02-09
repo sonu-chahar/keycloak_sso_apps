@@ -13,6 +13,7 @@ import com.keycloak.dao.GenDao;
 import com.keycloak.dao.UserMasterDao;
 import com.keycloak.model.ApplicationMaster;
 import com.keycloak.model.RoleMaster;
+import com.keycloak.model.UserApplicationMapping;
 import com.keycloak.model.UserMaster;
 import com.keycloak.service.UserMasterService;
 

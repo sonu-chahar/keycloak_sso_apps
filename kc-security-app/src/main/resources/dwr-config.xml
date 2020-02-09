@@ -26,6 +26,6 @@
 	</bean>
 
 	<dwr:annotation-config />
-	<dwr:annotation-scan base-package="com.chahar"
+	<dwr:annotation-scan base-package="com.keycloak"
 		scanDataTransferObject="true" scanRemoteProxy="true" />
 </beans>

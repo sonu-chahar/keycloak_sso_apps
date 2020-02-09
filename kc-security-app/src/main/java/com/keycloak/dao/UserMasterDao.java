@@ -14,5 +14,4 @@ public interface UserMasterDao extends GenericDao<UserMaster, Long> {
 	public List<ApplicationMaster> getApplicationListByUserId(Long userId);
 
 	public List<ApplicationMaster> getApplicationList();
-
 }

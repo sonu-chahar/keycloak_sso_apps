@@ -62,8 +62,8 @@ public class CommonDecorator extends TableDecorator {
 
 	protected UserMaster getUser() {
 		UserMaster user = null;
-		if (getPageContext().getSession().getAttribute("user") != null) {
-			user = (UserMaster) getPageContext().getSession().getAttribute("user");
+		if (getPageContext().getSession().getAttribute("userMaster") != null) {
+			user = (UserMaster) getPageContext().getSession().getAttribute("userMaster");
 		}
 		return user;
 	}

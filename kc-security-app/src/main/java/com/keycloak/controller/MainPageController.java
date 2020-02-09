@@ -4,22 +4,23 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.keycloak.KeycloakSecurityContext;
-import org.keycloak.representations.IDToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.keycloak.model.UserMaster;
+import com.keycloak.service.UserMasterService;
 
 @Controller
 public class MainPageController extends AbstractPageController {
 
 	private final HttpServletRequest request;
 	private static final String VIEW_NAME_HOME_PAGE = "homePage";
+
+	@Autowired
+	private UserMasterService userMasterService;
 
 	@Autowired
 	public MainPageController(HttpServletRequest request) {
@@ -76,6 +77,7 @@ public class MainPageController extends AbstractPageController {
 			return new ModelAndView(REDIRECT_URL_FOR_PROFILE, model);
 		}
 		model.addAttribute(SESSION_ATTRIBTE_FOR_USER_MASTER, userMaster);
+		model.addAttribute("applicationList", userMasterService.getApplicationListByUserId(userMaster.getId()));
 		return new ModelAndView(VIEW_NAME_HOME_PAGE, model);
 	}
 }

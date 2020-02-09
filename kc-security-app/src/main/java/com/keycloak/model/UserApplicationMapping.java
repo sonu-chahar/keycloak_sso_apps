@@ -17,6 +17,14 @@ import org.directwebremoting.hibernate.H4BeanConverter;
 public class UserApplicationMapping {
 	private Integer id;
 	private Long userMasterId;
+	public UserApplicationMapping() {
+	}
+
+	public UserApplicationMapping(Long userMasterId, Integer applicationId) {
+		this.userMasterId = userMasterId;
+		this.applicationId = applicationId;
+	}
+
 	private Integer applicationId;
 
 	@Id

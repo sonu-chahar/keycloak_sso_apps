@@ -3,32 +3,31 @@ package com.keycloak.service;
 import java.io.Serializable;
 import java.util.List;
 
-public interface GenServicein<T>  {
+public interface GenServicein<T> {
 
-    List<T> getAll();
- 
-    List<T> getAllNew(Class<T> type);
-    
-    public List<T> getAllDistinct();
-   
-    T get(Integer id);
-    
+	List<T> getAll();
 
-    T get(Class<T> clazz, Integer id);
+	List<T> getAllNew(Class<T> type);
 
-    boolean exists(Integer id);
+	public List<T> getAllDistinct();
 
-    T save(T object);
+	T get(Integer id);
 
-  
-    void remove(Integer id);
-    
+	T get(Class<T> clazz, Integer id);
 
-    public List<T> findValuesByColumn(String columnName, Serializable value,Class<T> type);
- 
-    public List<T> findValuesByColumns(String[]columns, Serializable []value,Class<T> type);
+	boolean exists(Integer id);
+
+	T save(T object);
+
+	public void remove(Integer id);
+
+	public void remove(Object object);
+
+	public List<T> findValuesByColumn(String columnName, Serializable value, Class<T> type);
+
+	public List<T> findValuesByColumns(String[] columns, Serializable[] value, Class<T> type);
 
 	public void persist(Object o);
-	
+
 	public void flushSession();
 }

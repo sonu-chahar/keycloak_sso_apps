@@ -26,7 +26,7 @@
 							</c:if>
 							<div class="col-sm-2">
 								<div class="base hvr-float-shadow">
-									<div class="circle bg-circle1">
+									<div class="circle bg${counter.index%8+1}-circle">
 										<a href='<c:url value="${application.applicationUrl}"/>'>
 											<img
 											src="<%=request.getContextPath()%>/images/icons/${application.logoImageName}.${application.logoImageExtension}"

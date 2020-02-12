@@ -241,7 +241,17 @@
 
 
 	<div class="footer">
-		<!-- <span>An ChaharCorp Product</span> -->
+		<div class="col-lg-12 col-md-7 col-sm-7 col-xs-12 copyrightContainer">
+          <p style="margin: 0">
+            © 2020 NDMC, [All Rights Reserved] Designed, Developed &amp; Maintained by: Information Technology Deptt., NDMC, New Delhi
+          </p>
+          <p style="margin: 0">
+            Any suggestions/queries, please contact at NDMC IT Department
+          </p>
+          <div class="sso-visitors hidden-xs" style="display: none">
+            <div id="visitor_count" class="odometer odometer-auto-theme"><div class="odometer-inside"><span class="odometer-digit"><span class="odometer-digit-spacer">8</span><span class="odometer-digit-inner"><span class="odometer-ribbon"><span class="odometer-ribbon-inner"><span class="odometer-value">0</span></span></span></span></span></div></div>
+          </div>
+        </div>
 	</div>
 
 

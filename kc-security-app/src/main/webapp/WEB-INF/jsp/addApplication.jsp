@@ -15,55 +15,66 @@
 				<div class="main-gap keycloak-portal">
 					<h1 class="dashbord-heading">Welcome to NDMC Portal</h1>
 					<div class="row">
-					<c:forEach items="${applicationList}" var="application"
+						<c:forEach items="${applicationList}" var="application"
 							varStatus="counter">
 							<c:if test="${counter.index == 0}">
 								<div class="row">
 									<div class="col-md-12">
 							</c:if>
 							<c:if test="${counter.index != 0  && counter.index%5 eq 0 }">
-								</div></div><div class="row"><div class="col-md-12">
-							</c:if>
-							<div class="col-sm-2">
-								<div class="base hvr-float-shadow">
-									<div class="circle bg${counter.index%8+1}-circle">
-										<%-- <a href='<c:url value="${application.applicationUrl}"/>'> --%>
-											<img
-											src="<%=request.getContextPath()%>/images/icons/${application.logoImageName}.${application.logoImageExtension}"
-											id="image${application.id}" width="90" height="90" />
-										<!-- </a> -->
-									</div>
-									<h2>
-										<input type='hidden' value='false'
-											id='hidden_app_${application.id}'
-											name="applicationMappingToBeRemoved" /><input
-											type="checkbox" id='app_${application.id}'
-											name='applicationsMapped' value='${application.id}'
-											onclick="populateSelectedApplicaiton(${application.id})" /><%-- <a
-											href='<c:url value="${application.applicationUrl}"/>'></a> --%>
-											${application.applicationDisplayName}
-									</h2>
-								</div>
-							</div>
-							<c:if test="${fn:length(applicationList)==(counter.index+1)}"></div></div></c:if>
-						</c:forEach>
-					</div>
-					<div class="form-group form-group-sm">
-						<label class="col-sm-3 control-label label-inn">&nbsp; </label>
-						&nbsp;&nbsp; <input type="submit" name="" value="Update"
-							id="btnSave" class="btn btn-warning" /> &nbsp;&nbsp; <input
-							type="reset" name="reset" value="RESET" id="btnReset"
-							class="btn btn-warning"
-							onclick="window.location.href='${ctx}/myProfile/addOrUpdateApplicationMapping'">
-						&nbsp;&nbsp;
-						<c:if test="${not empty message}">
-							<span id="msg" class="message">${message}</span>
-						</c:if>
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-md-12">
+						</c:if>
+						<div class="col-sm-2">
+							<div class="base hvr-float-shadow">
+								<div class="circle bg${counter.index%8+1}-circle">
+									<%-- <a href='<c:url value="${application.applicationUrl}"/>'> --%>
+									<img
+										src="<%=request.getContextPath()%>/images/icons/${application.logoImageName}.${application.logoImageExtension}"
+										id="image${application.id}" width="90" height="90" />
+									<!-- </a> -->
+								</div>
+								<h2>
+									<input type='hidden' value='false'
+										id='hidden_app_${application.id}'
+										name="applicationMappingToBeRemoved" /><input type="checkbox"
+										id='app_${application.id}' name='applicationsMapped'
+										value='${application.id}'
+										onclick="populateSelectedApplicaiton(${application.id})" />
+									<%-- <a
+											href='<c:url value="${application.applicationUrl}"/>'></a> --%>
+									${application.applicationDisplayName}
+								</h2>
+							</div>
+						</div>
+						<c:if test="${fn:length(applicationList)==(counter.index+1)}">
+					</div>
+				</div>
+				</c:if>
+				</c:forEach>
+			</div>
+			<div class="form-group form-group-sm">
+				<label class="col-sm-3 control-label label-inn">&nbsp; </label>
+				&nbsp;&nbsp; <input type="submit" name="" value="Update"
+					id="btnSave" class="btn btn-warning" /> &nbsp;&nbsp; <input
+					type="reset" name="reset" value="RESET" id="btnReset"
+					class="btn btn-warning"
+					onclick="window.location.href='${ctx}/myProfile/addOrUpdateApplicationMapping'">
+				&nbsp;&nbsp;
+				<c:if test="${not empty message}">
+					<span id="msg" class="message">${message}</span>
+				</c:if>
+			</div>
+			<div class="form-group form-group-sm">
+				<label class="col-sm-3 control-label label-inn">Note:</label>
+				<label class="control-label label-inn">Only selected application will be shown at home page</label>
 			</div>
 		</div>
-	</form:form>
+</div>
+</div>
+</form:form>
 </div>
 
 <script>

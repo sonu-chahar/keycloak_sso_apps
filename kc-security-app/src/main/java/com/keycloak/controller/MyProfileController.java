@@ -29,6 +29,8 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -55,6 +57,11 @@ import com.keycloak.util.KeycloakAdminClientApp;
 @Controller
 @RequestMapping("**/myProfile")
 public class MyProfileController extends AbstractPageController {
+//	@Value("${spring.profiles.active}")
+//	private String activeProfile;
+	
+	@Autowired
+	Environment environment;
 
 	private static final String VIEW_NAME_FOR_PROFILE = "myProfile";
 	private static final String VIEW_NAME_FOR_UPDATE_PASSWORD = "changePasswordPage";
@@ -105,8 +112,10 @@ public class MyProfileController extends AbstractPageController {
 		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE, getMessageAttributeForPage(request, CLASSNAME_FOR_MESSAGE));
 
 		model.addAttribute("userTypeList", genericUserTypeService.getAllNew(UserTypeMaster.class));
+		String activeProfile=environment.getProperty("spring.profiles.active");
+		String viewName=VIEW_NAME_FOR_PROFILE+"-"+activeProfile;
 
-		return new ModelAndView(VIEW_NAME_FOR_PROFILE, model);
+		return new ModelAndView(viewName, model);
 	}
 
 	@RequestMapping(value = "**/updateProfile", method = RequestMethod.POST)

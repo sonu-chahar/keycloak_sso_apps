@@ -27,11 +27,11 @@
 							<div class="col-sm-2">
 								<div class="base hvr-float-shadow">
 									<div class="circle bg${counter.index%8+1}-circle">
-										<a href='<c:url value="${application.applicationUrl}"/>'>
+										<%-- <a href='<c:url value="${application.applicationUrl}"/>'> --%>
 											<img
 											src="<%=request.getContextPath()%>/images/icons/${application.logoImageName}.${application.logoImageExtension}"
 											id="image${application.id}" width="90" height="90" />
-										</a>
+										<!-- </a> -->
 									</div>
 									<h2>
 										<input type='hidden' value='false'
@@ -39,9 +39,9 @@
 											name="applicationMappingToBeRemoved" /><input
 											type="checkbox" id='app_${application.id}'
 											name='applicationsMapped' value='${application.id}'
-											onclick="populateSelectedApplicaiton(${application.id})" /><a
-											href='<c:url value="${application.applicationUrl}"/>'>
-											${application.applicationDisplayName}</a>
+											onclick="populateSelectedApplicaiton(${application.id})" /><%-- <a
+											href='<c:url value="${application.applicationUrl}"/>'></a> --%>
+											${application.applicationDisplayName}
 									</h2>
 								</div>
 							</div>

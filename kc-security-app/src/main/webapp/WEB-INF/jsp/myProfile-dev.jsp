@@ -610,8 +610,7 @@ function generateOtpFn(){
 	//alert("sadf")
 	if(${userMaster ne null}){
 		if("${userMaster.isPhoneVerified}"!="true" ||  "${userMaster.mobileNumber}" != $("#fMobileNumber").val()){
-			//var effUrl='http://172.16.200.195:8080/ndmc-app/myProfile/generateOtp'+'/'+$("#fMobileNumber").val();
-			var effUrl='http://127.0.0.1:8080/kc-security-app/myProfile/generateOtp'+'/'+$("#fMobileNumber").val();
+			var effUrl='http://192.168.10.215:8080/kc-security-app/myProfile/generateOtp'+'/'+$("#fMobileNumber").val();
 			//alert(effUrl);
 			$.get(effUrl, function(data, status){
 			 // alert("Data: " + data + "\nStatus: " + status);

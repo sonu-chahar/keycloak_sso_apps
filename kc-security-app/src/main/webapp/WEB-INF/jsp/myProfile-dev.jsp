@@ -4,7 +4,28 @@
 
 <title>My Profile</title>
 
+<noscript class="noscript">
+   <div id="div100">
+   Please enable javascript in your browser .... blah blah
+   </div>
+</noscript>
 
+<style>
+   body{
+      position:relative;
+   }
+   .noscript {
+      width:100%;
+      height:100%; /* will cover the text displayed when javascript is enabled*/
+      z-index:100000; /* higher than other z-index */
+      position:absolute;
+   }
+   .noscript #div100{
+       display:block;
+       height:100%;
+       background-color:white; 
+   }
+</style>
 <%
 	UserMaster user = (UserMaster) request.getSession(false).getAttribute("userMaster");
 

@@ -97,6 +97,7 @@ public class KeycloakAdminClientApp {
 			userRessource.get(userId).resetPassword(passwordCred);
 			if (response.getStatus() == 201) {
 				userMaster.setIsSSOUserCreated(true);
+				userMaster.setSsoUserCreatedStatus("true");
 			}
 			return true;
 		} catch (ClientErrorException e) {

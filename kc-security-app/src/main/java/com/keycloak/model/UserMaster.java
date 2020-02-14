@@ -9,6 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.directwebremoting.annotations.Param;
@@ -49,18 +54,25 @@ public class UserMaster implements Serializable {
 	private String confirmPassword;
 
 	private Boolean isActive;
+	private String activeStatus;
+	
 	private String imageName;
 	private String fileExtension;
 	private CommonsMultipartFile imageFile;
 
 	private Boolean isSSOUserCreated;
+	private String ssoUserCreatedStatus;
+	
 	private String tempPassword;
 	private String kcUserId;
 	private String userIpAddress;
+	
 	private Boolean isPhoneVerified;
+	private String phoneVerifiedStatus;
 
 	// private Set<RoleMaster> roles;
 	@Column(name = "kcUserId")
+	//@NotEmpty(message = "SSOUserId is compulsory")
 	public String getKcUserId() {
 		return kcUserId;
 	}
@@ -81,6 +93,8 @@ public class UserMaster implements Serializable {
 	}
 
 	@Column(name = "firstName")
+//	@NotEmpty(message = "First name is compulsory")
+	@Pattern(regexp = "[a-z-A-Z\\s]*", message = "First name has invalid characters")
 	public String getFirstName() {
 		return firstName;
 	}
@@ -90,6 +104,8 @@ public class UserMaster implements Serializable {
 	}
 
 	@Column(name = "lastName")
+//	@NotEmpty(message = "Last name is compulsory")
+	@Pattern(regexp = "[a-z-A-Z\\s]*", message = "Last name has invalid characters")
 	public String getLastName() {
 		return lastName;
 	}
@@ -99,6 +115,8 @@ public class UserMaster implements Serializable {
 	}
 
 	@Column(name = "fatherName")
+//	@NotEmpty(message = "Father name is compulsory")
+	@Pattern(regexp = "[a-z-A-Z\\s]*", message = "Father name has invalid characters")
 	public String getFatherName() {
 		return fatherName;
 	}
@@ -117,6 +135,8 @@ public class UserMaster implements Serializable {
 	}
 
 	@Column(name = "emailId")
+//	@NotEmpty(message="Email Address is compulsory")
+    @Email(message = "Email Address is not a valid format")
 	public String getEmailId() {
 		return emailId;
 	}
@@ -189,6 +209,7 @@ public class UserMaster implements Serializable {
 	}
 
 	@Column(name = "adharCardNumber")
+	@Pattern(regexp = "[0-9]*")
 	public String getAdharCardNumber() {
 		return adharCardNumber;
 	}
@@ -252,6 +273,8 @@ public class UserMaster implements Serializable {
 	}
 
 	@Column(name = "username")
+//	@NotNull(message = "username is compulsory")
+//	@NotBlank(message = "username is compulsory")
 	public String getUsername() {
 		return username;
 	}
@@ -364,6 +387,33 @@ public class UserMaster implements Serializable {
 	public void setIsPhoneVerified(Boolean isPhoneVerified) {
 		this.isPhoneVerified = isPhoneVerified;
 	}
+	
+	@Column(name = "activeStatus")
+	public String getActiveStatus() {
+		return activeStatus;
+	}
+
+	public void setActiveStatus(String activeStatus) {
+		this.activeStatus = activeStatus;
+	}
+
+	@Column(name = "ssoUserCreatedStatus")
+	public String getSsoUserCreatedStatus() {
+		return ssoUserCreatedStatus;
+	}
+
+	public void setSsoUserCreatedStatus(String ssoUserCreatedStatus) {
+		this.ssoUserCreatedStatus = ssoUserCreatedStatus;
+	}
+
+	@Column(name = "phoneVerifiedStatus")
+	public String getPhoneVerifiedStatus() {
+		return phoneVerifiedStatus;
+	}
+
+	public void setPhoneVerifiedStatus(String phoneVerifiedStatus) {
+		this.phoneVerifiedStatus = phoneVerifiedStatus;
+	}
 
 	@Override
 	public String toString() {
@@ -375,9 +425,10 @@ public class UserMaster implements Serializable {
 				+ ", waterConsumerNumber=" + waterConsumerNumber + ", electricityConsumerNumber="
 				+ electricityConsumerNumber + ", propertyId=" + propertyId + ", estatePropertyId=" + estatePropertyId
 				+ ", username=" + username + ", password=" + password + ", confirmPassword=" + confirmPassword
-				+ ", isActive=" + isActive + ", imageName=" + imageName + ", fileExtension=" + fileExtension
-				+ ", imageFile=" + imageFile + ", isSSOUserCreated=" + isSSOUserCreated + ", tempPassword="
-				+ tempPassword + ", kcUserId=" + kcUserId + ", userIpAddress=" + userIpAddress + ", isPhoneVerified="
-				+ isPhoneVerified + "]";
+				+ ", isActive=" + isActive + ", activeStatus=" + activeStatus + ", imageName=" + imageName
+				+ ", fileExtension=" + fileExtension + ", imageFile=" + imageFile + ", isSSOUserCreated="
+				+ isSSOUserCreated + ", ssoUserCreatedStatus=" + ssoUserCreatedStatus + ", tempPassword=" + tempPassword
+				+ ", kcUserId=" + kcUserId + ", userIpAddress=" + userIpAddress + ", isPhoneVerified=" + isPhoneVerified
+				+ ", phoneVerifiedStatus=" + phoneVerifiedStatus + "]";
 	}
 }

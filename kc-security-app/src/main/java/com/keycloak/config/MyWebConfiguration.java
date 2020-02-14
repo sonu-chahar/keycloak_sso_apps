@@ -2,6 +2,8 @@ package com.keycloak.config;
 
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.DispatcherType;
@@ -20,8 +22,13 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.CacheControl;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.validation.FieldError;
 import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -55,7 +62,6 @@ public class MyWebConfiguration implements WebMvcConfigurer, WebApplicationIniti
 
 	@Bean
 	public ServletRegistrationBean<DispatcherServlet> dispatcherServletRegistration1() {
-
 		ServletRegistrationBean<DispatcherServlet> registration = new ServletRegistrationBean<>(dispatcherServlet());
 		registration.setUrlMappings(Arrays.asList(new String[] { "/", "/dwr/*" }));
 		registration.setLoadOnStartup(0);
@@ -136,4 +142,16 @@ public class MyWebConfiguration implements WebMvcConfigurer, WebApplicationIniti
 //	public void addCorsMappings(CorsRegistry registry) {
 //		WebMvcConfigurer.super.addCorsMappings(registry);
 //	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+		Map<String, String> errors = new HashMap<>();
+		ex.getBindingResult().getAllErrors().forEach((error) -> {
+			String fieldName = ((FieldError) error).getField();
+			String errorMessage = error.getDefaultMessage();
+			errors.put(fieldName, errorMessage);
+		});
+		return errors;
+	}
 }

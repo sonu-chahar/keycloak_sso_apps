@@ -66,6 +66,7 @@ public class MyProfileController extends AbstractPageController {
 	private static final String VIEW_NAME_FOR_PROFILE = "myProfile";
 	private static final String VIEW_NAME_FOR_UPDATE_PASSWORD = "changePasswordPage";
 	private static final String VIEW_NAME_FOR_ADD_APPLICATION = "addApplication";
+	private static final String VIEW_NAME_FOR_NO_SCRIPT = "noscript";
 
 	public static final String CONSTANT_FOR_SLASH = "/";
 	public static final String SSO_SERVER_URL = Constants.pathString("SSO_SERVER_URL");
@@ -75,6 +76,7 @@ public class MyProfileController extends AbstractPageController {
 	public static final String SSO_USERNAME_SERVICE_ACCOUNT = Constants.pathString("SSO_USERNAME_SERVICE_ACCOUNT");
 	public static final String SSO_PASSWORD_SERVICE_ACCOUNT = Constants.pathString("SSO_PASSWORD_SERVICE_ACCOUNT");
 
+	private static final String CONSTANT_FOR_TRUE_FLAG="true";
 	@Autowired
 	private UserMasterService userMasterService;
 
@@ -122,10 +124,15 @@ public class MyProfileController extends AbstractPageController {
 	public ModelAndView updateProfile(@ModelAttribute(MODEL_ATTRIBUTE_FOR_USER_MASTER) UserMaster userMasterDTO,
 			BindingResult result, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		LOGGER.debug("Received request to update user");
+		if (result.hasErrors()) {
+			LOGGER.error("Error in User Master object....");
+			return new ModelAndView(REDIRECT_URL_FOR_PROFILE + BLANK_STRING);
+		}
 		String status = BLANK_STRING;
 		String otp = request.getParameter("otp");
 		if (StringUtils.isNotEmpty(otp) && otp.equals(request.getSession(false).getAttribute("generatedOtp"))) {
 			userMasterDTO.setIsPhoneVerified(true);
+			userMasterDTO.setPhoneVerifiedStatus(CONSTANT_FOR_TRUE_FLAG);
 			request.getSession(false).removeAttribute("generatedOtp");
 		}
 
@@ -137,6 +144,7 @@ public class MyProfileController extends AbstractPageController {
 			userMasterDTO.setId(oldUserMaster.getId());
 			userMasterDTO.setKcUserId(oldUserMaster.getKcUserId());
 			userMasterDTO.setIsActive(true);
+			userMasterDTO.setActiveStatus(CONSTANT_FOR_TRUE_FLAG);
 			if ((!oldUserMaster.getFirstName().equals(userMasterDTO.getFirstName()))
 					|| (!oldUserMaster.getLastName().equals(userMasterDTO.getLastName()))
 					|| (!oldUserMaster.getEmailId().equals(userMasterDTO.getEmailId()))) {
@@ -169,7 +177,6 @@ public class MyProfileController extends AbstractPageController {
 			LOGGER.debug(e.getStackTrace());
 			status = STATUS_FOR_ERROR;
 		}
-		request.getSession(false).setAttribute(SESSION_ATTRIBTE_FOR_USER_MASTER, userMasterDTO);
 		return new ModelAndView(REDIRECT_URL_FOR_PROFILE + status);
 	}
 
@@ -360,6 +367,13 @@ public class MyProfileController extends AbstractPageController {
 		model.addAttribute("applicationList", userMasterService.getApplicationList());
 		return new ModelAndView(VIEW_NAME_FOR_ADD_APPLICATION);
 	}
+	
+//	@RequestMapping(value = "**/noscript.html", method = RequestMethod.GET)
+//	public ModelAndView renderNoScriptPage(
+//			@ModelAttribute(MODEL_ATTRIBUTE_FOR_APPLICATION_MASTER_MAPPING) ApplicationMaster applicationMasterDTO,
+//			HttpServletRequest request, ModelMap model) {
+//		return new ModelAndView(VIEW_NAME_FOR_NO_SCRIPT);
+//	}
 
 	@RequestMapping(value = "**/addOrUpdateApplicationMapping", method = RequestMethod.POST)
 	public ModelAndView updateApplicationMapping(

@@ -1,5 +1,7 @@
 package com.keycloak.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class UserMasterVO {
 
 	private String username;
@@ -17,7 +19,9 @@ public class UserMasterVO {
 	private Integer pinCode;
 	private String userType;
 	private String kcUserId;
-	private Boolean isPhoneVerified;
+
+	@JsonProperty("isPhoneVerified")
+	private String phoneVerifiedStatus;
 
 	public String getUsername() {
 		return username;
@@ -139,11 +143,11 @@ public class UserMasterVO {
 		this.kcUserId = kcUserId;
 	}
 
-	public Boolean getIsPhoneVerified() {
-		return isPhoneVerified;
+	public String getPhoneVerifiedStatus() {
+		return phoneVerifiedStatus;
 	}
 
-	public void setIsPhoneVerified(Boolean isPhoneVerified) {
-		this.isPhoneVerified = isPhoneVerified;
+	public void setPhoneVerifiedStatus(String phoneVerifiedStatus) {
+		this.phoneVerifiedStatus = phoneVerifiedStatus;
 	}
 }

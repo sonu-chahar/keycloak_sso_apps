@@ -194,6 +194,7 @@ public class KeycloakClientAuthApp {
 			return null;
 		}
 
+		@SuppressWarnings("unused")
 		private PublicKey retrieveActivePublicKeyFromPublicRealmEndpoint() {
 			try {
 				ObjectMapper om = new ObjectMapper();
@@ -206,6 +207,7 @@ public class KeycloakClientAuthApp {
 			return null;
 		}
 
+		@SuppressWarnings("unused")
 		private PublicKey retrieveActivePublicKeyFromKeysEndpoint(Keycloak keycloak, JWSHeader jwsHeader) {
 
 			List<KeyMetadataRepresentation> keys = keycloak.realm(realmId).keys().getKeyMetadata().getKeys();

@@ -1,12 +1,9 @@
 <%@ include file="/static-resources/common/taglibs.jsp"%>
-<head>
-<title><fmt:message key="403.title" /></title>
-<meta name="heading" content="<fmt:message key='403.title'/>" />
-</head>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<title><fmt:message key="403.title" /></title>
+<meta name="heading" content="<fmt:message key='403.title'/>" />
 <meta charset="UTF-8" />
 <title>403 | Forbidden</title>
 
@@ -42,7 +39,6 @@
 	</nav>
 
 	<main role="main" class="container">
-
 		<div class="starter-template">
 			<h1>Forbidden</h1>
 			<p class="lead">You don't have the right privileges to access
@@ -55,7 +51,6 @@
 				</fmt:message>
 			</p>
 		</div>
-
 	</main>
 	<!-- /.container -->
 

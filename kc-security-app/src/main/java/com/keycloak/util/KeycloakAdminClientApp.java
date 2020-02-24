@@ -241,6 +241,7 @@ public class KeycloakAdminClientApp {
 			try {
 				System.out.println("status: " + response.getStatus());
 				System.out.println("reason: " + response.getStatusInfo().getReasonPhrase());
+				@SuppressWarnings("rawtypes")
 				Map error = JsonSerialization.readValue((ByteArrayInputStream) response.getEntity(), Map.class);
 				System.out.println("error: " + error.get("error"));
 				System.out.println("error_description: " + error.get("error_description"));

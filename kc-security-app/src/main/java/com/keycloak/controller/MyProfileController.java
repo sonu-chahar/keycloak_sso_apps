@@ -15,6 +15,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -29,7 +30,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -66,7 +66,7 @@ public class MyProfileController extends AbstractPageController {
 	private static final String VIEW_NAME_FOR_PROFILE = "myProfile";
 	private static final String VIEW_NAME_FOR_UPDATE_PASSWORD = "changePasswordPage";
 	private static final String VIEW_NAME_FOR_ADD_APPLICATION = "addApplication";
-	private static final String VIEW_NAME_FOR_NO_SCRIPT = "noscript";
+//	private static final String VIEW_NAME_FOR_NO_SCRIPT = "noscript";
 
 	public static final String CONSTANT_FOR_SLASH = "/";
 	public static final String SSO_SERVER_URL = Constants.pathString("SSO_SERVER_URL");
@@ -115,13 +115,13 @@ public class MyProfileController extends AbstractPageController {
 
 		model.addAttribute("userTypeList", genericUserTypeService.getAllNew(UserTypeMaster.class));
 		String activeProfile=environment.getProperty("spring.profiles.active");
-		String viewName=VIEW_NAME_FOR_PROFILE+"-"+activeProfile;
-
-		return new ModelAndView(viewName, model);
+//		String viewName=VIEW_NAME_FOR_PROFILE+"-"+activeProfile;
+		model.addAttribute("activeProfile",activeProfile);
+		return new ModelAndView(VIEW_NAME_FOR_PROFILE, model);
 	}
 
 	@RequestMapping(value = "**/updateProfile", method = RequestMethod.POST)
-	public ModelAndView updateProfile(@ModelAttribute(MODEL_ATTRIBUTE_FOR_USER_MASTER) UserMaster userMasterDTO,
+	public ModelAndView updateProfile(@Valid @ModelAttribute(MODEL_ATTRIBUTE_FOR_USER_MASTER) UserMaster userMasterDTO,
 			BindingResult result, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		LOGGER.debug("Received request to update user");
 		if (result.hasErrors()) {

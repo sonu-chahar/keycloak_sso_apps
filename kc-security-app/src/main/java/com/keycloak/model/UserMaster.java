@@ -9,10 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.directwebremoting.annotations.DataTransferObject;
@@ -126,6 +122,7 @@ public class UserMaster implements Serializable {
 	}
 
 	@Column(name = "dateOfBirth")
+//	@NotEmpty(message="Date Of Birth is compulsory")
 	public String getDateOfBirth() {
 		return dateOfBirth;
 	}
@@ -136,7 +133,7 @@ public class UserMaster implements Serializable {
 
 	@Column(name = "emailId")
 //	@NotEmpty(message="Email Address is compulsory")
-    @Email(message = "Email Address is not a valid format")
+//    @Email(message = "Email Address is not a valid format")
 	public String getEmailId() {
 		return emailId;
 	}

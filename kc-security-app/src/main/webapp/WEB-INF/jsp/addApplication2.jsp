@@ -14,7 +14,7 @@
 		<div class="module-wrp">
 		
 			<input type="hidden" id="selectedApplications" />
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<table style="width:100%;cellspacing=0; cellpadding=0;border=0"  >
 				<thead>
 					<tr>
 						<th colspan="4"><h2>Application Assigned</h2></th>

@@ -181,6 +181,7 @@
 					<form:option value="Birth">Birth Certificate</form:option>
 					<form:option value="Barat">Barat Ghar</form:option>
 					<form:option value="yellow">Yellow Fever</form:option>
+					<form:option value="nonNdmcUser">Non NDMC User</form:option>
 				</form:select>
 				*
 				<form:errors path="userType" cssClass="error" />

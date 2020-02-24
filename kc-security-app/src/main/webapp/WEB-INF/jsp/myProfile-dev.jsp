@@ -199,9 +199,8 @@
 						<option value="${userType.id}">${userType.name}</option>
 					</c:forEach> --%>
 					<form:option value="Citizen">Citizen</form:option>
-					<form:option value="Birth">Birth Certificate</form:option>
-					<form:option value="Barat">Barat Ghar</form:option>
-					<form:option value="yellow">Yellow Fever</form:option>
+					<form:option value="ndmcEmployee">NDMC Employee</form:option>
+					<form:option value="nonNdmcUser">Non NDMC User</form:option>
 				</form:select>
 				*
 				<form:errors path="userType" cssClass="error" />

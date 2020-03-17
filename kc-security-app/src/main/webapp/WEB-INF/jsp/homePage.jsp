@@ -41,9 +41,17 @@
 		</div>
 	</div>
 </div>
-<<script>
+<script>
 	$(document).ready(function() {
-				if("${applicationList}"=="" ){
+		const urlParams = new URLSearchParams(window.location.search);
+		const status = urlParams.get('status');
+		if(status=="updateSuccess"){
+			if("${applicationList}"=="" ){
+				alert("User Updated Successfully.Now please add application first")
+			}else{
+				alert("User Updated Successfully");
+			}
+		}else if("${applicationList}"=="" ){
 					alert("Please add application first")
 				}
 			});

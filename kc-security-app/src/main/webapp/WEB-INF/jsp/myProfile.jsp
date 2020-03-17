@@ -5,33 +5,37 @@
 <title>My Profile</title>
 
 <noscript class="noscript">
-   <div id="div100">
-   		<h1>Please enable javascript in your browser ....</h1>
-   </div>
+	<div id="div100">
+		<h1>Please enable javascript in your browser ....</h1>
+	</div>
 </noscript>
 
 <style>
-   body{
-      position:relative;
-   }
-   .noscript {
-      width:100%;
-      height:100%; /* will cover the text displayed when javascript is enabled*/
-      z-index:100000; /* higher than other z-index */
-      position:absolute;
-   }
-   .noscript #div100{
-       display:block;
-       height:100%;
-       background-color:white; 
-       margin-top: -22px;
-   }
+body {
+	position: relative;
+}
+
+.noscript {
+	width: 100%;
+	height: 100%;
+	/* will cover the text displayed when javascript is enabled*/
+	z-index: 100000; /* higher than other z-index */
+	position: absolute;
+}
+
+.noscript #div100 {
+	display: block;
+	height: 100%;
+	background-color: white;
+	margin-top: -22px;
+}
 </style>
 <%
 	UserMaster user = (UserMaster) request.getSession(false).getAttribute("userMaster");
 
 	if (user != null) {
-		String imageUrl = "myProfile/getImage/" + user.getMobileNumber() + "/" + user.getImageName() + "/"+ user.getFileExtension();
+		String imageUrl = "myProfile/getImage/" + user.getMobileNumber() + "/" + user.getImageName() + "/"
+				+ user.getFileExtension();
 		request.setAttribute("imageUrl", imageUrl);
 	}
 %>
@@ -39,12 +43,13 @@
 <div class="main-gap form-horizontal user-portal">
 	<form:form modelAttribute="userMasterDTO" method="post"
 		onsubmit="return validate(this);"
-		action="${ctx}/myProfile/updateProfile" enctype="multipart/form-data">
+		action="${ctx}/myProfile/updateProfile" enctype="multipart/form-data" id="profileForm">
 
 		<h1 class="heading">
 			<i class="fa fa-edit"></i> My Profile
 		</h1>
 		<form:hidden path="id" />
+		<input type="hidden" id="fGenerateOTPFlag" value="false" />
 		<input type="hidden" id="fRemoveImageFlag" name="removeImageFlag"
 			value="false" />
 		<div class="form-group form-group-sm">
@@ -82,9 +87,9 @@
 					key="label.personalInformation.dateOfBirth" />
 			</label>
 			<div class="col-sm-3 required">
-				<form:input id="dateOfBirth" path="dateOfBirth" type="text"
+				<form:input id="dateOfBirth" style="width:120px" path="dateOfBirth" type="text"
 					class="form-control" placeholder="DD/MM/YYYY" />
-				*
+				* 
 				<form:errors path="dateOfBirth" cssClass="error" />
 			</div>
 		</div>
@@ -213,7 +218,6 @@
 				<form:input id="fAdharCardNumber" path="adharCardNumber"
 					maxlength="16" cssClass="form-control"
 					onkeypress='return isNumberKeyAdharCardNumber(event)' />
-				*
 				<form:errors path="adharCardNumber" cssClass="error" />
 			</div>
 		</div>
@@ -294,12 +298,38 @@
 				</div>
 			</div>
 		</div>
-		<div class="form-group form-group-sm" id="fOtpDiv">
+		<div id="fOtpOverlay" class="manage-otp-popup modal-backdrop fade"></div>
+		<div id='fOtpPopupDiv' class='manage-otp-popup modal fade' tabindex='-1' role='dialog'
+			aria-labelledby='myModalLabel' aria-hidden='true'>
+			<div class='modal-dialog'>
+				<div class='modal-content'>
+					<div class='modal-header'>
+						<!-- <button type='button' class='btn btn-warning close' data-dismiss='modal'
+							aria-hidden='true'  onclick='closeOpenPopup()'>&times;</button> -->
+						<h4 class='modal-title'>Verify Phone Number</h4>
+					</div>
+					<div id='fOtpModelBody' class='modal-body'>
+						<div class="form-group form-group-sm" id="fOtpDiv">
+							<label class="col-sm-4 control-label label-inn"> Enter
+								OTP </label>
+							<div class="col-sm-6">
+								<input id="fOtp" name="otp" class="form-control" />
+							</div>
+						</div>
+					</div>
+					<div class='modal-footer'>
+						<button type='button' class='btn btn-warning' data-dismiss='modal' onclick='closeOpenPopup()'>Update</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- <div class="form-group form-group-sm" id="fOtpDiv">
 			<label class="col-sm-3 control-label label-inn"> Enter OTP </label>
 			<div class="col-sm-3">
 				<input id="fOtp" name="otp" class="form-control" />
 			</div>
-		</div>
+		</div> -->
 
 
 		<div class="form-group form-group-sm">
@@ -309,7 +339,8 @@
 			<input type="button" name="RemoveImage" value="Remove Image"
 				id="removeImage" class="btn btn-warning" onclick="clearImage()" />&nbsp;&nbsp;
 			<input type="submit" name="" value="Update" id="btnSave"
-				class="btn btn-warning" /> &nbsp;&nbsp;
+				class="btn btn-warning" />
+			&nbsp;&nbsp;
 			<!-- <input
 									type="reset" name="reset" value="RESET" id="btnReset"
 									class="btn btn-warning" onclick="hideMsg()" -->
@@ -383,6 +414,7 @@ function clearImage(){
 
 //validation script
 function validate(){
+	debugger;
 	
 	//$("#fAdharCardNumber").val(parseInt($("#fAdharCardNumber").trim()));
 	//for First Name
@@ -453,11 +485,19 @@ function validate(){
 		return false;
 	}
 
+	//alert("#fGenerateOTPFlag:: "+$("#fGenerateOTPFlag").val());
 	if ($("#fMobileNumber").val().length != 10) {
 		alert("Please enter a valid Mobile Number !");
 		$("#fMobileNumber").focus();
 		return false;
 	}
+	/* if($("#fGenerateOTPFlag").val()=="true" && $("#fOtp").val()==""){
+		alert('abcd')
+		closeOpenPopup();
+	} */
+	//alert('abc');
+	//$("#fOtpPopupDiv").show();
+	
 //	$("#fMobileNumber").val($("#fMobileNumber").trim());
 
 	//for Geneder
@@ -510,25 +550,54 @@ function validate(){
 		$("#fUserType").focus();
 		return false;
 	}
-	//for AdharCardNumber
+/* 	//for AdharCardNumber
 	if ($("#fAdharCardNumber").val() == "") {
 		alert("AdharCardNumber is required !");
 		$("#fAdharCardNumber").focus();
 		return false;
-	}
+	}*/
 	
 	//for AdharCardNumber
-	if ($("#fAdharCardNumber").val().length<12) {
+	if ($("#fAdharCardNumber").val() != ""&& $("#fAdharCardNumber").val().length<12) {
 		alert("Please enter a valid AdharCardNumber!");
 		$("#fAdharCardNumber").focus();
 		return false;
 	}
+	if( $("#fGenerateOTPFlag").val()=="false" && "${userMaster.mobileNumber}" != $("#fMobileNumber").val()){
+		let effUrl;
+		if("${activeProfile}"=="dev"){
+			effUrl='http://192.168.10.215:8080/kc-security-app/myProfile/generateOtp'+'/'+$("#fMobileNumber").val();
+		}else{
+			effUrl='http://172.16.200.195:8080/ndmc-app/myProfile/generateOtp'+'/'+$("#fMobileNumber").val();
+		}
+		
+		//alert(effUrl);
+		
+		$.get(effUrl, function(data, status,xhr){
+			  //alert("Data: " + data + "\nStatus: " + status);
+			  $("#fGenerateOTPFlag").val("true");
+		});
+		//$("#fOtpPopupDiv").show();
+		closeOpenPopup();
+		return false;
+		
+		//$("#fOtpPopupDiv").show();
+		//$(".manage-otp-popup").addClass("in");
+		//$("#fOtpPopupDiv").addClass("in");
+		//$("#fOtpOverlay").addClass("in");
+		//$(".manage-otp-popup").css("display", "block");
+		
+		//$("fOtpPopupDiv").css("display", "block");
+		
+		//$("#fOtpDiv").show();
+		
+	} 
 	//for OTP
-	if (${userMaster ne null} && ((${userMaster.isPhoneVerified ne null } && ${userMaster.isPhoneVerified eq false }) || ${userMaster.isPhoneVerified eq null }) && "${userMaster.mobileNumber}"!=$("#fMobileNumber").val() && ($("#fOtp").val() == "" || $("#fOtp").val().length<6)) {
+	/* if (${userMaster ne null} && "${userMaster.mobileNumber}"!=$("#fMobileNumber").val() && ($("#fOtp").val() == "" || $("#fOtp").val().length<6)) {
 		alert("Please enter a valid OTP!");
 		$("#fOtp").focus();
 		return false;
-	}
+	} */
 	
 	//for VoterIdNumber
 /* 	if ($("#fVoterIdNumber").val() == "") {
@@ -591,11 +660,14 @@ function validate(){
 		$("#fUsername").focus();
 		return false;
 	}
-	var file_size = $('#file')[0].files[0].size;
-	if(file_size>50000) {
-		alert("File size should not be greater than 50kb!");
-		return false;
-	} 
+	let file=$('#file')[0].files[0];
+	if(file!= null){
+		file_size=file.size;
+		if(file.size>50000) {
+			alert("File size should not be greater than 50kb!");
+			return false;
+		} 
+	}
 		
 }
 
@@ -627,41 +699,62 @@ function isNumberKeyAdharCardNumber(evt) {
 }
 </script>
 <script>
-function generateOtpFn(){
+/* function generateOtpFn(){
 	//alert("sadf")
-	if(${userMaster ne null}){
-		if("${userMaster.isPhoneVerified}"!="true" ||  "${userMaster.mobileNumber}" != $("#fMobileNumber").val()){
-			let effUrl;
-			if("${activeProfile}"=="dev"){
-				effUrl='http://192.168.10.215:8080/kc-security-app/myProfile/generateOtp'+'/'+$("#fMobileNumber").val();
-			}else{
-				effUrl='http://172.16.200.195:8080/ndmc-app/myProfile/generateOtp'+'/'+$("#fMobileNumber").val();
-			}
-			
-			alert(effUrl);
-			$.get(effUrl, function(data, status){
-			 // alert("Data: " + data + "\nStatus: " + status);
-			});
-			$("#fOtpDiv").show();
-		}
-	}
-} 
+	
+}  */
 
+function closeOpenPopup(){
+	if($(".manage-otp-popup").hasClass("in")){
+		if($("#fOtp").val() != "" && $("#fOtp").val().length<6 ){
+			alert("Please enter Valid OTP")
+		}
+		if($("#fOtp").val() != "" && $("#fOtp").val().length==6){
+			$(".manage-otp-popup").removeClass("in");
+			$(".manage-otp-popup").css("display", "none");
+			$("#profileForm").submit();
+		}
+	}else{
+		$(".manage-otp-popup").addClass("in");
+		$(".manage-otp-popup").css("display", "block");
+		$("#fOtp").focus();
+	}
+}
 $(document).ready(function() {
-	$("#fMobileNumber").blur(function(){
+	$(".manage-otp-popup").css("display", "none");
+	//$("#fMobileNumber").blur(function(){
+		
+		//if(${userMaster ne null}){
+			//alert($("#fMobileNumber").length);
+			/* if("${userMaster.isPhoneVerified}"!="true" ||  "${userMaster.mobileNumber}" != $("#fMobileNumber").val()){
+				let effUrl;
+				if("${activeProfile}"=="dev"){
+					effUrl='http://192.168.10.215:8080/kc-security-app/myProfile/generateOtp'+'/'+$("#fMobileNumber").val();
+				}else{
+					effUrl='http://172.16.200.195:8080/ndmc-app/myProfile/generateOtp'+'/'+$("#fMobileNumber").val();
+				}
+				
+				alert(effUrl);
+				$.get(effUrl, function(data, status){
+				 // alert("Data: " + data + "\nStatus: " + status);
+				});
+				$("#fOtpDiv").show();
+			} */
+	//	}
 //		  alert("This input field has lost its focus.");
-		  if("${userMaster.mobileNumber}" == $("#fMobileNumber").val() &&"${userMaster.isPhoneVerified}"!="true"  ){
+//		  if("${userMaster.mobileNumber}" == $("#fMobileNumber").val() && "${userMaster.isPhoneVerified}"=="true"  ){
 //			  alert("This input field has lost its focus.");
-			  $("#bGenerateOtp").hide();
-		  }else{
-			  $("#bGenerateOtp").show();
-		  }
-	});
+//			  $("#bGenerateOtp").hide();
+	//	  }else{
+		//	  $("#bGenerateOtp").show();
+		  //}
+	//});
 	populateCountries("fCountry", "fState");
 	if("${userMaster.imageName}"==""){
 		alert("Kindly complete your profile to proceed further");
 	}
-	$("#fOtpDiv").hide();
+	//$("#fOtpDiv").hide();
+	$("#fOtpPopupDiv").hide();
 	
 	if(${userMaster ne null} && (${userMaster.isPhoneVerified ne null } && ${userMaster.isPhoneVerified eq true }) || ${userMaster.isPhoneVerified eq null }){
 		$("#bGenerateOtp").hide();
@@ -728,7 +821,7 @@ $(document).ready(function() {
 	if(${userMaster.adharCardNumber ne null}){
 		$("#fAdharCardNumber").val('${userMaster.adharCardNumber}');
 		//$("#fAdharCardNumber").attr('readonly', true);
-	}
+	} 
 	if(${userMaster.voterIdNumber ne null}){
 		$("#fVoterIdNumber").val('${userMaster.voterIdNumber}');
 		//$("#fVoterIdNumber").attr('readonly', true);

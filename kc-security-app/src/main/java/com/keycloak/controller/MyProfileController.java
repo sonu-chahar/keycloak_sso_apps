@@ -59,7 +59,6 @@ import com.keycloak.util.KeycloakAdminClientApp;
 public class MyProfileController extends AbstractPageController {
 //	@Value("${spring.profiles.active}")
 //	private String activeProfile;
-	
 	@Autowired
 	Environment environment;
 
@@ -76,7 +75,7 @@ public class MyProfileController extends AbstractPageController {
 	public static final String SSO_USERNAME_SERVICE_ACCOUNT = Constants.pathString("SSO_USERNAME_SERVICE_ACCOUNT");
 	public static final String SSO_PASSWORD_SERVICE_ACCOUNT = Constants.pathString("SSO_PASSWORD_SERVICE_ACCOUNT");
 
-	private static final String CONSTANT_FOR_TRUE_FLAG="true";
+	private static final String CONSTANT_FOR_TRUE_FLAG = "true";
 	@Autowired
 	private UserMasterService userMasterService;
 
@@ -108,15 +107,22 @@ public class MyProfileController extends AbstractPageController {
 		String imageStatus = StringUtils.isNotBlank(request.getParameter(IMAGE_UPLOAD_STATUS))
 				? request.getParameter(IMAGE_UPLOAD_STATUS)
 				: BLANK_STRING;
+		String status = StringUtils.isNotBlank(request.getParameter(REQUEST_ATTRIBUTE_STATUS))
+				? request.getParameter(REQUEST_ATTRIBUTE_STATUS)
+				: BLANK_STRING;
+		if (status.equals(STATUS_FOR_UPDATE)) {
+			return new ModelAndView(REDIRECT_URL_FOR_HOMEPAGE + status);
+		}
 
 		model.addAttribute(IMAGE_UPLOAD_STATUS, imageStatus);
 
 		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE, getMessageAttributeForPage(request, CLASSNAME_FOR_MESSAGE));
 
 		model.addAttribute("userTypeList", genericUserTypeService.getAllNew(UserTypeMaster.class));
-		String activeProfile=environment.getProperty("spring.profiles.active");
+		String activeProfile = environment.getProperty("spring.profiles.active");
 //		String viewName=VIEW_NAME_FOR_PROFILE+"-"+activeProfile;
-		model.addAttribute("activeProfile",activeProfile);
+		model.addAttribute("activeProfile", activeProfile);
+
 		return new ModelAndView(VIEW_NAME_FOR_PROFILE, model);
 	}
 
@@ -367,7 +373,7 @@ public class MyProfileController extends AbstractPageController {
 		model.addAttribute("applicationList", userMasterService.getApplicationList());
 		return new ModelAndView(VIEW_NAME_FOR_ADD_APPLICATION);
 	}
-	
+
 //	@RequestMapping(value = "**/noscript.html", method = RequestMethod.GET)
 //	public ModelAndView renderNoScriptPage(
 //			@ModelAttribute(MODEL_ATTRIBUTE_FOR_APPLICATION_MASTER_MAPPING) ApplicationMaster applicationMasterDTO,
@@ -381,8 +387,8 @@ public class MyProfileController extends AbstractPageController {
 			BindingResult bindingResult, HttpServletRequest request, ModelMap model) {
 		Long userId = getUserMasterFromSession(request).getId();
 		String status = BLANK_STRING;
-		String columns[] = new String[] { "userMasterId"};
-		Serializable values[] = new Serializable[] { userId};
+		String columns[] = new String[] { "userMasterId" };
+		Serializable values[] = new Serializable[] { userId };
 		List<UserApplicationMapping> userApplicationMappingList = genericUserApplicationMappingService
 				.findValuesByColumns(columns, values, UserApplicationMapping.class);
 		if (userApplicationMappingList != null) {

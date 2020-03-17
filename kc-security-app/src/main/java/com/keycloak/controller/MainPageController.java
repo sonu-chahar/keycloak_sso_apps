@@ -17,7 +17,7 @@ import com.keycloak.service.UserMasterService;
 public class MainPageController extends AbstractPageController {
 
 	private final HttpServletRequest request;
-	private static final String VIEW_NAME_HOME_PAGE = "homePage";
+	
 
 	@Autowired
 	private UserMasterService userMasterService;
@@ -78,6 +78,7 @@ public class MainPageController extends AbstractPageController {
 		}
 		model.addAttribute(SESSION_ATTRIBTE_FOR_USER_MASTER, userMaster);
 		model.addAttribute("applicationList", userMasterService.getApplicationListByUserId(userMaster.getId()));
+		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE, getMessageAttributeForPage(request, CLASSNAME_FOR_MESSAGE));
 		return new ModelAndView(VIEW_NAME_HOME_PAGE, model);
 	}
 }

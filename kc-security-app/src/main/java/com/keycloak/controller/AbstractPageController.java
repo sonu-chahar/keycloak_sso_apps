@@ -23,6 +23,7 @@ public abstract class AbstractPageController {
 	public static final String MODEL_ATTRIBUTE_FOR_APPLICATION_MASTER_MAPPING = "applicationMasterDTO";
 
 	public static final String REDIRECT_URL_FOR_REGISTRATION = "redirect:/registration/showRegistrationPage?status=";
+	public static final String REDIRECT_URL_FOR_HOMEPAGE = "redirect:/viewHomePage?status=";
 	public static final String REDIRECT_URL_FOR_PROFILE = "redirect:/myProfile/showProfile?status=";
 	public static final String REDIRECT_URL_FOR_UPDATE_PASSWORD = "redirect:/myProfile/showChangePwdPage?status=";
 	public static final String REDIRECT_URL_FOR_APPLICATION_MASTER_MAPPING = "redirect:/myProfile/addOrUpdateApplicationMapping?status=";
@@ -44,6 +45,9 @@ public abstract class AbstractPageController {
 	public static final String CONSTANT_FOR_SLASH = "/";
 	public static final String CONSTANT_FOR_DOT = ".";
 	public static final String BLANK_STRING = "";
+	
+	public static final String VIEW_NAME_HOME_PAGE = "homePage";
+	
 
 	protected final Logger LOGGER = LogManager.getLogger(this.getClass());
 

@@ -116,7 +116,7 @@ public class MyProfileController extends AbstractPageController {
 
 		model.addAttribute(IMAGE_UPLOAD_STATUS, imageStatus);
 
-		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE, getMessageAttributeForPage(request, CLASSNAME_FOR_MESSAGE));
+		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE, getMessageAttributeForPage(request, USER_CLASSNAME_FOR_MESSAGE));
 
 		model.addAttribute("userTypeList", genericUserTypeService.getAllNew(UserTypeMaster.class));
 		String activeProfile = environment.getProperty("spring.profiles.active");
@@ -285,7 +285,7 @@ public class MyProfileController extends AbstractPageController {
 			@ModelAttribute(MODEL_ATTRIBUTE_FOR_USER_MASTER) UserMaster userMasterDTO, HttpServletRequest request,
 			ModelMap model) {
 
-		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE, getMessageAttributeForPage(request, CLASSNAME_FOR_MESSAGE));
+		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE, getMessageAttributeForPage(request, USER_CLASSNAME_FOR_MESSAGE));
 		return new ModelAndView(VIEW_NAME_FOR_UPDATE_PASSWORD);
 	}
 

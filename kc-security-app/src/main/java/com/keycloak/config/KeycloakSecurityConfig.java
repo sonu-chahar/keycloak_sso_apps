@@ -4,11 +4,15 @@ import java.util.Arrays;
 
 import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
+import org.keycloak.adapters.springsecurity.client.KeycloakClientRequestFactory;
+import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
 import org.keycloak.adapters.springsecurity.management.HttpSessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,6 +28,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @KeycloakConfiguration
 public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
+
+	@Autowired
+	public KeycloakClientRequestFactory keycloakClientRequestFactory;
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) {
@@ -48,7 +55,8 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
 		super.configure(http);
 		http.authorizeRequests().antMatchers("/images/**", "/myProfile/updateProfile", "/landingPage").permitAll()
 				.antMatchers("/books").hasAnyRole("NDMC_EMPLOYEE", "Citizen").antMatchers("/manager")
-				.hasRole("NDMC_EMPLOYEE").antMatchers("/fetchUserDetail**").authenticated().anyRequest().authenticated();
+				.hasRole("NDMC_EMPLOYEE").antMatchers("/fetchUserDetail**").authenticated().anyRequest()
+				.authenticated();
 		/*
 		 * .and().logout().addLogoutHandler(keycloakLogoutHandler()).logoutUrl(
 		 * "/sso/logout").permitAll() .logoutSuccessUrl("/viewHomePage");
@@ -82,6 +90,12 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
+	}
+
+	@Bean
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public KeycloakRestTemplate keycloakRestTemplate() {
+		return new KeycloakRestTemplate(keycloakClientRequestFactory);
 	}
 
 }

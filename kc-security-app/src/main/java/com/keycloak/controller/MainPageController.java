@@ -78,7 +78,7 @@ public class MainPageController extends AbstractPageController {
 		}
 		model.addAttribute(SESSION_ATTRIBTE_FOR_USER_MASTER, userMaster);
 		model.addAttribute("applicationList", userMasterService.getApplicationListByUserId(userMaster.getId()));
-		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE, getMessageAttributeForPage(request, CLASSNAME_FOR_MESSAGE));
+		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE, getMessageAttributeForPage(request, USER_CLASSNAME_FOR_MESSAGE));
 		return new ModelAndView(VIEW_NAME_HOME_PAGE, model);
 	}
 }

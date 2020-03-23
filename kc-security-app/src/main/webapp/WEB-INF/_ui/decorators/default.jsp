@@ -24,6 +24,8 @@
 	src="<%=request.getContextPath()%>/resources/js/jquery.scrollbar.js"></script>
 <script
 	src="<%=request.getContextPath()%>/resources/js/globalmasters/common.js"></script>
+<script
+	src="<%=request.getContextPath()%>/resources/js/jquery.printThis.js"></script>
 <script>
 	var appctx = '${appctx}';
 	var globalctx = '${globalctx}';
@@ -124,11 +126,13 @@
 				<li><a href="#" class="hvr-shutter-in-vertical"><i
 						class="fa fa-fw fa-cog"></i> Account Setting </a></li>
 
-
-				<%-- <li><a href="<%=request.getContextPath()%>/SubReg/showSubReg"
+						<c:if test="${not empty isAuthorizedForViewUsers}">
+							<li><a href="<%=request.getContextPath()%>/userReport/getUsers"
 					class="hvr-shutter-in-vertical"><i class="fa fa-fw fa-book"></i>
-						Subject Registration</a></li>
-				<li><a
+						Get User List</a></li>
+						</c:if>
+				
+			<%-- 	<li><a
 					href="<%=request.getContextPath()%>/subjectCardMaster/showSubjectCardMaster"
 					class="hvr-shutter-in-vertical"><i class="fa fa-fw fa-list"></i>
 						Subject Card</a></li> --%>

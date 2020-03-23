@@ -34,6 +34,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -41,6 +42,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.XmlViewResolver;
 
+import com.keycloak.filters.RoleInterceptor;
 import com.keycloak.model.UserMaster;
 import com.opensymphony.module.sitemesh.filter.PageFilter;
 
@@ -114,6 +116,15 @@ public class MyWebConfiguration implements WebMvcConfigurer, WebApplicationIniti
 		filter.setFilter(pageFilter);
 		return filter;
 	}
+	
+//	@Bean
+//	public FilterRegistrationBean<SessionFilter> sessionFilter() {
+//		FilterRegistrationBean<SessionFilter> filter = new FilterRegistrationBean<>();
+//		SessionFilter sessionFilter = new SessionFilter();
+//		filter.addUrlPatterns("/*");
+//		filter.setFilter(sessionFilter);
+//		return filter;
+//	}
 
 	@Bean
 	public XmlViewResolver xmlViewResolver() {
@@ -154,4 +165,14 @@ public class MyWebConfiguration implements WebMvcConfigurer, WebApplicationIniti
 		});
 		return errors;
 	}
+	
+	@Bean
+	RoleInterceptor demoInterceptor() {
+         return new RoleInterceptor();
+    }
+ 
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(demoInterceptor());
+    }
 }

@@ -3,12 +3,15 @@ package com.keycloak.report;
 import java.util.Date;
 import java.util.Set;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.keycloak.model.ApplicationMaster;
 
 public class UserReportDTO {
 
 	private String name;
 	private Boolean isActive;
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private Date fromDate;
 	private Date toDate;
 	private Set<ApplicationMaster> enrolledApplications;

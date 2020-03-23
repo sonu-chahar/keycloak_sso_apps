@@ -3,10 +3,10 @@ package com.keycloak.report;
 public class CustomUserRepresentation {
 
 	private String kcUserId;
-	private String firstName;
-	private String lastName;
+	private String name;
 	private String emailId;
-	private Long createdTime;
+	private String createdTime;
+	private String username;
 
 	public String getKcUserId() {
 		return kcUserId;
@@ -16,20 +16,12 @@ public class CustomUserRepresentation {
 		this.kcUserId = kcUserId;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getEmailId() {
@@ -40,12 +32,20 @@ public class CustomUserRepresentation {
 		this.emailId = emailId;
 	}
 
-	public Long getCreatedTime() {
+	public String getCreatedTime() {
 		return createdTime;
 	}
 
-	public void setCreatedTime(Long createdTime) {
+	public void setCreatedTime(String createdTime) {
 		this.createdTime = createdTime;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 }

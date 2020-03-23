@@ -151,4 +151,8 @@ public abstract class AbstractPageController {
 
 		return persistedUserMaster;
 	}
+	
+	public KeycloakSecurityContext getKeycloakSecurityContext(HttpServletRequest request) {
+		return (KeycloakSecurityContext) request.getAttribute(KeycloakSecurityContext.class.getName());
+	}
 }

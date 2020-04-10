@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.keycloak.KeycloakSecurityContext;
+import org.keycloak.representations.AccessToken.Access;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -41,10 +42,14 @@ public class RoleInterceptor implements HandlerInterceptor {
 				.getAttribute(KeycloakSecurityContext.class.getName());
 		if (kcSecurityContext != null) {
 //			Set<String> roles = kcSecurityContext.getToken().getRealmAccess().getRoles();
-			Set<String> roles = kcSecurityContext.getToken().getResourceAccess("realm-management").getRoles();
-			if (roles.contains("view-realm") && roles.contains("view-users")) {
-				request.setAttribute("isAuthorizedForViewUsers", "true");
+			Access access = kcSecurityContext.getToken().getResourceAccess("realm-management");
+			if (access != null) {
+				Set<String> roles = access.getRoles();
+				if (roles.contains("view-realm") && roles.contains("view-users")) {
+					request.setAttribute("isAuthorizedForViewUsers", "true");
+				}
 			}
+
 		}
 		System.out.println("Inside post handle");
 	}

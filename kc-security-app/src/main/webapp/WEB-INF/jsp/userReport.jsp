@@ -71,7 +71,7 @@
 						<input type="submit" name="Submit" class="btn btn-warning"
 							value="Get Users" id="submitBtnId" /> <input type="reset"
 							name="reset" value="RESET" id="btnReset" class="btn btn-warning"
-							onclick="window.location.href='${ctx}/userReport/getUsers'">
+							onclick="window.location.href='${ctx}/userReport/showUserReportPage'">
 						<c:if test="${not empty message}">
 							<span class="message" style="font-weight: bold; color: #ff0000;">${message}
 							</span>

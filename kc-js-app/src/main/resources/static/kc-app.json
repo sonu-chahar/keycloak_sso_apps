@@ -1,6 +1,6 @@
 {
   "realm": "testRealm1",
-  "auth-server-url": "http://192.168.10.215:8180/auth",
+  "auth-server-url": "http://192.168.10.102:8080/auth",
   "ssl-required": "none",
   "resource": "testJSApp",
   "public-client": true,

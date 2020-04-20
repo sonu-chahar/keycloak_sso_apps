@@ -127,7 +127,7 @@
 						class="fa fa-fw fa-cog"></i> Account Setting </a></li>
 
 						<c:if test="${not empty isAuthorizedForViewUsers}">
-							<li><a href="<%=request.getContextPath()%>/userReport/getUsers"
+							<li><a href="<%=request.getContextPath()%>/userReport/showUserReportPage"
 					class="hvr-shutter-in-vertical"><i class="fa fa-fw fa-book"></i>
 						Get User List</a></li>
 						</c:if>

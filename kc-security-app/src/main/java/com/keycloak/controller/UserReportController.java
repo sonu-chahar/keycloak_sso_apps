@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.keycloak.report.CustomUserRepresentation;
@@ -38,6 +40,9 @@ public class UserReportController extends AbstractPageController {
 
 	@Value("${keycloak.auth-server-url}")
 	private String keycloakServerUrl;
+	
+	@Value("${keycloak.realm}")
+	private String realmName;
 	@Value("${keycloak.credentials.secret}")
 	private String clientSecret;
 
@@ -66,7 +71,7 @@ public class UserReportController extends AbstractPageController {
 		// as shown above
 	}
 
-	@GetMapping("/userReport/getUsers")
+	@RequestMapping(value = "**/userReport/showUserReportPage", method = RequestMethod.GET)
 	public ModelAndView showUserReportPage(@ModelAttribute(MODEL_ATTRIBUTE_FOR_USER_REPORT) UserReportDTO userReportDTO,
 			ModelMap model, HttpServletRequest request) {
 		LOGGER.debug("show User Report Page......");
@@ -75,7 +80,7 @@ public class UserReportController extends AbstractPageController {
 		return new ModelAndView(VIEW_NAME_FOR_USER_REPORT, model);
 	}
 
-	@PostMapping("/userReport/getUsers")
+	@RequestMapping(value = "**/userReport/getUsers", method = RequestMethod.POST)
 	public ModelAndView getUsers(@ModelAttribute(MODEL_ATTRIBUTE_FOR_USER_REPORT) UserReportDTO userReportDTO,
 			BindingResult result, ModelMap model, HttpServletRequest request) {
 		LOGGER.debug("show User Report Page......");
@@ -99,7 +104,7 @@ public class UserReportController extends AbstractPageController {
 
 	public List<CustomUserRepresentation> getAllUsers(UserReportDTO userReportDTO) {
 		List<CustomUserRepresentation> usrList = new ArrayList<>();
-		String usrListUrl = keycloakServerUrl + "/admin/realms/testRealm1/users?";
+		String usrListUrl = keycloakServerUrl + "/admin/realms/"+realmName+"/users?";
 		if (userReportDTO.getName() != null) {
 			usrListUrl = usrListUrl + "search=" + userReportDTO.getName();
 		}
@@ -148,13 +153,13 @@ public class UserReportController extends AbstractPageController {
 	}
 	
 	public void getSessionStats() {
-		String activeSessions = keycloakServerUrl + "/admin/realms/testRealm1/client-session-stats?";
+		String activeSessions = keycloakServerUrl + "/admin/realms/"+realmName+"/client-session-stats?";
 		List list = restTemplate.getForEntity(URI.create(activeSessions), List.class).getBody();
 	}
 	
 	public void getActiveSessionStatsByClientId() {
 		
-		String activeSessions = keycloakServerUrl + "/admin/realms/testRealm1/clients/"+this.clientSecret;
+		String activeSessions = keycloakServerUrl + "/admin/realms/"+realmName+"/clients/"+this.clientSecret;
 		List<UserSessionRepresentation> userSessionRepresentationList=new ArrayList<>();
 		userSessionRepresentationList = restTemplate.getForEntity(URI.create(activeSessions), userSessionRepresentationList.getClass()).getBody();
 	}

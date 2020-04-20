@@ -43,7 +43,8 @@ body {
 <div class="main-gap form-horizontal user-portal">
 	<form:form modelAttribute="userMasterDTO" method="post"
 		onsubmit="return validate(this);"
-		action="${ctx}/myProfile/updateProfile" enctype="multipart/form-data" id="profileForm">
+		action="${ctx}/myProfile/updateProfile" enctype="multipart/form-data"
+		id="profileForm">
 
 		<h1 class="heading">
 			<i class="fa fa-edit"></i> My Profile
@@ -87,9 +88,9 @@ body {
 					key="label.personalInformation.dateOfBirth" />
 			</label>
 			<div class="col-sm-3 required">
-				<form:input id="dateOfBirth" style="width:120px" path="dateOfBirth" type="text"
-					class="form-control" placeholder="DD/MM/YYYY" />
-				* 
+				<form:input id="dateOfBirth" style="width:120px" path="dateOfBirth"
+					type="text" class="form-control" placeholder="DD/MM/YYYY" />
+				*
 				<form:errors path="dateOfBirth" cssClass="error" />
 			</div>
 		</div>
@@ -298,14 +299,15 @@ body {
 				</div>
 			</div>
 		</div>
-		<div id="fOtpOverlay" class="manage-otp-popup modal-backdrop fade"></div>
-		<div id='fOtpPopupDiv' class='manage-otp-popup modal fade' tabindex='-1' role='dialog'
-			aria-labelledby='myModalLabel' aria-hidden='true'>
+		<!-- <div id="fOtpOverlay" class="manage-otp-popup modal-backdrop fade"></div> -->
+		<div id='fOtpPopupDiv' class='manage-otp-popup modal fade'
+			tabindex='-1' role='dialog' aria-labelledby='myModalLabel'
+			aria-hidden='true'>
 			<div class='modal-dialog'>
 				<div class='modal-content'>
 					<div class='modal-header'>
-						<!-- <button type='button' class='btn btn-warning close' data-dismiss='modal'
-							aria-hidden='true'  onclick='closeOpenPopup()'>&times;</button> -->
+						<button type='button' class='btn btn-warning close'
+							data-dismiss='modal' onclick='return closeOpenPopup();'>&times;</button>
 						<h4 class='modal-title'>Verify Phone Number</h4>
 					</div>
 					<div id='fOtpModelBody' class='modal-body'>
@@ -313,44 +315,35 @@ body {
 							<label class="col-sm-4 control-label label-inn"> Enter
 								OTP </label>
 							<div class="col-sm-6">
-								<input id="fOtp" name="otp" class="form-control" />
+								<input id="fOtp" name="otp" maxlength="6" class="form-control" />
 							</div>
 						</div>
 					</div>
 					<div class='modal-footer'>
-						<button type='button' class='btn btn-warning' data-dismiss='modal' onclick='closeOpenPopup()'>Update</button>
+						<button id="fOtpResentBtn" type='button' class='btn btn-warning'
+							onclick="resendOtp()">Resend OTP</button>
+						<button type='button' class='btn btn-warning' data-dismiss='modal'
+							onclick='return closeOpenPopup();'>Update</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		
-		<!-- <div class="form-group form-group-sm" id="fOtpDiv">
-			<label class="col-sm-3 control-label label-inn"> Enter OTP </label>
-			<div class="col-sm-3">
-				<input id="fOtp" name="otp" class="form-control" />
-			</div>
-		</div> -->
-
 
 		<div class="form-group form-group-sm">
-			<label class="col-sm-3 control-label label-inn">&nbsp; </label><input
-				type="button" name="generateOtp" value="Generate Otp"
-				id="bGenerateOtp" class="btn btn-warning" onclick="generateOtpFn()" />
-			<input type="button" name="RemoveImage" value="Remove Image"
+			<label class="col-sm-3 control-label label-inn">&nbsp; </label> <input
+				type="button" name="RemoveImage" value="Remove Image"
 				id="removeImage" class="btn btn-warning" onclick="clearImage()" />&nbsp;&nbsp;
 			<input type="submit" name="" value="Update" id="btnSave"
-				class="btn btn-warning" />
-			&nbsp;&nbsp;
-			<!-- <input
-									type="reset" name="reset" value="RESET" id="btnReset"
-									class="btn btn-warning" onclick="hideMsg()" -->
-			<input type="reset" name="reset" value="RESET" id="btnReset"
-				class="btn btn-warning"
+				class="btn btn-warning" /> &nbsp;&nbsp; <input type="reset"
+				name="reset" value="RESET" id="btnReset" class="btn btn-warning"
 				onclick="window.location.href='${ctx}/myProfile/showProfile'">
 			&nbsp;&nbsp;
 			<c:if test="${not empty message}">
 				<span id="msg" class="message">${message}</span>
 			</c:if>
+			<input type="button" name="bHiddenBtnForBSModal"
+				id="bHiddenBtnForBSModal" data-toggle="modal"
+				data-target="#fOtpPopupDiv" />
 		</div>
 
 	</form:form>
@@ -414,9 +407,10 @@ function clearImage(){
 
 //validation script
 function validate(){
-	debugger;
+	if( "${userMaster.mobileNumber}" != $("#fMobileNumber").val()){
+		$( "#bHiddenBtnForBSModal" ).trigger( "click" );
+	}
 	
-	//$("#fAdharCardNumber").val(parseInt($("#fAdharCardNumber").trim()));
 	//for First Name
 	if ($("#fFirstName").val() == "") {
 		alert("First Name is required !");
@@ -485,21 +479,12 @@ function validate(){
 		return false;
 	}
 
-	//alert("#fGenerateOTPFlag:: "+$("#fGenerateOTPFlag").val());
 	if ($("#fMobileNumber").val().length != 10) {
 		alert("Please enter a valid Mobile Number !");
 		$("#fMobileNumber").focus();
 		return false;
 	}
-	/* if($("#fGenerateOTPFlag").val()=="true" && $("#fOtp").val()==""){
-		alert('abcd')
-		closeOpenPopup();
-	} */
-	//alert('abc');
-	//$("#fOtpPopupDiv").show();
 	
-//	$("#fMobileNumber").val($("#fMobileNumber").trim());
-
 	//for Geneder
 	if ($("#fGender").val() == "") {
 		alert("Geneder is required !");
@@ -563,41 +548,25 @@ function validate(){
 		$("#fAdharCardNumber").focus();
 		return false;
 	}
+	
 	if( $("#fGenerateOTPFlag").val()=="false" && "${userMaster.mobileNumber}" != $("#fMobileNumber").val()){
-		let effUrl;
-		if("${activeProfile}"=="dev"){
-			effUrl='http://192.168.10.215:8080/kc-security-app/myProfile/generateOtp'+'/'+$("#fMobileNumber").val();
-		}else{
-			effUrl='http://172.16.200.195:8080/ndmc-app/myProfile/generateOtp'+'/'+$("#fMobileNumber").val();
-		}
-		
-		//alert(effUrl);
+		let effUrl=getUrlForOtp();
 		
 		$.get(effUrl, function(data, status,xhr){
-			  //alert("Data: " + data + "\nStatus: " + status);
 			  $("#fGenerateOTPFlag").val("true");
+			  $("#fOtpResentBtn").prop('disabled', false);
+			  if($("#fOtp").val().length == 6){
+				  $("#profileForm").submit();
+			  }
 		});
-		//$("#fOtpPopupDiv").show();
-		closeOpenPopup();
-		return false;
-		
-		//$("#fOtpPopupDiv").show();
-		//$(".manage-otp-popup").addClass("in");
-		//$("#fOtpPopupDiv").addClass("in");
-		//$("#fOtpOverlay").addClass("in");
-		//$(".manage-otp-popup").css("display", "block");
-		
-		//$("fOtpPopupDiv").css("display", "block");
-		
-		//$("#fOtpDiv").show();
-		
+		if($("#fGenerateOTPFlag").val()=="false" && $("#fOtp").val().length != 6){
+			alert("Please wait otp is being sent to your mobile...");
+			return false;
+		}
 	} 
-	//for OTP
-	/* if (${userMaster ne null} && "${userMaster.mobileNumber}"!=$("#fMobileNumber").val() && ($("#fOtp").val() == "" || $("#fOtp").val().length<6)) {
-		alert("Please enter a valid OTP!");
-		$("#fOtp").focus();
+	if($("#fGenerateOTPFlag").val()=="true" && $("#fOtp").val().length != 6){
 		return false;
-	} */
+	}
 	
 	//for VoterIdNumber
 /* 	if ($("#fVoterIdNumber").val() == "") {
@@ -636,30 +605,7 @@ function validate(){
 		$("#fEstatePropertyId").focus();
 		return false;
 	} */
-	//for Username
-	/* if ($("#fUsername").val() == "") {
-		alert("Username is required !");
-		$("#fUsername").focus();
-		return false;
-	}
-	//for Password
-	if ($("#fPassword").val() == "") {
-		alert("Password is required !");
-		$("#fPassword").focus();
-		return false;
-	}
-	//for ConfirmPassword
-	if ($("#fConfirmPassword").val() == "") {
-		alert("ConfirmPassword is required !");
-		$("#ConfirmPassword").focus();
-		return false;
-	} */
 
-	if ($("#fPassword").val() != $("#fConfirmPassword").val()) {
-		alert("Password doesn't match !");
-		$("#fUsername").focus();
-		return false;
-	}
 	let file=$('#file')[0].files[0];
 	if(file!= null){
 		file_size=file.size;
@@ -675,6 +621,15 @@ function isNumberKeyMobileNumber(evt) {
 	var charCode = (evt.which) ? evt.which : event.keyCode;
 	if (charCode > 31 && (charCode< 48 || charCode >57)) {
 		alert("Phone Number must be a number !");
+		return false;
+	}
+	return true;
+}
+
+function isNumberKeyOTP(evt) {
+	var charCode = (evt.which) ? evt.which : event.keyCode;
+	if (charCode > 31 && (charCode< 48 || charCode >57)) {
+		alert("OTP must be a number !");
 		return false;
 	}
 	return true;
@@ -699,17 +654,13 @@ function isNumberKeyAdharCardNumber(evt) {
 }
 </script>
 <script>
-/* function generateOtpFn(){
-	//alert("sadf")
-	
-}  */
 
 function closeOpenPopup(){
 	if($(".manage-otp-popup").hasClass("in")){
-		if($("#fOtp").val() != "" && $("#fOtp").val().length<6 ){
+		if($("#fOtp").val() != "" && $("#fOtp").val().length < 6 ){
 			alert("Please enter Valid OTP")
 		}
-		if($("#fOtp").val() != "" && $("#fOtp").val().length==6){
+		if($("#fOtp").val() != "" && $("#fOtp").val().length == 6){
 			$(".manage-otp-popup").removeClass("in");
 			$(".manage-otp-popup").css("display", "none");
 			$("#profileForm").submit();
@@ -722,48 +673,17 @@ function closeOpenPopup(){
 }
 $(document).ready(function() {
 	$(".manage-otp-popup").css("display", "none");
-	//$("#fMobileNumber").blur(function(){
-		
-		//if(${userMaster ne null}){
-			//alert($("#fMobileNumber").length);
-			/* if("${userMaster.isPhoneVerified}"!="true" ||  "${userMaster.mobileNumber}" != $("#fMobileNumber").val()){
-				let effUrl;
-				if("${activeProfile}"=="dev"){
-					effUrl='http://192.168.10.215:8080/kc-security-app/myProfile/generateOtp'+'/'+$("#fMobileNumber").val();
-				}else{
-					effUrl='http://172.16.200.195:8080/ndmc-app/myProfile/generateOtp'+'/'+$("#fMobileNumber").val();
-				}
-				
-				alert(effUrl);
-				$.get(effUrl, function(data, status){
-				 // alert("Data: " + data + "\nStatus: " + status);
-				});
-				$("#fOtpDiv").show();
-			} */
-	//	}
-//		  alert("This input field has lost its focus.");
-//		  if("${userMaster.mobileNumber}" == $("#fMobileNumber").val() && "${userMaster.isPhoneVerified}"=="true"  ){
-//			  alert("This input field has lost its focus.");
-//			  $("#bGenerateOtp").hide();
-	//	  }else{
-		//	  $("#bGenerateOtp").show();
-		  //}
-	//});
+	
 	populateCountries("fCountry", "fState");
 	if("${userMaster.imageName}"==""){
 		alert("Kindly complete your profile to proceed further");
 	}
-	//$("#fOtpDiv").hide();
 	$("#fOtpPopupDiv").hide();
+	$("#fOtpResentBtn").prop('disabled', true);
 	
 	if(${userMaster ne null} && (${userMaster.isPhoneVerified ne null } && ${userMaster.isPhoneVerified eq true }) || ${userMaster.isPhoneVerified eq null }){
 		$("#bGenerateOtp").hide();
 	}
-	
-	/* if("${userMaster ne null}"){
-		$("#btnSave").attr("disabled", true);
-	} */
-	
 	
 	if(${userMaster.firstName ne null}){
 		$("#fFirstName").val('${userMaster.firstName}');
@@ -774,77 +694,59 @@ $(document).ready(function() {
 	}
 	if(${userMaster.fatherName ne null}){
 		$("#fFatherName").val('${userMaster.fatherName}');
-		//$("#fFatherName").attr('readonly', true);
 	}
 	if(${userMaster.dateOfBirth ne null}){
 		$("#dateOfBirth").val('${userMaster.dateOfBirth}');
-		//$("#dateOfBirth").attr('readonly', true);
 	}
 	if(${userMaster.emailId ne null}){
 		$("#emailId").val('${userMaster.emailId}');
-		//$("#emailId").attr('readonly', true);
 	}
 	if(${userMaster.mobileNumber ne null}){
 		$("#fMobileNumber").val('${userMaster.mobileNumber}');
-		//$("#fMobileNumber").attr('readonly', true);
 	}
 	if(${userMaster.gender ne null}){
 		$("#fGender").val('${userMaster.gender}');
-		//$("#fGender").attr('readonly', true);
 	}
 	if(${userMaster.locality ne null}){
 		$("#fLocality").val('${userMaster.locality}');
-		//$("#fLocality").attr('readonly', true);
 	}
 	if(${userMaster.city ne null}){
 		$("#fCity").val('${userMaster.city}');
-		//$("#fCity").attr('readonly', true);
 	}
 	 
 	if(${userMaster.country ne null}){
 		$("#fCountry").val('${userMaster.country}');
 		$("#fCountry").trigger("change");
-		//$("#fCountry").attr('readonly', true);
 	} 
 	if(${userMaster.state ne null}){
 		$("#fState").val('${userMaster.state}');
-		//$("#fState").attr('readonly', true);
 	}
 	if(${userMaster.pinCode ne null}){
 		$("#fPinCode").val('${userMaster.pinCode}');
-		//$("#fPinCode").attr('readonly', true);
 	}
 	if(${userMaster.userType ne null}){
 		$("#fUserType").val('${userMaster.userType}');
-		//$("#fUserType").attr('readonly', true);
 	}
 	if(${userMaster.adharCardNumber ne null}){
 		$("#fAdharCardNumber").val('${userMaster.adharCardNumber}');
-		//$("#fAdharCardNumber").attr('readonly', true);
 	} 
 	if(${userMaster.voterIdNumber ne null}){
 		$("#fVoterIdNumber").val('${userMaster.voterIdNumber}');
-		//$("#fVoterIdNumber").attr('readonly', true);
 	}
 	if(${userMaster.passportNumber ne null}){
 		$("#fPassportNumber").val('${userMaster.passportNumber}');
-		//$("#fPassportNumber").attr('readonly', true);
 	}
 	if(${userMaster.waterConsumerNumber ne null}){
 		$("#fWaterConsumerNumber").val('${userMaster.waterConsumerNumber}');
-		//$("#fWaterConsumerNumber").attr('readonly', true);
 	}
 	if(${userMaster.electricityConsumerNumber ne null}){
 		$("#fElectricityConsumerNumber").val('${userMaster.electricityConsumerNumber}');
-		//$("#fElectricityConsumerNumber").attr('readonly', true);
 	}
 	if(${userMaster.propertyId ne null}){
 		$("#fPropertyId").val('${userMaster.propertyId}');
-		//$("#fPropertyId").attr('readonly', true);
 	}
 	if(${userMaster.estatePropertyId ne null}){
 		$("#fEstatePropertyId").val('${userMaster.estatePropertyId}');
-		//$("#fEstatePropertyId").attr('readonly', true);
 	}
 	if(${userMaster.imageName ne null}){
 		$("#imageName").val('${userMaster.imageName}');
@@ -855,11 +757,38 @@ $(document).ready(function() {
 }); 
 
 jQuery('.denyNumber').keyup(function () { 
-    //this.value = this.value.replace(/[^0-9\.]/g,'');
 	if(this.value!=="" && !isNaN(this.value)){
     	alert("Name can't be a number!")
     }
     this.value = this.value.replace(/[^a-zA-Z\s]/g,'');
     
 });
+
+var otpCounter=1;
+function resendOtp(){
+	if(otpCounter==4){
+		alert("can't send further otp");
+		 $("#fOtpResentBtn").prop('disabled', true);
+	}else{
+		let effUrl=getUrlForOtp();
+		$.get(effUrl, function(data, status,xhr){
+		  if($("#fOtp").val().length == 6){
+			  $("#profileForm").submit();
+		  }
+		});
+	}
+	otpCounter++;
+}
+
+function getUrlForOtp(){
+	let effUrl;
+	if("${activeProfile}"=="dev"){
+		effUrl="http://192.168.10.215:8080/kc-security-app/myProfile/generateOtp"+"/"+$("#fMobileNumber").val();
+	}else{
+		effUrl='http://172.16.200.195:8080/ndmc-app/myProfile/generateOtp'+'/'+$("#fMobileNumber").val();
+	}
+	return effUrl;
+}
 </script>
+
+

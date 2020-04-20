@@ -134,17 +134,19 @@ public class MyProfileController extends AbstractPageController {
 			LOGGER.error("Error in User Master object....");
 			return new ModelAndView(REDIRECT_URL_FOR_PROFILE + BLANK_STRING);
 		}
+		UserMaster oldUserMaster = (UserMaster) request.getSession(false)
+				.getAttribute(SESSION_ATTRIBTE_FOR_USER_MASTER);
 		String status = BLANK_STRING;
 		String otp = request.getParameter("otp");
 		if (StringUtils.isNotEmpty(otp) && otp.equals(request.getSession(false).getAttribute("generatedOtp"))) {
 			userMasterDTO.setIsPhoneVerified(true);
 			userMasterDTO.setPhoneVerifiedStatus(CONSTANT_FOR_TRUE_FLAG);
 			request.getSession(false).removeAttribute("generatedOtp");
+		} else if (userMasterDTO.getMobileNumber() != null
+				&& !userMasterDTO.getMobileNumber().equals(oldUserMaster.getMobileNumber())) {
+			return new ModelAndView(REDIRECT_URL_FOR_PROFILE + "please enter a valid OTP!");
 		}
-
 		try {
-			UserMaster oldUserMaster = (UserMaster) request.getSession(false)
-					.getAttribute(SESSION_ATTRIBTE_FOR_USER_MASTER);
 			userMasterDTO.setUsername(oldUserMaster.getUsername());
 			userMasterDTO.setPassword(oldUserMaster.getPassword());
 			userMasterDTO.setId(oldUserMaster.getId());
@@ -183,7 +185,9 @@ public class MyProfileController extends AbstractPageController {
 			LOGGER.debug(e.getStackTrace());
 			status = STATUS_FOR_ERROR;
 		}
+
 		return new ModelAndView(REDIRECT_URL_FOR_PROFILE + status);
+
 	}
 
 	private boolean saveImage(UserMaster userMasterDTO) {

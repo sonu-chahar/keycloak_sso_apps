@@ -19,6 +19,7 @@ public abstract class AbstractPageController {
 	public static final String SESSION_ATTRIBTE_FOR_USER_MASTER = "userMaster";
 	public static final String MODEL_ATTRIBUTE_MESSAGE = "message";
 	public static final String REQUEST_ATTRIBUTE_STATUS = "status";
+	public static final String REQUEST_ATTRIBUTE_VERIFY_MOBILE = "verifyMobileMsg";
 	public static final String MODEL_ATTRIBUTE_FOR_USER_MASTER = "userMasterDTO";
 	public static final String MODEL_ATTRIBUTE_FOR_APPLICATION_MASTER_MAPPING = "applicationMasterDTO";
 
@@ -154,5 +155,19 @@ public abstract class AbstractPageController {
 	
 	public KeycloakSecurityContext getKeycloakSecurityContext(HttpServletRequest request) {
 		return (KeycloakSecurityContext) request.getAttribute(KeycloakSecurityContext.class.getName());
+	}
+	
+	public static String getClientIp(HttpServletRequest request) {
+
+		String remoteAddr = "";
+
+		if (request != null) {
+			remoteAddr = request.getHeader("X-FORWARDED-FOR");
+			if (remoteAddr == null || "".equals(remoteAddr)) {
+				remoteAddr = request.getRemoteAddr();
+			}
+		}
+
+		return remoteAddr;
 	}
 }

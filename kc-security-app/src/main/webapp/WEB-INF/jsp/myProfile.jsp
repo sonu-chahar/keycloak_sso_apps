@@ -53,6 +53,8 @@ body {
 		<input type="hidden" id="fGenerateOTPFlag" value="false" />
 		<input type="hidden" id="fRemoveImageFlag" name="removeImageFlag"
 			value="false" />
+		<input type="hidden" id="fGeoLocFlag" name="geoLocFlag"
+			value="false" />
 		<div class="form-group form-group-sm">
 			<label class="col-sm-3 control-label label-inn"> <fmt:message
 					key="label.personalInformation.firstName" />
@@ -407,9 +409,8 @@ function clearImage(){
 
 //validation script
 function validate(){
-	if( "${userMaster.mobileNumber}" != $("#fMobileNumber").val()){
-		$( "#bHiddenBtnForBSModal" ).trigger( "click" );
-	}
+	//"${verifyMobileMsg}"!="" || (
+	
 	
 	//for First Name
 	if ($("#fFirstName").val() == "") {
@@ -549,15 +550,24 @@ function validate(){
 		return false;
 	}
 	
-	if( $("#fGenerateOTPFlag").val()=="false" && "${userMaster.mobileNumber}" != $("#fMobileNumber").val()){
+	if($("#fGeoLocFlag").val() == "true" || ("${userMaster.mobileNumber}" != $("#fMobileNumber").val())){
+		$( "#bHiddenBtnForBSModal" ).trigger( "click" );
+	}
+	//if( $("#fGeoLocFlag").val()=="true" )
+	if($("#fGenerateOTPFlag").val()=="false" && ($("#fGeoLocFlag").val() == "true" || "${userMaster.mobileNumber}" != $("#fMobileNumber").val())){
 		let effUrl=getUrlForOtp();
+		//alert(effUrl);
 		
 		$.get(effUrl, function(data, status,xhr){
 			  $("#fGenerateOTPFlag").val("true");
 			  $("#fOtpResentBtn").prop('disabled', false);
+			  if(data.response.responsecode!=1){
+				  alert(data.response.responsemessage);
+			  };
 			  if($("#fOtp").val().length == 6){
 				  $("#profileForm").submit();
 			  }
+			  
 		});
 		if($("#fGenerateOTPFlag").val()=="false" && $("#fOtp").val().length != 6){
 			alert("Please wait otp is being sent to your mobile...");
@@ -672,6 +682,11 @@ function closeOpenPopup(){
 	}
 }
 $(document).ready(function() {
+	
+	if("${verifyMobileMsg}"!=""){
+		$("#fGeoLocFlag").val("true");
+		alert("${verifyMobileMsg}");
+	}
 	$(".manage-otp-popup").css("display", "none");
 	
 	populateCountries("fCountry", "fState");
@@ -772,6 +787,9 @@ function resendOtp(){
 	}else{
 		let effUrl=getUrlForOtp();
 		$.get(effUrl, function(data, status,xhr){
+			 if(data.response.responsecode!=1){
+				  alert(data.response.responsemessage);
+			  };
 		  if($("#fOtp").val().length == 6){
 			  $("#profileForm").submit();
 		  }
@@ -781,13 +799,7 @@ function resendOtp(){
 }
 
 function getUrlForOtp(){
-	let effUrl;
-	if("${activeProfile}"=="dev"){
-		effUrl="http://192.168.10.215:8080/kc-security-app/myProfile/generateOtp"+"/"+$("#fMobileNumber").val();
-	}else{
-		effUrl='http://172.16.200.195:8080/ndmc-app/myProfile/generateOtp'+'/'+$("#fMobileNumber").val();
-	}
-	return effUrl;
+	return "${baseURL}"+"/myProfile/generateOtp"+"/"+$("#fMobileNumber").val();
 }
 </script>
 

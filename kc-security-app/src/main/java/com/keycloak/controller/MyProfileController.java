@@ -110,11 +110,16 @@ public class MyProfileController extends AbstractPageController {
 		String status = StringUtils.isNotBlank(request.getParameter(REQUEST_ATTRIBUTE_STATUS))
 				? request.getParameter(REQUEST_ATTRIBUTE_STATUS)
 				: BLANK_STRING;
+		String verifyMobileMsg=StringUtils.isNotBlank(request.getParameter(REQUEST_ATTRIBUTE_VERIFY_MOBILE))
+				? request.getParameter(REQUEST_ATTRIBUTE_VERIFY_MOBILE)
+				: BLANK_STRING;
 		if (status.equals(STATUS_FOR_UPDATE)) {
 			return new ModelAndView(REDIRECT_URL_FOR_HOMEPAGE + status);
 		}
 
 		model.addAttribute(IMAGE_UPLOAD_STATUS, imageStatus);
+		model.addAttribute(REQUEST_ATTRIBUTE_VERIFY_MOBILE, verifyMobileMsg);
+		
 
 		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE, getMessageAttributeForPage(request, USER_CLASSNAME_FOR_MESSAGE));
 
@@ -171,9 +176,8 @@ public class MyProfileController extends AbstractPageController {
 					redirectAttributes.addFlashAttribute(IMAGE_UPLOAD_STATUS, "Image cannot be removed");
 				}
 			}
-			if (oldUserMaster.getUserIpAddress() == null) {
-				userMasterDTO.setUserIpAddress(getClientIp(request));
-			}
+		
+			userMasterDTO.setUserIpAddress(getClientIp(request));
 			// userMasterDTO.setRoles(oldUserMaster.getRoles());
 
 			userMasterDTO = userMasterService.save(userMasterDTO);
@@ -304,19 +308,19 @@ public class MyProfileController extends AbstractPageController {
 		return new ModelAndView(REDIRECT_URL_FOR_UPDATE_PASSWORD + status);
 	}
 
-	private static String getClientIp(HttpServletRequest request) {
-
-		String remoteAddr = "";
-
-		if (request != null) {
-			remoteAddr = request.getHeader("X-FORWARDED-FOR");
-			if (remoteAddr == null || "".equals(remoteAddr)) {
-				remoteAddr = request.getRemoteAddr();
-			}
-		}
-
-		return remoteAddr;
-	}
+//	private static String getClientIp(HttpServletRequest request) {
+//
+//		String remoteAddr = "";
+//
+//		if (request != null) {
+//			remoteAddr = request.getHeader("X-FORWARDED-FOR");
+//			if (remoteAddr == null || "".equals(remoteAddr)) {
+//				remoteAddr = request.getRemoteAddr();
+//			}
+//		}
+//
+//		return remoteAddr;
+//	}
 
 	@RequestMapping(value = "/generateOtp/{mobileNumber}")
 	@ResponseBody

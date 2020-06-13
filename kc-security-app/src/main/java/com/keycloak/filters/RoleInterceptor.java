@@ -31,7 +31,7 @@ public class RoleInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		System.out.println("Inside pre handle");
+//		System.out.println("Inside pre handle");
 		return true;
 	}
 
@@ -51,13 +51,13 @@ public class RoleInterceptor implements HandlerInterceptor {
 			}
 
 		}
-		System.out.println("Inside post handle");
+//		System.out.println("Inside post handle");
 	}
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
 			Exception exception) throws Exception {
-		System.out.println("Inside after completion");
+//		System.out.println("Inside after completion");
 	}
 
 }

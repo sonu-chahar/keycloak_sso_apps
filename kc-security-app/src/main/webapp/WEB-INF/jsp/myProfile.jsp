@@ -127,6 +127,7 @@ body {
 							key="label.personalInformation.gender" /> ----</form:option>
 					<form:option value="m">Male</form:option>
 					<form:option value="f">Female</form:option>
+					<form:option value="o">Other</form:option>
 				</form:select>
 				*
 				<form:errors path="gender" cssClass="error" />
@@ -207,9 +208,9 @@ body {
 					<%-- <c:forEach items="${userTypeList}" var="userType">
 						<option value="${userType.id}">${userType.name}</option>
 					</c:forEach> --%>
-					<form:option value="Citizen">Citizen</form:option>
+					<form:option value="ndmcCitizen">NDMC Citizen</form:option>
+					<form:option value="nonNdmcCitizen">NON-NDMC Citizen</form:option>
 					<form:option value="ndmcEmployee">NDMC Employee</form:option>
-					<form:option value="nonNdmcUser">Non NDMC User</form:option>
 				</form:select>
 				*
 				<form:errors path="userType" cssClass="error" />
@@ -692,6 +693,8 @@ $(document).ready(function() {
 	populateCountries("fCountry", "fState");
 	if("${userMaster.imageName}"==""){
 		alert("Kindly complete your profile to proceed further");
+		$("#fCountry").val("India");
+		$("#fCountry").trigger("change");
 	}
 	$("#fOtpPopupDiv").hide();
 	$("#fOtpResentBtn").prop('disabled', true);

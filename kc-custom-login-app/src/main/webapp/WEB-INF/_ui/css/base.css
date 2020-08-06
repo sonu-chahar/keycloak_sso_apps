@@ -1,0 +1,13 @@
+/*
+Filename:  base.css
+Title :  Primary CSS
+Author : Sarika Desai
+URL: 
+License:
+Description: Basic Layout for iSecuritization Application 
+Date : 21 January 2009
+
+*/
+
+@import url("layout.css"); 
+@import url("home.css"); 

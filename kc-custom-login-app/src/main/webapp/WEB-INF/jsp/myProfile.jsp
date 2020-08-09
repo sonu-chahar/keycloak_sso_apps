@@ -1,10 +1,12 @@
 <%@ include file="/static-resources/common/taglibs.jsp"%>
 <%@page import="com.keycloak.model.UserMaster"%>
+<spring:message code="label.btn.update" var="btnUpdate" />
+<spring:message code="label.btn.reset" var="btnReset" />
 <script src="<%=request.getContextPath()%>/resources/js/countries.js"></script>
 <script
 	src='<%=request.getContextPath()%>/dwr/interface/userMasterRemoteService.js'></script>
 
-<title>My Profile</title>
+<title><spring:message code="label.profilePage.title" /></title>
 
 <noscript class="noscript">
 	<div id="div100">
@@ -49,7 +51,8 @@ body {
 		id="profileForm">
 
 		<h1 class="heading">
-			<em class="fa fa-edit"></em> My Profile
+			<em class="fa fa-edit"></em>
+			<spring:message code="label.profilePage.fa-heading1" />
 		</h1>
 
 		<form:hidden path="id" />
@@ -59,17 +62,16 @@ body {
 			value="false" />
 		<input type="hidden" id="fGeoLocFlag" name="geoLocFlag" value="false" />
 		<div class="form-group form-group-sm">
-			<label class="col-sm-3 control-label label-inn"> <fmt:message
-					key="label.personalInformation.firstName" />
-			</label>
+			<label class="col-sm-3 control-label label-inn"><spring:message
+					code="label.profilePage.firstName" /> </label>
 			<div class="col-sm-3 required">
 				<form:input id="fFirstName" path="firstName"
 					cssClass="form-control denyNumber" />
 				*
 				<form:errors path="firstName" cssClass="error" />
 			</div>
-			<label class="col-sm-2 control-label label-inn"> <fmt:message
-					key="label.personalInformation.lastName" />
+			<label class="col-sm-2 control-label label-inn"> <spring:message
+					code="label.profilePage.lastName" />
 			</label>
 			<div class="col-sm-3 required">
 				<form:input id="fLastName" path="lastName"
@@ -80,8 +82,8 @@ body {
 
 		</div>
 		<div class="form-group form-group-sm">
-			<label class="col-sm-3 control-label label-inn"> <fmt:message
-					key="label.personalInformation.fatherName" />
+			<label class="col-sm-3 control-label label-inn"> <spring:message
+					code="label.profilePage.fatherName" />
 			</label>
 			<div class="col-sm-3 required">
 				<form:input id="fFatherName" path="fatherName"
@@ -89,9 +91,8 @@ body {
 				*
 				<form:errors path="fatherName" cssClass="error" />
 			</div>
-			<label class="col-sm-2 control-label label-inn"> <fmt:message
-					key="label.personalInformation.dateOfBirth" />
-			</label>
+			<label class="col-sm-2 control-label label-inn"><spring:message
+					code="label.profilePage.dateOfBirth" /> </label>
 			<div class="col-sm-3 required">
 				<form:input id="dateOfBirth" style="width:120px" path="dateOfBirth"
 					type="text" class="form-control" placeholder="DD/MM/YYYY" />
@@ -100,8 +101,8 @@ body {
 			</div>
 		</div>
 		<div class="form-group form-group-sm">
-			<label class="col-sm-3 control-label label-inn"> <fmt:message
-					key="label.personalInformation.emailId" />
+			<label class="col-sm-3 control-label label-inn"> <spring:message
+					code="label.profilePage.emailId" />
 			</label>
 			<div class="col-sm-3 required">
 				<form:input id="emailId" path="emailId" cssClass="form-control"
@@ -109,9 +110,8 @@ body {
 				*
 				<form:errors path="emailId" cssClass="error" />
 			</div>
-			<label class="col-sm-2 control-label label-inn"> <fmt:message
-					key="label.personalInformation.mobileNumber" />
-			</label>
+			<label class="col-sm-2 control-label label-inn"><spring:message
+					code="label.profilePage.mobileNumber" /> </label>
 			<div class="col-sm-3 required">
 				<form:input id="fMobileNumber" path="mobileNumber" maxlength="10"
 					cssClass="form-control"
@@ -121,27 +121,27 @@ body {
 			</div>
 		</div>
 		<div class="form-group form-group-sm">
-			<label class="col-sm-3 control-label label-inn"> <fmt:message
-					key="label.personalInformation.gender" />
+			<label class="col-sm-3 control-label label-inn"> <spring:message
+					code="label.profilePage.gender" />
 			</label>
 			<div class="col-sm-3 required">
 				<form:select class="form-control" id="fGender" path="gender">
-					<form:option selected="selected" value="">---- Select <fmt:message
-							key="label.personalInformation.gender" /> ----</form:option>
-					<form:option value="m">Male</form:option>
-					<form:option value="f">Female</form:option>
-					<form:option value="o">Other</form:option>
+					<form:option selected="selected" value=""> ---- <spring:message code="label.profilePage.gender" /> <spring:message
+							code="label.profilePage.dropdownSelect" /> ----</form:option>
+					<form:option value="m"><spring:message code="label.profilePage.gender.male" /></form:option>
+					<form:option value="f"><spring:message code="label.profilePage.gender.female" /></form:option>
+					<form:option value="o"><spring:message code="label.profilePage.gender.other" /></form:option>
 				</form:select>
 				*
 				<form:errors path="gender" cssClass="error" />
 			</div>
-			<label class="col-sm-2 control-label label-inn"> <fmt:message
-					key="label.personalInformation.country" />
-			</label>
+			<label class="col-sm-2 control-label label-inn"><spring:message
+					code="label.profilePage.country" /> </label>
 			<div class="col-sm-3 required">
 				<form:select class="form-control" id="fCountry" path="country">
-					<option selected="selected" value="">---- Select
-						<fmt:message key="label.personalInformation.country" /> ----
+					<option selected="selected" value=""><spring:message
+							code="label.profilePage.lastName" /> ---- <spring:message code="label.profilePage.country" /> <spring:message
+							code="label.profilePage.dropdownSelect" /> ----
 					</option>
 				</form:select>
 				*
@@ -150,21 +150,20 @@ body {
 
 		</div>
 		<div class="form-group form-group-sm">
-			<label class="col-sm-3 control-label label-inn"> <fmt:message
-					key="label.personalInformation.state" />
-			</label>
+			<label class="col-sm-3 control-label label-inn"><spring:message
+					code="label.profilePage.state" /> </label>
 			<div class="col-sm-3 required">
 				<form:select class="form-control" id="fState" path="state"
 					onchange="getLocalityByState(this.value)">
-					<option selected="selected" value="">---- Select
-						<fmt:message key="label.personalInformation.state" /> ----
+					<option selected="selected" value="">---- <spring:message code="label.profilePage.state" /> <spring:message
+							code="label.profilePage.dropdownSelect" /> ----
 					</option>
 				</form:select>
 				*
 				<form:errors path="state" cssClass="error" />
 			</div>
-			<label class="col-sm-2 control-label label-inn"> <fmt:message
-					key="label.personalInformation.city" />
+			<label class="col-sm-2 control-label label-inn"> <spring:message
+					code="label.profilePage.city" />
 			</label>
 			<div class="col-sm-3 required">
 				<form:input id="fCity" path="city" maxlength="50"
@@ -174,13 +173,14 @@ body {
 			</div>
 		</div>
 		<div class="form-group form-group-sm">
-			<label class="col-sm-3 control-label label-inn"><fmt:message
-					key="label.personalInformation.locality" /></label>
+			<label class="col-sm-3 control-label label-inn"><spring:message
+					code="label.profilePage.locality" /> </label>
 			<div class="col-sm-3 required">
 				<form:input id="fLocality" path="locality" cssClass="form-control" />
 				<form:select path="locality" id="fLocalitySelect"
 					class="form-control">
-					<form:option selected="selected" value="">-- Select Locality--</form:option>
+					<form:option selected="selected" value="">---- <spring:message code="label.profilePage.locality" /> <spring:message
+							code="label.profilePage.dropdownSelect" />  ----</form:option>
 					<c:forEach items="${localityList}" var="locality">
 						<form:option value="${locality.localityName}">${locality.localityName}</form:option>
 					</c:forEach>
@@ -188,9 +188,8 @@ body {
 				*
 				<form:errors path="locality" cssClass="error" />
 			</div>
-			<label class="col-sm-2 control-label label-inn"> <fmt:message
-					key="label.personalInformation.pinCode" />
-			</label>
+			<label class="col-sm-2 control-label label-inn"><spring:message
+					code="label.profilePage.pinCode" /> </label>
 			<div class="col-sm-3 required">
 				<form:input id="fPinCode" path="pinCode" maxlength="6"
 					cssClass="form-control"
@@ -201,27 +200,27 @@ body {
 		</div>
 
 		<h2 class="subheading">
-			<em class="fa fa-edit"></em> Personal Details
+			<em class="fa fa-edit"></em>
+			<spring:message code="label.profilePage.fa-heading2" />
 		</h2>
 		<div class="form-group form-group-sm">
-			<label class="col-sm-3 control-label label-inn"> <fmt:message
-					key="label.personalInformation.userType" />
+			<label class="col-sm-3 control-label label-inn"> <spring:message
+					code="label.profilePage.userType" />
 			</label>
 			<div class="col-sm-3 required">
 				<form:select class="form-control" id="fUserType" path="userType"
 					onchange="checkUserTypeDetails()">
-					<form:option selected="selected" value="">---- Select <fmt:message
-							key="label.personalInformation.userType" /> ----</form:option>
-					<form:option value="ndmcCitizen">NDMC Citizen</form:option>
-					<form:option value="nonNdmcCitizen">NON-NDMC Citizen</form:option>
-					<form:option value="ndmcEmployee">NDMC Employee</form:option>
+					<form:option selected="selected" value="">---- <spring:message code="label.profilePage.userType" /> <spring:message
+							code="label.profilePage.dropdownSelect" /> ----</form:option>
+					<form:option value="ndmcCitizen"><spring:message code="label.profilePage.userType.ndmcCitizen" /></form:option>
+					<form:option value="nonNdmcCitizen"><spring:message code="label.profilePage.userType.nonNdmcCitizen" /></form:option>
+					<form:option value="ndmcEmployee"><spring:message code="label.profilePage.userType.ndmcEmployee" /></form:option>
 				</form:select>
 				*
 				<form:errors path="userType" cssClass="error" />
 			</div>
-			<label class="col-sm-2 control-label label-inn"> <fmt:message
-					key="label.personalInformation.adharCardNumber" />
-			</label>
+			<label class="col-sm-2 control-label label-inn"><spring:message
+					code="label.profilePage.adharCardNumber" /> </label>
 			<div class="col-sm-3 required">
 				<form:input id="fAdharCardNumber" path="adharCardNumber"
 					maxlength="16" cssClass="form-control"
@@ -230,16 +229,15 @@ body {
 			</div>
 		</div>
 		<div class="form-group form-group-sm">
-			<label class="col-sm-3 control-label label-inn"> <fmt:message
-					key="label.personalInformation.voterIdNumber" />
-			</label>
+			<label class="col-sm-3 control-label label-inn"><spring:message
+					code="label.profilePage.voterIdNumber" /> </label>
 			<div class="col-sm-3">
 				<form:input id="fVoterIdNumber" path="voterIdNumber"
 					class="form-control" />
 				<form:errors path="voterIdNumber" cssClass="error" />
 			</div>
-			<label class="col-sm-2 control-label label-inn"> <fmt:message
-					key="label.personalInformation.passportNumber" />
+			<label class="col-sm-2 control-label label-inn"> <spring:message
+					code="label.profilePage.passportNumber" />
 			</label>
 			<div class="col-sm-3">
 				<form:input id="fPassportNumber" path="passportNumber"
@@ -248,16 +246,15 @@ body {
 			</div>
 		</div>
 		<div class="form-group form-group-sm">
-			<label class="col-sm-3 control-label label-inn"> <fmt:message
-					key="label.personalInformation.waterConsumerNumber" />
-			</label>
+			<label class="col-sm-3 control-label label-inn"><spring:message
+					code="label.profilePage.waterConsumerNumber" /> </label>
 			<div class="col-sm-3">
 				<form:input id="fWaterConsumerNumber" path="waterConsumerNumber"
 					class="form-control" />
 				<form:errors path="waterConsumerNumber" cssClass="error" />
 			</div>
-			<label class="col-sm-2 control-label label-inn"> <fmt:message
-					key="label.personalInformation.electricityConsumerNumber" />
+			<label class="col-sm-2 control-label label-inn"> <spring:message
+					code="label.profilePage.electricityConsumerNumber" />
 			</label>
 			<div class="col-sm-3">
 				<form:input id="fElectricityConsumerNumber"
@@ -267,15 +264,15 @@ body {
 		</div>
 
 		<div class="form-group form-group-sm">
-			<label class="col-sm-3 control-label label-inn"> <fmt:message
-					key="label.personalInformation.propertyId" />
+			<label class="col-sm-3 control-label label-inn"> <spring:message
+					code="label.profilePage.propertyId" />
 			</label>
 			<div class="col-sm-3">
 				<form:input id="fPropertyId" path="propertyId" class="form-control" />
 				<form:errors path="propertyId" cssClass="error" />
 			</div>
-			<label class="col-sm-2 control-label label-inn"> <fmt:message
-					key="label.personalInformation.estatePropertyId" />
+			<label class="col-sm-2 control-label label-inn"> <spring:message
+					code="label.profilePage.estatePropertyId" />
 			</label>
 			<div class="col-sm-3">
 				<form:input id="fEstatePropertyId" path="estatePropertyId"
@@ -284,8 +281,8 @@ body {
 			</div>
 		</div>
 		<div class="form-group form-group-sm">
-			<label class="col-sm-3 control-label label-inn">Upload Photo:
-			</label>
+			<label class="col-sm-3 control-label label-inn"><spring:message
+					code="label.profilePage.uploadPhoto" /> </label>
 
 			<div class="col-sm-3">
 				<form:input path="imageFile" type="file" id="file" />
@@ -302,12 +299,14 @@ body {
 					<div class='modal-header'>
 						<button type='button' class='btn btn-warning close'
 							data-dismiss='modal' onclick='return closeOpenPopup();'>&times;</button>
-						<h4 class='modal-title'>Verify Phone Number</h4>
+						<h4 class='modal-title'>
+							<spring:message code="label.profilePage.mobile-modal-title" />
+						</h4>
 					</div>
 					<div id='fOtpModelBody' class='modal-body'>
 						<div class="form-group form-group-sm" id="fOtpDiv">
-							<label class="col-sm-4 control-label label-inn"> Enter
-								OTP </label>
+							<label class="col-sm-4 control-label label-inn"> <spring:message
+									code="label.profilePage.mobile-otp" /></label>
 							<div class="col-sm-6">
 								<input id="fOtp" name="otp" maxlength="6" class="form-control" />
 							</div>
@@ -315,9 +314,13 @@ body {
 					</div>
 					<div class='modal-footer'>
 						<button id="fOtpResentBtn" type='button' class='btn btn-warning'
-							onclick="resendOtp()">Resend OTP</button>
+							onclick="resendOtp()">
+							<spring:message code="label.profilePage.mobile-resend-otp" />
+						</button>
 						<button type='button' class='btn btn-warning' data-dismiss='modal'
-							onclick='return closeOpenPopup();'>Update</button>
+							onclick='return closeOpenPopup();'>
+							<spring:message code="label.profilePage.update" />
+						</button>
 					</div>
 				</div>
 			</div>
@@ -334,12 +337,14 @@ body {
 						<button type='button' class='btn btn-warning close'
 							data-dismiss='modal'
 							onclick='return closeOpenEmployeeCodePopup();'>&times;</button>
-						<h4 class='modal-title'>Verify Employee Code</h4>
+						<h4 class='modal-title'>
+							<spring:message code="label.profilePage.employee-modal-title" />
+						</h4>
 					</div>
 					<div id='fEmployeeCodeModelBody' class='modal-body'>
 						<div class="form-group form-group-sm" id="fEmployeeCodeDiv">
-							<label class="col-sm-4 control-label label-inn"> Enter
-								Employee Code </label>
+							<label class="col-sm-4 control-label label-inn"> <spring:message
+									code="label.profilePage.employeeCode" /></label>
 							<div class="col-sm-6">
 								<form:input id="fEmployeeCode" path="employeeCode"
 									class="form-control" />
@@ -348,7 +353,9 @@ body {
 					</div>
 					<div class='modal-footer'>
 						<button type='button' class='btn btn-warning' data-dismiss='modal'
-							onclick='return closeOpenEmployeeCodePopup();'>Verify</button>
+							onclick='return closeOpenEmployeeCodePopup();'>
+							<spring:message code="label.profilePage.verify" />
+						</button>
 					</div>
 				</div>
 			</div>
@@ -356,9 +363,9 @@ body {
 
 		<div class="form-group form-group-sm">
 			<label class="col-sm-3 control-label label-inn">&nbsp; </label> <input
-				type="submit" name="" value="Update" id="btnSave"
-				class="btn btn-warning" /> &nbsp;&nbsp; <input type="reset"
-				name="reset" value="RESET" id="btnReset" class="btn btn-warning"
+				type="submit" name="" value="${btnUpdate}" class="btn btn-warning" />
+			&nbsp;&nbsp; <input type="reset" name="reset" value="${btnReset}"
+				id="btnReset" class="btn btn-warning"
 				onclick="window.location.href='${ctx}/myProfile/showProfile'">
 			&nbsp;&nbsp;
 			<c:if test="${not empty message}">

@@ -71,7 +71,7 @@ public class MyWebConfiguration implements WebMvcConfigurer, WebApplicationIniti
 	@Bean
 	public ServletRegistrationBean<DispatcherServlet> dispatcherServletRegistration1() {
 		ServletRegistrationBean<DispatcherServlet> registration = new ServletRegistrationBean<>(dispatcherServlet());
-		registration.setUrlMappings(Arrays.asList(new String[] { "/", "/dwr/*" }));
+		registration.setUrlMappings(Arrays.asList("/", "/dwr/*"));
 		registration.setLoadOnStartup(0);
 		registration.setName(DispatcherServletAutoConfiguration.DEFAULT_DISPATCHER_SERVLET_REGISTRATION_BEAN_NAME);
 		return registration;
@@ -141,15 +141,14 @@ public class MyWebConfiguration implements WebMvcConfigurer, WebApplicationIniti
 	@Bean
 	@Scope(WebApplicationContext.SCOPE_SESSION)
 	public UserMaster userMaster() {
-		UserMaster userMaster = new UserMaster();
-		return userMaster;
+		return new UserMaster();
 	}
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
 		Map<String, String> errors = new HashMap<>();
-		ex.getBindingResult().getAllErrors().forEach((error) -> {
+		ex.getBindingResult().getAllErrors().forEach(error -> {
 			String fieldName = ((FieldError) error).getField();
 			String errorMessage = error.getDefaultMessage();
 			errors.put(fieldName, errorMessage);
@@ -164,20 +163,19 @@ public class MyWebConfiguration implements WebMvcConfigurer, WebApplicationIniti
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		LocaleChangeInterceptor localeInterceptor = new LocaleChangeInterceptor();
-		localeInterceptor.setParamName("lang");
-		registry.addInterceptor(localeInterceptor).addPathPatterns("/homePage", "websitePolicy.html",
-				"passwordPolicy.html");
+		registry.addInterceptor(localeChangeInterceptor());
 		registry.addInterceptor(demoInterceptor());
+	}
+
+	@Bean
+	public LocaleChangeInterceptor localeChangeInterceptor() {
+		LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+		localeChangeInterceptor.setParamName("lang");
+		return localeChangeInterceptor;
 	}
 
 	@Bean(name = "localeResolver")
 	public LocaleResolver getLocaleResolver() {
-		/*
-		 * CookieLocaleResolver resolver = new CookieLocaleResolver();
-		 * resolver.setCookieDomain("myAppLocaleCookie"); // 60 minutes
-		 * resolver.setCookieMaxAge(60 * 60); return resolver;
-		 */
 		SessionLocaleResolver localeResolver = new SessionLocaleResolver();
 		localeResolver.setDefaultLocale(Locale.US);
 		return localeResolver;
@@ -186,9 +184,6 @@ public class MyWebConfiguration implements WebMvcConfigurer, WebApplicationIniti
 	@Bean(name = "messageSource")
 	public MessageSource getMessageResource() {
 		ReloadableResourceBundleMessageSource messageResource = new ReloadableResourceBundleMessageSource();
-
-		// Read i18n/messages_xxx.properties file.
-		// For example: i18n/messages_en.properties
 		messageResource.setBasename("classpath:i18n/messages");
 		messageResource.setDefaultEncoding("UTF-8");
 		return messageResource;

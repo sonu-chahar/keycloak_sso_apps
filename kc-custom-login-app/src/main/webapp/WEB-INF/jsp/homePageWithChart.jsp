@@ -6,16 +6,25 @@
 <html>
 <head>
 <title><spring:message code="label.homePageWithChart.title" /></title>
-<link rel="icon" type="image/x-icon" href="<%=request.getContextPath()%>/resources/chartTheme/favicon.ico" />
+<link rel="icon" type="image/x-icon"
+	href="<%=request.getContextPath()%>/resources/chartTheme/favicon.ico" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/chartTheme/css_nn/style.css"/>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/chartTheme/css/style.css"/>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/chartTheme/css/bootstrap.min.css"/>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/chartTheme/css/font-awesome.min.css"/>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/chartTheme/css/dashboard-style.css"/>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/chartTheme/css-new/pgallery.css"/>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/chartTheme/css/homePageWithChart.css"/>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/chartTheme/css-new/jquery.dataTables.min.css"/>
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/resources/chartTheme/css_nn/style.css" />
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/resources/chartTheme/css/style.css" />
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/resources/chartTheme/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/resources/chartTheme/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/resources/chartTheme/css/dashboard-style.css" />
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/resources/chartTheme/css-new/pgallery.css" />
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/resources/chartTheme/css/homePageWithChart.css" />
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/resources/chartTheme/css-new/jquery.dataTables.min.css" />
 </head>
 <body class="dashboard-page sb-l-o sb-r-c">
 	<header
@@ -32,20 +41,21 @@
 					<a href="#">
 						<p
 							style="margin-top: -70px; margin-left: 318px; font-weight: bold; font-size: 16px; color: #000000;">
-							<sub data-toggle="modal" data-target="#myModal3"> <spring:message code="label.homePageWithChart.appVersion" /></sub>
+							<sub data-toggle="modal" data-target="#myModal3"> <spring:message
+									code="label.homePageWithChart.appVersion" /></sub>
 						</p>
 					</a>
 					<div class="languageButton-header"
 						style="margin-top: 0px; margin-right: 5px;">
 						<span id="rbtnListLanguage" class="radio-list"> <a
-							id="rbtnListLanguage_0"
-							href="${pageContext.request.contextPath}/homePage?lang=en"
-							class="lang-en lang-select" style="color: #333">
-								<label for="rbtnListLanguage_0" style="background-image: none;"><spring:message code="label.lang.en" /></label>
-						</a> <a id="rbtnListLanguage_1"
-							href="${pageContext.request.contextPath}/homePage?lang=indic"
-							class="lang-en lang-select" style="color: #333">
-								<label for="rbtnListLanguage_1"><spring:message code="label.lang.indic" /></label></span>
+							id="rbtnListLanguage_0" href="?lang=en"
+							class="lang-en lang-select" style="color: #333"> <label
+								for="rbtnListLanguage_0" style="background-image: none;"><spring:message
+										code="label.lang.en" /></label>
+						</a> <a id="rbtnListLanguage_1" href="?lang=indic"
+							class="lang-en lang-select" style="color: #333"> <label
+								for="rbtnListLanguage_1"><spring:message
+										code="label.lang.indic" /></label></span>
 					</div>
 				</div>
 
@@ -61,7 +71,8 @@
 							<div class="btnn">
 								<a href="#" class="btn"
 									onclick="setIframeSrc('#registrationIframe')"
-									data-toggle="modal" data-target="#myModal1"><spring:message code="label.homePageWithChart.login-registration" /></a>
+									data-toggle="modal" data-target="#myModal1"><spring:message
+										code="label.homePageWithChart.login-registration" /></a>
 							</div>
 						</div>
 					</div>
@@ -84,7 +95,9 @@
 													</h3></a>
 											</div>
 											<div style="margin-top: -32px; margin-left: 50px;">
-												<strong><spring:message code="label.homePageWithChart.integratedApp" var="integratedAppLabel" />${integratedAppLabel}</strong>
+												<strong><spring:message
+														code="label.homePageWithChart.integratedApp"
+														var="integratedAppLabel" />${integratedAppLabel}</strong>
 											</div>
 										</div>
 									</div>
@@ -105,7 +118,9 @@
 													</h3></a>
 											</div>
 											<div style="margin-top: -32px; margin-left: 50px;">
-												<strong><spring:message code="label.homePageWithChart.registeredUser" var="registeredUserLabel" />${registeredUserLabel}</strong>
+												<strong><spring:message
+														code="label.homePageWithChart.registeredUser"
+														var="registeredUserLabel" />${registeredUserLabel}</strong>
 											</div>
 										</div>
 									</div>
@@ -127,7 +142,9 @@
 													</h3></a>
 											</div>
 											<div style="margin-top: -32px; margin-left: 50px;">
-												<strong><spring:message code="label.homePageWithChart.inactiveUser" var="inactiveUserLabel"/>${inactiveUserLabel}</strong>
+												<strong><spring:message
+														code="label.homePageWithChart.inactiveUser"
+														var="inactiveUserLabel" />${inactiveUserLabel}</strong>
 											</div>
 										</div>
 									</div>
@@ -149,7 +166,9 @@
 													</h3></a>
 											</div>
 											<div style="margin-top: -32px; margin-left: 50px;">
-												<strong><spring:message code="label.homePageWithChart.activeUser" var="activeUserLabel" />${activeUserLabel}</strong>
+												<strong><spring:message
+														code="label.homePageWithChart.activeUser"
+														var="activeUserLabel" />${activeUserLabel}</strong>
 											</div>
 										</div>
 									</div>
@@ -188,20 +207,27 @@
 								</div>
 							</div>
 						</div>
+
 						<footer class="main-footer text-center"
-							style="padding: 0px; margin-left: 0px; color: #fff; background-color: #343A40; font-size: 12px;">
-							<spring:message code="label.homePageWithChart.footer"/>
+							style="border-radius: 10px; margin: 10px, 20px, 10px, 20px !important; padding: 0px; margin-left: 0px; color: #fff; background-color: #343A40; font-size: 12px;">
+							<spring:message code="label.homePageWithChart.footer" />
 
 							<p style="margin: 0">
-								<a href="#"><span data-toggle="modal" data-target="#myModal4"><spring:message code="label.homePageWithChart.helpdesk"/></span></a>&nbsp;&nbsp;|&nbsp;
-								<a href="websitePolicy.html"> <span><spring:message code="label.homePageWithChart.websitePolicy"/></span></a>&nbsp;&nbsp;|&nbsp; 
-								<a href="passwordPolicy.html"> <span><spring:message code="label.homePageWithChart.passwordPolicy"/></span></a>&nbsp;&nbsp;|&nbsp;
-								 <span><spring:message code="label.homePageWithChart.faq"/></span>&nbsp;&nbsp;|&nbsp; 
-								 <span><spring:message code="label.homePageWithChart.sitemap"/></span>
+								<a href="#"><span data-toggle="modal"
+									data-target="#myModal4"><spring:message
+											code="label.homePageWithChart.helpdesk" /></span></a>&nbsp;&nbsp;|&nbsp;
+								<a href="websitePolicy.html"> <span><spring:message
+											code="label.homePageWithChart.websitePolicy" /></span></a>&nbsp;&nbsp;|&nbsp;
+								<a href="passwordPolicy.html"> <span><spring:message
+											code="label.homePageWithChart.passwordPolicy" /></span></a>&nbsp;&nbsp;|&nbsp;
+								<span><spring:message code="label.homePageWithChart.faq" /></span>&nbsp;&nbsp;|&nbsp;
+								<span><spring:message
+										code="label.homePageWithChart.sitemap" /></span>
 							</p>
 						</footer>
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -219,7 +245,7 @@
 						src="<%=request.getContextPath()%>/resources/chartTheme/images/iframeLoading.gif"
 						width="36" height="36" alt="loading gif" />
 					<iframe id="registrationIframe" title="registrationPage"
-						style="width: 100%; overflow: hidden; border:0;" src="#" ></iframe>
+						style="width: 100%; overflow: hidden; border: 0;" src="#"></iframe>
 				</div>
 			</div>
 		</div>
@@ -231,14 +257,16 @@
 		<div class="modal-dialog modal-md">
 			<div class="modal-content">
 				<div class="modal-header">
-					<small class="card-title" style="float: left; color: #ffffff;"><spring:message code="label.homePageWithChart.releaseNoteHeading"/></small>
+					<small class="card-title" style="float: left; color: #ffffff;"><spring:message
+							code="label.homePageWithChart.releaseNoteHeading" /></small>
 
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true"
 						style="float: right; font-size: 21px; font-weight: 700; line-height: 1; color: #d30b0b; text-shadow: 0 1px 0 #fff; opacity: 0.6;">×</button>
 				</div>
 				<div class="modal-body">
-					<spring:message code="label.homePageWithChart.search" var="searchLabel"/>
+					<spring:message code="label.homePageWithChart.search"
+						var="searchLabel" />
 					<form class="example" action="#"
 						style="margin: auto; max-width: 300px; padding: 0px; float: right; border: 0px; margin-bottom: 5px; margin-top: -11px;">
 						<input type="text" placeholder="${searchLabel}" name="search2"
@@ -248,22 +276,30 @@
 						</button>
 					</form>
 					<table id="example" class="table table-striped table-bordered"
-						style="width: 100%" >
+						style="width: 100%">
 						<caption></caption>
 						<thead>
 							<tr>
-								<th scope="col"><spring:message code="label.homePageWithChart.srno"/></th>
-								<th scope="col"><spring:message code="label.homePageWithChart.version"/></th>
-								<th scope="col"><spring:message code="label.homePageWithChart.releaseDate"/></th>
-								<th scope="col"><spring:message code="label.homePageWithChart.releaseDate"/></th>
+								<th scope="col"><spring:message
+										code="label.homePageWithChart.srno" /></th>
+								<th scope="col"><spring:message
+										code="label.homePageWithChart.version" /></th>
+								<th scope="col"><spring:message
+										code="label.homePageWithChart.releaseDate" /></th>
+								<th scope="col"><spring:message
+										code="label.homePageWithChart.releaseDate" /></th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td>1</td>
-								<td><spring:message code="label.homePageWithChart.appVersion" var="appVersionLabel"/>${appVersionLabel}</td>
+								<td><spring:message
+										code="label.homePageWithChart.appVersion"
+										var="appVersionLabel" />${appVersionLabel}</td>
 								<td>15-06-2020</td>
-								<td><spring:message code="label.homePageWithChart.releaseCommentContent" var="releaseCommentContentLabel"/>${releaseCommentContentLabel}</td>
+								<td><spring:message
+										code="label.homePageWithChart.releaseCommentContent"
+										var="releaseCommentContentLabel" />${releaseCommentContentLabel}</td>
 							</tr>
 							<tr>
 								<td>2</td>
@@ -285,7 +321,8 @@
 							</tr>
 							<tr>
 								<td>5</td>
-								<td><spring:message code="label.homePageWithChart.version-accountant"/></td>
+								<td><spring:message
+										code="label.homePageWithChart.version-accountant" /></td>
 								<td>15-06-2020</td>
 								<td>${releaseCommentContentLabel}</td>
 							</tr>
@@ -344,7 +381,8 @@
 		<div class="modal-dialog modal-md">
 			<div class="modal-content">
 				<div class="modal-header">
-					<small class="card-title" style="float: left; color: #ffffff;"><spring:message code="label.homePageWithChart.helpdeskHeading"/></small>
+					<small class="card-title" style="float: left; color: #ffffff;"><spring:message
+							code="label.homePageWithChart.helpdeskHeading" /></small>
 
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">×</button>
@@ -354,14 +392,23 @@
 					<form class="example" action="">
 						<!--Grid column-->
 						<div class="col-md-12 text-center">
-							<h3><spring:message code="label.homePageWithChart.helpdeskModelHeading"/></h3>
+							<h3>
+								<spring:message
+									code="label.homePageWithChart.helpdeskModelHeading" />
+							</h3>
 							<ul class="list-unstyled mb-0">
 								<li><em class="fa fa-map-marker-alt fa-2x"></em>
-									<p><spring:message code="label.homePageWithChart.helpdesk.li-p1"/></p></li>
+									<p>
+										<spring:message code="label.homePageWithChart.helpdesk.li-p1" />
+									</p></li>
 								<li><em class="fa fa-phone mt-4 fa-2x"></em>
-									<p><spring:message code="label.homePageWithChart.helpdesk.li-p2"/></p></li>
+									<p>
+										<spring:message code="label.homePageWithChart.helpdesk.li-p2" />
+									</p></li>
 								<li><em class="fa fa-phone mt-4 fa-2x"></em>
-									<p><spring:message code="label.homePageWithChart.helpdesk.li-p3"/></p></li>
+									<p>
+										<spring:message code="label.homePageWithChart.helpdesk.li-p3" />
+									</p></li>
 							</ul>
 						</div>
 					</form>
@@ -369,14 +416,21 @@
 			</div>
 		</div>
 	</div>
-<script src="<%=request.getContextPath()%>/resources/chartTheme/js/jquery-1.11.1.js"></script>
-<script src="<%=request.getContextPath()%>/resources/chartTheme/js/jquery-ui.min.js"></script>
-<script src="<%=request.getContextPath()%>/resources/chartTheme/js/bootstrap.min.js"></script>
-<script src="<%=request.getContextPath()%>/resources/chartTheme/js/fusioncharts.js"></script>
-<script src="<%=request.getContextPath()%>/resources/chartTheme/js/themes/fusioncharts.theme.fint.js"></script>
-<script src="<%=request.getContextPath()%>/resources/chartTheme/js/jquery.dataTables.min.js"></script>
-<script src="<%=request.getContextPath()%>/resources/chartTheme/js/Chart.bundle.js"></script>
-<script>
+	<script
+		src="<%=request.getContextPath()%>/resources/chartTheme/js/jquery-1.11.1.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/resources/chartTheme/js/jquery-ui.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/resources/chartTheme/js/bootstrap.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/resources/chartTheme/js/fusioncharts.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/resources/chartTheme/js/themes/fusioncharts.theme.fint.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/resources/chartTheme/js/jquery.dataTables.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/resources/chartTheme/js/Chart.bundle.js"></script>
+	<script>
 	// Bar Chart
 	var ctx = new Chart(document.getElementById("myChart"), {
 		type : "bar",
@@ -424,8 +478,8 @@
 			} ]
 		}
 	});
-</script>
-<script>
+	</script>
+	<script>
 	var eventMethod = window.addEventListener ? "addEventListener"
 			: "attachEvent";
 	var eventer = window[eventMethod];
@@ -450,8 +504,14 @@
 
 
  	$(document).ready(function() {
+ 		
+ 		
+		
+ 		
+ 		
 	    $('#fInactiveUsers').text(parseInt(${userStats.allUsers})-parseInt(${userStats.activeUsers}));
-		$('#registrationIframe').load(function() {
+	    setIframeSrc('#registrationIframe');
+	    $('#registrationIframe').load(function() {
 			$('#loader2').hide();
 			let iframeUrl=this.contentWindow.location;
 			let iframeUrlSplittedArr=(iframeUrl+"").split("/");
@@ -460,11 +520,27 @@
 			}
 		});
 	});
-	
+ 	
+ 	var urlParams = new URLSearchParams(window.location.search);
 	function setIframeSrc(iframeSelectorId){
-		$(iframeSelectorId).attr("src", "${appctx}/viewHomePage?kc_locale=en");
+		let iframeSrcUrl="${appctx}/viewHomePage?lang=";
+		if (urlParams.has('lang')) {
+			if (urlParams.get('lang') == 'en') {
+				$(iframeSelectorId).attr("src", iframeSrcUrl+"en");
+				$("#rbtnListLanguage_0").click(function () {return false;});
+			} else {
+				$(iframeSelectorId).attr("src", iframeSrcUrl+"indic");
+				$("#rbtnListLanguage_1").click(function () {return false;});
+			}
+		}else{
+			$(iframeSelectorId).attr("src", iframeSrcUrl+"en");
+			$("#rbtnListLanguage_0").click(function () {return false;});
+		}
+		//$(iframeSelectorId).attr("src", "${appctx}/viewHomePage?kc_locale=en");
 	}
-</script>
+	
+	</script>
+
 </body>
 </html>
 

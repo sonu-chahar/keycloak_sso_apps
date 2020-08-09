@@ -72,12 +72,12 @@
 					style="margin-top: 0px; margin-right: 5px;">
 					<span id="rbtnListLanguage" class="radio-list"> <a
 						id="rbtnListLanguage_0"
-						href="${pageContext.request.contextPath}/websitePolicy.html?lang=en"
+						href="?lang=en"
 						class="lang-en lang-select" style="color: #333"> <label
 							for="rbtnListLanguage_0" style="background-image: none;"><spring:message
 									code="label.lang.en" /></label>
 					</a> <a id="rbtnListLanguage_1"
-						href="${pageContext.request.contextPath}/websitePolicy.html?lang=indic"
+						href="?lang=indic"
 						class="lang-en lang-select" style="color: #333"> <label
 							for="rbtnListLanguage_1"><spring:message
 									code="label.lang.indic" /></label></a></span>
@@ -313,6 +313,26 @@
 				$(e.target).prev('.panel-heading').find(".more-less")
 						.toggleClass('glyphicon-plus glyphicon-minus');
 			}
+		</script>
+		<script>
+			$(document).ready(function() {
+				var urlParams = new URLSearchParams(window.location.search);
+				if (urlParams.has('lang')) {
+					if (urlParams.get('lang') == 'en') {
+						$("#rbtnListLanguage_0").click(function() {
+							return false;
+						});
+					} else {
+						$("#rbtnListLanguage_1").click(function() {
+							return false;
+						});
+					}
+				} else {
+					$("#rbtnListLanguage_0").click(function() {
+						return false;
+					});
+				}
+			});
 		</script>
 </body>
 </html>

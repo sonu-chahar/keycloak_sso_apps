@@ -2,6 +2,8 @@
 <script src='<%=request.getContextPath()%>/dwr/engine.js'></script>
 <script src='<%=request.getContextPath()%>/dwr/util.js'></script>
 <script src="<%=request.getContextPath()%>/resources/js/list.js"></script>
+<spring:message code="label.btn.update" var="btnUpdate" />
+<spring:message code="label.btn.reset" var="btnReset" />
 
 <script
 	src='<%=request.getContextPath()%>/dwr/interface/userMasterRemoteService.js'></script>
@@ -16,7 +18,7 @@
 			<div id="fApplicationList">
 				<div class="row">
 					<div class="main-gap keycloak-portal">
-						<h1 class="dashbord-heading">Welcome to NDMC SSO Portal</h1>
+						<h1 class="dashbord-heading"><spring:message code="label.homePage.dashboard-heading" /></h1>
 						<div class="form-group form-group-sm">
 							<div class="col-sm-3">
 								<input id="search" placeholder="Search Application" />
@@ -49,9 +51,9 @@
 						</div>
 						<div class="form-group form-group-sm">
 							<label class="col-sm-3 control-label label-inn">&nbsp; </label>
-							&nbsp;&nbsp; <input type="submit" name="" value="Update"
-								id="btnSave" class="btn btn-warning" /> &nbsp;&nbsp; <input
-								type="reset" name="reset" value="RESET" id="btnReset"
+							&nbsp;&nbsp; <input type="submit" name="" value="${btnUpdate}"
+								 class="btn btn-warning" /> &nbsp;&nbsp; <input
+								type="reset" name="reset" value="${btnReset}" id="btnReset"
 								class="btn btn-warning"
 								onclick="window.location.href='${ctx}/myProfile/addOrUpdateApplicationMapping'">
 							&nbsp;&nbsp;
@@ -60,9 +62,8 @@
 							</c:if>
 						</div>
 						<div class="form-group form-group-sm">
-							<label class="col-sm-3 control-label label-inn">Note:</label> <label
-								class="control-label label-inn">Only selected
-								application will be shown at home page</label>
+							<label class="col-sm-3 control-label label-inn"><spring:message code="label.addApplicationPage.note" /></label> <label
+								class="control-label label-inn"><spring:message code="label.addApplicationPage.noteMessage" /></label>
 						</div>
 					</div>
 				</div>

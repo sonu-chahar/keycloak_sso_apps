@@ -52,7 +52,18 @@ p {margin: 0;}
 html, body{
   font-family:Arial, Helvetica, sans-serif;
    font-size: 100%;
-   background:#d8d8d8;
+   /* background:#d8d8d8; */
+   background: -webkit-linear-gradient(-90deg, #f7b174, #88c181 100%); 
+   background-image: -webkit-linear-gradient(-90deg, rgb(247, 177, 116), rgb(136, 193, 129) 100%); 
+   background-position-x: initial; 
+   background-position-y: initial; 
+   background-size: initial; 
+   background-repeat-x: initial; 
+   background-repeat-y: initial; 
+   background-attachment: initial; 
+   background-origin: initial; 
+   background-clip: initial; 
+   background-color: initial;
 }
 
 a:hover {

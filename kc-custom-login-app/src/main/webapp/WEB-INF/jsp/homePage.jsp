@@ -7,7 +7,7 @@
 	</div> --%>
 	<div class="row">
 		<div class="main-gap keycloak-portal">
-			<h1 class="dashbord-heading">Welcome to NDMC SSO Portal</h1>
+			<h1 class="dashbord-heading"><spring:message code="label.homePage.dashboard-heading" /></h1>
 			<div class="row">
 					<c:forEach items="${applicationList}" var="application"
 							varStatus="counter">
@@ -23,7 +23,7 @@
 									<c:set var="classCounter" value="{}" />
 									<div class="circle bg${counter.index%8+1}-circle">
 										<a href='<c:url value="${application.applicationUrl}"/>'>
-											<img
+											<img alt="applicationLogo"
 											src="<%=request.getContextPath()%>/images/icons/${application.logoImageName}.${application.logoImageExtension}"
 											id="image${application.id}" width="90" height="90" />
 										</a>

@@ -2,7 +2,6 @@
 <!DOCTYPE xml>
 <decorators defaultdir="/WEB-INF/_ui/decorators/">
 	<excludes>
-		<pattern>/login*</pattern>
 		<pattern>/40*.jsp</pattern>
 		<pattern>/error*.jsp</pattern>
 		<pattern>/registration/showRegistrationPage*</pattern>

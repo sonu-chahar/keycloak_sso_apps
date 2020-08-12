@@ -19,4 +19,5 @@ public interface UserMasterDao extends GenericDao<UserMaster, Long> {
 	public UserStats getStats();
 
 	public void saveUserStats(UserStats userStats);
+
 }

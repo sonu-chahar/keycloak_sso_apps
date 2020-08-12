@@ -53,6 +53,7 @@ public abstract class AbstractPageController {
 	public static final String VIEW_NAME_HOME_PAGE = "homePage";
 	public static final String VIEW_NAME_HOME_PAGE_WITH_CHART = "homePageWithChart";
 	public static final String VIEW_NAME_HOME_PAGE_WITH_INTERNATIONALIZATION = "homePageInternationalization";
+	public static final String VIEW_NAME_LOGIN_HISTORY_PAGE = "loginStats";
 
 	public static final String SPAN_OPENNING_TAG = "<span>";
 	public static final String SPAN_CLOSING_TAG = "</span>";

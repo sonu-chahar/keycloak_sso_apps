@@ -43,11 +43,12 @@ public class UserMasterServiceImpl extends GenericServiceImpl<UserMaster, Long> 
 		return userMasterDao.findByUsername(username);
 	}
 
-	//dont use below method
+	// dont use below method
 	@Override
 	public Long saveUser(UserMaster userMaster) {
 		userMaster.setPassword(bCryptPasswordEncoder.encode(userMaster.getPassword()));
-		//userMaster.setRoles(new HashSet<>(genericRoleDao.getAllNew(RoleMaster.class)));
+		// userMaster.setRoles(new
+		// HashSet<>(genericRoleDao.getAllNew(RoleMaster.class)));
 		return userMasterDao.saveUser(userMaster);
 	}
 
@@ -70,4 +71,5 @@ public class UserMasterServiceImpl extends GenericServiceImpl<UserMaster, Long> 
 	public void saveUserStats(UserStats userStats) {
 		userMasterDao.saveUserStats(userStats);
 	}
+
 }

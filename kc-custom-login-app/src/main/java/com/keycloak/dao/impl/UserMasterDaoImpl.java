@@ -64,7 +64,7 @@ public class UserMasterDaoImpl extends GenericDaoImpl<UserMaster, Long> implemen
 		@SuppressWarnings("unchecked")
 		List<UserStats> list = getCurrentSession().createCriteria(UserStats.class).list();
 		String intialCounter = "0";
-		if (list.size() > 0) {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		} else {
 			return new UserStats(intialCounter, intialCounter, intialCounter, intialCounter);
@@ -75,4 +75,5 @@ public class UserMasterDaoImpl extends GenericDaoImpl<UserMaster, Long> implemen
 	public void saveUserStats(UserStats userStats) {
 		getCurrentSession().merge(userStats);
 	}
+
 }

@@ -126,6 +126,9 @@
 					href="<%=request.getContextPath()%>/myProfile/addOrUpdateApplicationMapping"
 					class="hvr-shutter-in-vertical"><em class="fa fa-fw fa-cog"></em>
 						<spring:message code="label.homePage.nav.addApplication" /></a></li>
+				<li><a href="<%=request.getContextPath()%>/loginHistory.html" class="hvr-shutter-in-vertical"><em
+						class="fa fa-fw fa-cog"></em> <spring:message
+							code="label.homePage.nav.loginHistory" /> </a></li>
 				<li><a href="#" class="hvr-shutter-in-vertical"><em
 						class="fa fa-fw fa-cog"></em> <spring:message
 							code="label.homePage.nav.accountSetting" /> </a></li>

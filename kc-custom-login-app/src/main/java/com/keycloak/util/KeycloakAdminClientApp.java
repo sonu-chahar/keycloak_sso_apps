@@ -24,14 +24,17 @@ import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.keycloak.representations.idm.UserSessionRepresentation;
 import org.keycloak.util.JsonSerialization;
+import org.springframework.beans.BeanUtils;
 
 import com.keycloak.controller.AbstractPageController;
+import com.keycloak.model.CustomUserSessionRepresentation;
 import com.keycloak.model.UserMaster;
 
 public class KeycloakAdminClientApp {
 
-	protected static final Logger log = LogManager.getLogger(KeycloakAdminClientApp.class);
+	private static final Logger LOGGER = LogManager.getLogger(KeycloakAdminClientApp.class);
 
 	public static final String SSO_SERVER_URL = Constants.pathString("SSO_SERVER_URL");
 	public static final String SSO_REALM_NAME = Constants.pathString("SSO_REALM_NAME");
@@ -54,11 +57,11 @@ public class KeycloakAdminClientApp {
 		if (userRessource != null && user != null) {
 			try (Response response = userRessource.create(user);) {
 
-				log.debug("Repsonse: {}", response.getStatusInfo());
-				log.debug(response.getLocation());
+				LOGGER.debug("Repsonse: {}", response.getStatusInfo());
+				LOGGER.debug(response.getLocation());
 				String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
 
-				log.debug("User created with userId: {}", userId);
+				LOGGER.debug("User created with userId: {}", userId);
 
 				// Get realm role "tester" (requires view-realm role)
 				RoleRepresentation testerRealmRole = realmResource.roles().get("tester").toRepresentation();
@@ -100,7 +103,7 @@ public class KeycloakAdminClientApp {
 				if (cause instanceof ClientErrorException) {
 					handleClientErrorException((ClientErrorException) cause);
 				} else {
-					log.debug(e.getStackTrace());
+					LOGGER.debug(e.getStackTrace());
 				}
 			}
 			return false;
@@ -118,7 +121,7 @@ public class KeycloakAdminClientApp {
 			return createUserAtKeycloak(userMaster, realmResource, userRessource, user);
 
 		} catch (Exception e) {
-			log.debug(e.getStackTrace());
+			LOGGER.debug(e.getStackTrace());
 		}
 		return false;
 
@@ -159,7 +162,7 @@ public class KeycloakAdminClientApp {
 			tokenManager = keycloak2.tokenManager();
 			accessTokenResponse = tokenManager.getAccessToken();
 		} catch (Exception e) {
-			log.debug(e.getStackTrace());
+			LOGGER.debug(e.getStackTrace());
 		}
 	}
 
@@ -180,25 +183,25 @@ public class KeycloakAdminClientApp {
 				userResource.resetPassword(passwordCred);
 				return AbstractPageController.STATUS_FOR_UPDATE;
 			} catch (ClientErrorException e) {
-				log.debug(e.getStackTrace());
+				LOGGER.debug(e.getStackTrace());
 
 				try (Response response = e.getResponse()) {
-					log.debug("status : {}", response.getStatus());
-					log.debug("reason : {}", response.getStatusInfo().getReasonPhrase());
+					LOGGER.debug("status : {}", response.getStatus());
+					LOGGER.debug("reason : {}", response.getStatusInfo().getReasonPhrase());
 					@SuppressWarnings("rawtypes")
 					Map error = JsonSerialization.readValue((ByteArrayInputStream) response.getEntity(), Map.class);
-					log.debug("error : {}", error.get("error"));
-					log.debug("{} : {}", errorDescriptionConstant, error.get(errorDescriptionConstant));
+					LOGGER.debug("error : {}", error.get("error"));
+					LOGGER.debug("{} : {}", errorDescriptionConstant, error.get(errorDescriptionConstant));
 					return (String) error.get(errorDescriptionConstant);
 				} catch (IOException ex) {
-					log.debug(ex.getStackTrace());
+					LOGGER.debug(ex.getStackTrace());
 				}
 			} catch (Exception e) {
 				Throwable cause = e.getCause();
 				if (cause instanceof ClientErrorException) {
 					handleClientErrorException((ClientErrorException) cause);
 				} else {
-					log.debug(e.getStackTrace());
+					LOGGER.debug(e.getStackTrace());
 				}
 			}
 		}
@@ -221,7 +224,7 @@ public class KeycloakAdminClientApp {
 			if (cause instanceof ClientErrorException) {
 				handleClientErrorException((ClientErrorException) cause);
 			} else {
-				log.debug(e.getStackTrace());
+				LOGGER.debug(e.getStackTrace());
 			}
 		}
 		return false;
@@ -271,7 +274,7 @@ public class KeycloakAdminClientApp {
 			if (cause instanceof ClientErrorException) {
 				handleClientErrorException((ClientErrorException) cause);
 			} else {
-				log.debug(e.getStackTrace());
+				LOGGER.debug(e.getStackTrace());
 			}
 		}
 		return false;
@@ -280,16 +283,16 @@ public class KeycloakAdminClientApp {
 
 	@SuppressWarnings("rawtypes")
 	private static void handleClientErrorException(ClientErrorException e) {
-		log.debug(e.getStackTrace());
+		LOGGER.debug(e.getStackTrace());
 		try (Response response = e.getResponse();) {
-			log.debug("status: {}", response.getStatus());
-			log.debug("reason: {}", response.getStatusInfo().getReasonPhrase());
+			LOGGER.debug("status: {}", response.getStatus());
+			LOGGER.debug("reason: {}", response.getStatusInfo().getReasonPhrase());
 			Map error = JsonSerialization.readValue((ByteArrayInputStream) response.getEntity(), Map.class);
-			log.debug("error: {}", error.get("error"));
-			log.debug("error_description: {}", error.get("error_description"));
+			LOGGER.debug("error: {}", error.get("error"));
+			LOGGER.debug("error_description: {}", error.get("error_description"));
 
 		} catch (IOException ex) {
-			log.debug(e.getStackTrace());
+			LOGGER.debug(e.getStackTrace());
 		}
 	}
 
@@ -316,11 +319,47 @@ public class KeycloakAdminClientApp {
 				if (cause instanceof ClientErrorException) {
 					handleClientErrorException((ClientErrorException) cause);
 				} else {
-					log.debug(e.getStackTrace());
+					LOGGER.debug(e.getStackTrace());
 				}
 			}
 		}
 
 		return AbstractPageController.STATUS_FOR_ERROR;
+	}
+
+	public static CustomUserSessionRepresentation getCustomUserSessionRepresentation(UserMaster userMaster) {
+		try (Keycloak keycloak = connectServiceAccount()) {
+			RealmResource realmResource = keycloak.realm(KeycloakAdminClientApp.SSO_REALM_NAME);
+			if (realmResource != null) {
+				UsersResource usersRessource = realmResource.users();
+
+				UserResource userResource = usersRessource.get(userMaster.getKcUserId());
+				List<UserSessionRepresentation> userSessionRepresentationList = userResource.getUserSessions();
+				if (!userSessionRepresentationList.isEmpty()) {
+					CustomUserSessionRepresentation customUserSessionRepresentation = new CustomUserSessionRepresentation();
+					UserSessionRepresentation userSessionRepresentation = userSessionRepresentationList.get(0);
+					LOGGER.debug("username:{} | start: {} | lastAccess: {} | ipAddress: {}",
+							userSessionRepresentation.getUsername(), userSessionRepresentation.getStart(),
+							userSessionRepresentation.getLastAccess(), userSessionRepresentation.getIpAddress());
+					BeanUtils.copyProperties(userSessionRepresentation, customUserSessionRepresentation);
+					return customUserSessionRepresentation;
+				}
+//				for (int i = 0; i < userSessionRepresentationList.size(); i++) {
+//					UserSessionRepresentation userSessionRepresentation = userSessionRepresentationList.get(i);
+//					userSessionRepresentation.toString();
+//					LOGGER.debug("username:{} | start: {} | lastAccess: {} | ipAddress: {}",
+//							userSessionRepresentation.getUsername(), userSessionRepresentation.getStart(),
+//							userSessionRepresentation.getLastAccess(), userSessionRepresentation.getIpAddress());
+//				}
+			}
+		} catch (Exception e) {
+			Throwable cause = e.getCause();
+			if (cause instanceof ClientErrorException) {
+				handleClientErrorException((ClientErrorException) cause);
+			} else {
+				LOGGER.debug(e.getStackTrace());
+			}
+		}
+		return null;
 	}
 }

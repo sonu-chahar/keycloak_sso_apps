@@ -99,8 +99,6 @@ public class MainPageController extends AbstractPageController {
 					userMasterService.getApplicationListByUserId(userMaster.getId(), isEmployee));
 			return new ModelAndView(VIEW_NAME_EMPLOYEE_HOME_PAGE, model);
 		} else {
-			model.addAttribute(MODEL_ATTRIBTE_FOR_APPLICATION_LIST,
-					userMasterService.getApplicationListByUserId(userMaster.getId()));
 			return new ModelAndView(VIEW_NAME_HOME_PAGE, model);
 		}
 	}

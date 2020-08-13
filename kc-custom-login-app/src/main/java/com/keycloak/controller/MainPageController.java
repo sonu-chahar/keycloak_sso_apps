@@ -26,11 +26,6 @@ import com.maxmind.geoip2.exception.GeoIp2Exception;
 @Controller
 public class MainPageController extends AbstractPageController {
 
-	private static final String USER_STATS_CLASSNAME_FOR_MESSAGE = "User Stats";
-	private static final String MODEL_ATTRIBTE_FOR_LOGIN_STATS = "userLoginStatList";
-	private static final String MODEL_ATTRIBTE_FOR_APPLICATION_LIST = "applicationList";
-	private static final String CONSTANT_FOR_LOCALHOST = "127.0.0.1";
-
 	private final HttpServletRequest request;
 
 	@Autowired
@@ -49,12 +44,7 @@ public class MainPageController extends AbstractPageController {
 		return new ModelAndView(REDIRECT_URL_FOR_HOMEPAGE_WITH_CHART);
 	}
 
-	@GetMapping({ "/homePageInternationalization" })
-	public ModelAndView getHomePageWithInternationalization() {
-		return new ModelAndView(VIEW_NAME_HOME_PAGE_WITH_INTERNATIONALIZATION);
-	}
-
-	@GetMapping(value = "/homePage*")
+	@GetMapping(value = "/homePage")
 	public ModelAndView getHomePageWithChart(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
 		model.addAttribute("userStats", userMasterService.getStats());
 		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE,
@@ -69,7 +59,7 @@ public class MainPageController extends AbstractPageController {
 		} else {
 			request.logout();
 		}
-		return new ModelAndView(REDIRECT_URL_FOR_HOMEPAGE_WITH_CHART + "#googtrans(en|en)");
+		return new ModelAndView(REDIRECT_URL_FOR_HOMEPAGE_WITH_CHART);
 	}
 
 	@GetMapping(value = { "/landingPage", "/viewHomePage" })
@@ -93,11 +83,26 @@ public class MainPageController extends AbstractPageController {
 		if (userMaster.getImageName() == null) {
 			return new ModelAndView(REDIRECT_URL_FOR_PROFILE, model);
 		}
+
 		model.addAttribute(SESSION_ATTRIBTE_FOR_USER_MASTER, userMaster);
 		model.addAttribute(MODEL_ATTRIBTE_FOR_APPLICATION_LIST,
 				userMasterService.getApplicationListByUserId(userMaster.getId()));
 		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE, getMessageAttributeForPage(request, USER_CLASSNAME_FOR_MESSAGE));
-		return new ModelAndView(VIEW_NAME_HOME_PAGE, model);
+
+		boolean isEmployee = false;
+		model.addAttribute(MODEL_ATTRIBTE_FOR_NON_EMPLOYEE_APPLICATION_LIST,
+				userMasterService.getApplicationListByUserId(userMaster.getId(), isEmployee));
+
+		if ("ndmcEmployee".equals(userMaster.getUserType())) {
+			isEmployee = true;
+			model.addAttribute(MODEL_ATTRIBTE_FOR_EMPLOYEE_APPLICATION_LIST,
+					userMasterService.getApplicationListByUserId(userMaster.getId(), isEmployee));
+			return new ModelAndView(VIEW_NAME_EMPLOYEE_HOME_PAGE, model);
+		} else {
+			model.addAttribute(MODEL_ATTRIBTE_FOR_APPLICATION_LIST,
+					userMasterService.getApplicationListByUserId(userMaster.getId()));
+			return new ModelAndView(VIEW_NAME_HOME_PAGE, model);
+		}
 	}
 
 	private boolean checkGeoLocation(String registeredIp, String currentIp) {
@@ -120,7 +125,7 @@ public class MainPageController extends AbstractPageController {
 					&& !registerdGeoIp.getCountry().equals(currentGeopIP.getCountry());
 
 		} catch (IOException | GeoIp2Exception e) {
-			LOGGER.debug(e.getStackTrace());
+			log.debug(e.getStackTrace());
 		}
 
 		return false;
@@ -128,12 +133,12 @@ public class MainPageController extends AbstractPageController {
 
 	@GetMapping({ "**/passwordPolicy.html" })
 	public String showPasswordPolicyPage() {
-		return "passwordPolicy";
+		return VIEW_NAME_FOR_PASSWORD_POLICY;
 	}
 
 	@GetMapping({ "**/websitePolicy.html" })
 	public String showWebsitePolicyPage() {
-		return "websitePolicy";
+		return VIEW_NAME_FOR_WEBSITE_POLICY;
 	}
 
 	@GetMapping({ "**/loginHistory.html" })
@@ -160,7 +165,7 @@ public class MainPageController extends AbstractPageController {
 				return true;
 			}
 		} catch (Exception e) {
-			LOGGER.debug(e.getStackTrace());
+			log.debug(e.getStackTrace());
 		}
 		return false;
 	}

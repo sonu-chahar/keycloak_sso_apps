@@ -56,14 +56,14 @@ public class KCRestController extends AbstractPageController {
 			HttpServletRequest request) {
 		UserMaster userMaster = getUserMasterFromSession(request);
 		if (userMaster != null && !username.equals(userMaster.getUsername())) {
-			LOGGER.debug("{} :::: {}", userMaster.getUsername(), username);
+			log.debug("{} :::: {}", userMaster.getUsername(), username);
 			request.getSession(false).invalidate();
 			try {
 				request.getContextPath();
-				LOGGER.debug("{} :: {}", request.getContextPath(), request.getServletPath());
+				log.debug("{} :: {}", request.getContextPath(), request.getServletPath());
 				response.sendRedirect(request.getRequestURI());
 			} catch (IOException e) {
-				LOGGER.debug(e.getStackTrace());
+				log.debug(e.getStackTrace());
 			}
 		}
 
@@ -106,7 +106,7 @@ public class KCRestController extends AbstractPageController {
 		try {
 			outputmessage = mapper.writeValueAsString(o);
 		} catch (Exception e) {
-			LOGGER.debug(e.getStackTrace());
+			log.debug(e.getStackTrace());
 		}
 		if (outputmessage != null) {
 			outputmessage = "userDetails(" + outputmessage + ")";

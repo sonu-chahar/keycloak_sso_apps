@@ -34,23 +34,23 @@ public class ApplicationMasterController extends AbstractPageController {
 	@GetMapping(path = "**/showApplicationPage")
 	public ModelAndView showApplicationMasterPage(@ModelAttribute("application") ApplicationMaster applicationMasterDTO,
 			HttpServletRequest request, ModelMap model) {
-		LOGGER.debug("Loading Application Master page request....");
+		log.debug("Loading Application Master page request....");
 		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE, getMessageAttributeForPage(request, "Application"));
 		model.put("applicationList", genericApplicationMasterService.getAllNew(ApplicationMaster.class));
-		LOGGER.debug("showing Application Master page....");
+		log.debug("showing Application Master page....");
 		return new ModelAndView("applicationMasterPage", model);
 	}
 
 	@PostMapping(path = "**/saveNewApplication")
 	public ModelAndView saveOrUpdateApplicationMaster(@ModelAttribute("application") ApplicationMaster applicationMaster,
 			BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-		LOGGER.debug("Processing save request for Application Master.....");
-		String status = BLANK_STRING;
+		log.debug("Processing save request for Application Master.....");
+		String status = CONSTANT_FOR_BLANK_STRING;
 		Integer holdId = applicationMaster.getId();
 		try {
 			applicationMaster = genericApplicationMasterService.save(applicationMaster);
 		}  catch (Exception e) {
-			LOGGER.error("Exception occured \n Message : {} \n Cause : {}" ,e.getMessage(), e.getCause());
+			log.error("Exception occured \n Message : {} \n Cause : {}" ,e.getMessage(), e.getCause());
 			status = STATUS_FOR_DUPLICATE;
 			return new ModelAndView(REDIRECT_URL_FOR_APPLICATION_MASTER + status);
 		}
@@ -63,44 +63,44 @@ public class ApplicationMasterController extends AbstractPageController {
 				status = STATUS_FOR_ERROR;
 			}
 		}
-		LOGGER.debug("Application Master saved sucessfully.....");
+		log.debug("Application Master saved sucessfully.....");
 		return new ModelAndView(REDIRECT_URL_FOR_APPLICATION_MASTER + status);
 	}
 
 	@RequestMapping(value = "**/editNewApplication/{id}", method = RequestMethod.GET)
 	public ModelAndView editDegree(@PathVariable Integer id, Model model) {
-		LOGGER.debug("loading Edit request for Application Master ....");
+		log.debug("loading Edit request for Application Master ....");
 		ApplicationMaster applicationMaster = genericApplicationMasterService.get(id);
 
 		if (applicationMaster == null) {
 			return new ModelAndView(REDIRECT_URL_FOR_APPLICATION_MASTER +"alreadydeleted");
 		} else
-			model.addAttribute("semesterMaster", applicationMaster);
+			model.addAttribute("applicationMaster", applicationMaster);
 
-		List<ApplicationMaster> semesterList = genericApplicationMasterService.getAllNew(ApplicationMaster.class);
-		model.addAttribute("ApplicationList", semesterList);
+		List<ApplicationMaster> applicationList = genericApplicationMasterService.getAllNew(ApplicationMaster.class);
+		model.addAttribute("ApplicationList", applicationList);
 		model.addAttribute("isdesebled", true);
-		LOGGER.debug("Showing edit page for Application Master.....");
+		log.debug("Showing edit page for Application Master.....");
 		return new ModelAndView("academics/semesterMaster");
 	}
 
 	@RequestMapping(value = "**/deleteNewApplication/{id}", method = RequestMethod.GET)
 	public ModelAndView deleteDegree(@PathVariable Integer id, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
-		LOGGER.debug("Processing delete request for Application Master.....");
+		log.debug("Processing delete request for Application Master.....");
 		ApplicationMaster applicationMaster = genericApplicationMasterService.get(id);
 		String stat = "";
 		try {
 			genericApplicationMasterService.remove(applicationMaster.getId());
 			stat = "deleted";
 		} catch (Exception e) {
-			LOGGER.error("Application Master object already deleted....");
+			log.error("Application Master object already deleted....");
 			stat = "cannotdelete";
 		}
 		if ("cannotdelete".equals(stat))
-			LOGGER.debug("Application Master object cannot be deleted.....");
+			log.debug("Application Master object cannot be deleted.....");
 		else
-			LOGGER.debug("Application Master object deleted sucessfully.....");
+			log.debug("Application Master object deleted sucessfully.....");
 		return new ModelAndView(REDIRECT_URL_FOR_APPLICATION_MASTER + stat);
 	}
 }

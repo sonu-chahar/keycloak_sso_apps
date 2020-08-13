@@ -2,6 +2,7 @@ package com.keycloak.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -74,6 +75,26 @@ public class UserMasterDaoImpl extends GenericDaoImpl<UserMaster, Long> implemen
 	@Override
 	public void saveUserStats(UserStats userStats) {
 		getCurrentSession().merge(userStats);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ApplicationMaster> getApplicationListByUserId(Long userId, Boolean isEmployee) {
+
+		List<Integer> applicationIds = getCurrentSession().createCriteria(UserApplicationMapping.class)
+				.add(Restrictions.eq("userMasterId", userId))
+				.setProjection(
+						Projections.projectionList().add(Projections.property("applicationId").as("applicationId")))
+				.list();
+		if (!applicationIds.isEmpty()) {
+			Criteria criteria = getCurrentSession().createCriteria(ApplicationMaster.class)
+					.add(Restrictions.in("id", applicationIds));
+			if (isEmployee != null) {
+				criteria.add(Restrictions.eq("isNdmcEmployee", isEmployee));
+			}
+			return criteria.list();
+		}
+		return null;
 	}
 
 }

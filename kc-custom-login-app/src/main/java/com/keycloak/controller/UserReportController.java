@@ -62,7 +62,7 @@ public class UserReportController extends AbstractPageController {
 	@GetMapping(value = "**/userReport/showUserReportPage")
 	public ModelAndView showUserReportPage(@ModelAttribute(MODEL_ATTRIBUTE_FOR_USER_REPORT) UserReportDTO userReportDTO,
 			ModelMap model, HttpServletRequest request) {
-		LOGGER.debug("show User Report Page......");
+		log.debug("show User Report Page......");
 		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE,
 				getMessageAttributeForPage(request, USER_REPORT_CLASSNAME_FOR_MESSAGE));
 		return new ModelAndView(VIEW_NAME_FOR_USER_REPORT, model);
@@ -71,9 +71,9 @@ public class UserReportController extends AbstractPageController {
 	@PostMapping(value = "**/userReport/getUsers")
 	public ModelAndView getUsers(@ModelAttribute(MODEL_ATTRIBUTE_FOR_USER_REPORT) UserReportDTO userReportDTO,
 			BindingResult result, ModelMap model, HttpServletRequest request) {
-		LOGGER.debug("show User Report Page......");
+		log.debug("show User Report Page......");
 		if (result.hasErrors()) {
-			LOGGER.error("Error in User Report object....");
+			log.error("Error in User Report object....");
 			return new ModelAndView(REDIRECT_URL_FOR_USER_REPORT + "Error in User Report object....");
 		}
 		List<CustomUserRepresentation> list = getAllUsers(userReportDTO);

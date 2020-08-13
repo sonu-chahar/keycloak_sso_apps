@@ -72,4 +72,9 @@ public class UserMasterServiceImpl extends GenericServiceImpl<UserMaster, Long> 
 		userMasterDao.saveUserStats(userStats);
 	}
 
+	@Override
+	public List<ApplicationMaster> getApplicationListByUserId(Long userId, Boolean isEmployee) {
+		return userMasterDao.getApplicationListByUserId(userId, isEmployee);
+	}
+
 }

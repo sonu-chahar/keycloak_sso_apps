@@ -62,19 +62,6 @@ public class MyProfileController extends AbstractPageController {
 	@Autowired
 	Environment environment;
 
-	private static final String VIEW_NAME_FOR_PROFILE = "myProfile";
-	private static final String VIEW_NAME_FOR_UPDATE_PASSWORD = "changePasswordPage";
-	private static final String VIEW_NAME_FOR_ADD_APPLICATION = "addApplication";
-
-	public static final String CONSTANT_FOR_SLASH = "/";
-	public static final String SSO_SERVER_URL = Constants.pathString("SSO_SERVER_URL");
-	public static final String SSO_REALM_NAME = Constants.pathString("SSO_REALM_NAME");
-	public static final String SSO_CLIENT_ID = Constants.pathString("SSO_CLIENT_ID");
-	public static final String SSO_CLIENT_SECRET_ID = Constants.pathString("SSO_CLIENT_SECRET_ID");
-	public static final String SSO_USERNAME_SERVICE_ACCOUNT = Constants.pathString("SSO_USERNAME_SERVICE_ACCOUNT");
-	public static final String SSO_PASSWORD_SERVICE_ACCOUNT = Constants.pathString("SSO_PASSWORD_SERVICE_ACCOUNT");
-
-	private static final String CONSTANT_FOR_TRUE_FLAG = "true";
 	@Autowired
 	private UserMasterService userMasterService;
 
@@ -89,24 +76,24 @@ public class MyProfileController extends AbstractPageController {
 
 	@GetMapping(value = "**/showProfile")
 	public ModelAndView showMyProfile(ModelMap model, HttpServletRequest request) {
-		LOGGER.debug("show User Profile Page......");
+		log.debug("show User Profile Page......");
 
 		UserMaster userMasterDTO = getUserMasterFromSession(request);
 
-		String imageStatus = StringUtils.isNotBlank(request.getParameter(IMAGE_UPLOAD_STATUS))
-				? request.getParameter(IMAGE_UPLOAD_STATUS)
-				: BLANK_STRING;
+		String imageStatus = StringUtils.isNotBlank(request.getParameter(CONSTANT_FOR_IMAGE_UPLOAD_STATUS))
+				? request.getParameter(CONSTANT_FOR_IMAGE_UPLOAD_STATUS)
+				: CONSTANT_FOR_BLANK_STRING;
 		String status = StringUtils.isNotBlank(request.getParameter(REQUEST_ATTRIBUTE_STATUS))
 				? request.getParameter(REQUEST_ATTRIBUTE_STATUS)
-				: BLANK_STRING;
+				: CONSTANT_FOR_BLANK_STRING;
 		String verifyMobileMsg = StringUtils.isNotBlank(request.getParameter(REQUEST_ATTRIBUTE_VERIFY_MOBILE))
 				? request.getParameter(REQUEST_ATTRIBUTE_VERIFY_MOBILE)
-				: BLANK_STRING;
+				: CONSTANT_FOR_BLANK_STRING;
 		if (status.equals(STATUS_FOR_UPDATE)) {
 			return new ModelAndView(REDIRECT_URL_FOR_HOMEPAGE + status);
 		}
 
-		model.addAttribute(IMAGE_UPLOAD_STATUS, imageStatus);
+		model.addAttribute(CONSTANT_FOR_IMAGE_UPLOAD_STATUS, imageStatus);
 		model.addAttribute(REQUEST_ATTRIBUTE_VERIFY_MOBILE, verifyMobileMsg);
 
 		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE, getMessageAttributeForPage(request, USER_CLASSNAME_FOR_MESSAGE));
@@ -124,14 +111,14 @@ public class MyProfileController extends AbstractPageController {
 	@PostMapping(value = "**/updateProfile")
 	public ModelAndView updateProfile(@Valid @ModelAttribute(MODEL_ATTRIBUTE_FOR_USER_MASTER) UserMaster userMasterDTO,
 			BindingResult result, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-		LOGGER.debug("Received request to update user");
+		log.debug("Received request to update user");
 		if (result.hasErrors()) {
-			LOGGER.error("Error in User Master object....");
-			return new ModelAndView(REDIRECT_URL_FOR_PROFILE + BLANK_STRING);
+			log.error("Error in User Master object....");
+			return new ModelAndView(REDIRECT_URL_FOR_PROFILE + CONSTANT_FOR_BLANK_STRING);
 		}
 		UserMaster oldUserMaster = (UserMaster) request.getSession(false)
 				.getAttribute(SESSION_ATTRIBTE_FOR_USER_MASTER);
-		String status = BLANK_STRING;
+		String status = CONSTANT_FOR_BLANK_STRING;
 		String otp = request.getParameter("otp");
 		if (StringUtils.isNotEmpty(otp)
 				&& otp.equals(request.getSession(false).getAttribute(SESSION_ATTRIBTE_FOR_GENERATED_OTP))) {
@@ -170,11 +157,11 @@ public class MyProfileController extends AbstractPageController {
 			}
 			if (userMasterDTO.getImageFile() != null && userMasterDTO.getImageFile().getSize() > 0) {
 				if (!saveImage(userMasterDTO)) {
-					redirectAttributes.addFlashAttribute(IMAGE_UPLOAD_STATUS, "Cannot upload image !");
+					redirectAttributes.addFlashAttribute(CONSTANT_FOR_IMAGE_UPLOAD_STATUS, "Cannot upload image !");
 				}
 			} else {
 				if (!deleteImage(userMasterDTO)) {
-					redirectAttributes.addFlashAttribute(IMAGE_UPLOAD_STATUS, "Image cannot be removed");
+					redirectAttributes.addFlashAttribute(CONSTANT_FOR_IMAGE_UPLOAD_STATUS, "Image cannot be removed");
 				}
 			}
 
@@ -186,7 +173,7 @@ public class MyProfileController extends AbstractPageController {
 		} catch (ConstraintViolationException e) {
 			status = STATUS_FOR_DUPLICATE;
 		} catch (Exception e) {
-			LOGGER.debug(e.getStackTrace());
+			log.debug(e.getStackTrace());
 			status = STATUS_FOR_ERROR;
 		}
 
@@ -196,12 +183,12 @@ public class MyProfileController extends AbstractPageController {
 
 	private boolean saveImage(UserMaster userMasterDTO) {
 		boolean isImageSaved = false;
-		String fileDir = Constants.pathString(IMAGE_PATH);
+		String fileDir = Constants.pathString(CONSTANT_FOR_IMAGE_PATH);
 		// Image
 		File file = null;
 		CommonsMultipartFile multipartFile = userMasterDTO.getImageFile();
-		String fileName = BLANK_STRING;
-		String extension = BLANK_STRING;
+		String fileName = CONSTANT_FOR_BLANK_STRING;
+		String extension = CONSTANT_FOR_BLANK_STRING;
 		if (multipartFile != null) {
 			fileName = multipartFile.getOriginalFilename().substring(0,
 					multipartFile.getOriginalFilename().indexOf(CONSTANT_FOR_DOT));
@@ -220,7 +207,7 @@ public class MyProfileController extends AbstractPageController {
 			try {
 				success = file.createNewFile();
 			} catch (IOException e1) {
-				LOGGER.debug(e1.getStackTrace());
+				log.debug(e1.getStackTrace());
 			}
 			if (success) {
 				try (FileOutputStream outputStream = new FileOutputStream(file);) {
@@ -231,7 +218,7 @@ public class MyProfileController extends AbstractPageController {
 					isImageSaved = true;
 
 				} catch (Exception e) {
-					LOGGER.debug(e.getStackTrace());
+					log.debug(e.getStackTrace());
 				}
 			}
 		}
@@ -241,7 +228,7 @@ public class MyProfileController extends AbstractPageController {
 	private boolean deleteImage(UserMaster userMasterDTO) {
 		if (StringUtils.isBlank(userMasterDTO.getImageName())
 				&& StringUtils.isBlank(userMasterDTO.getFileExtension())) {
-			String fileDir = Constants.pathString(IMAGE_PATH);
+			String fileDir = Constants.pathString(CONSTANT_FOR_IMAGE_PATH);
 			String filePath = fileDir + userMasterDTO.getMobileNumber();
 			try {
 				File file = new File(filePath);
@@ -262,8 +249,8 @@ public class MyProfileController extends AbstractPageController {
 	@ResponseBody
 	public void getImage(@PathVariable("mobileNumber") String mobileNumber, @PathVariable("imageName") String imageName,
 			@PathVariable("imageExtension") String imageExtension, HttpServletResponse response) {
-		LOGGER.debug("request to get Student Image....");
-		String fileDir = Constants.pathString(IMAGE_PATH);
+		log.debug("request to get Student Image....");
+		String fileDir = Constants.pathString(CONSTANT_FOR_IMAGE_PATH);
 
 		String filePath = fileDir + mobileNumber + CONSTANT_FOR_SLASH + imageName + CONSTANT_FOR_DOT + imageExtension;
 
@@ -279,7 +266,7 @@ public class MyProfileController extends AbstractPageController {
 				img = ImageIO.read(new File(filePath));
 				ImageIO.write(img, imageExtension, out);
 			} catch (IOException e) {
-				LOGGER.error("File is not present OR access denied!");
+				log.error("File is not present OR access denied!");
 			} finally {
 				img = null;
 			}
@@ -304,7 +291,7 @@ public class MyProfileController extends AbstractPageController {
 		try {
 			status = KeycloakAdminClientApp.resetPassword(userMasterDTO);
 		} catch (Exception e) {
-			LOGGER.debug(e.getStackTrace());
+			log.debug(e.getStackTrace());
 			status = STATUS_FOR_ERROR;
 		}
 		return new ModelAndView(REDIRECT_URL_FOR_UPDATE_PASSWORD + status);
@@ -334,7 +321,7 @@ public class MyProfileController extends AbstractPageController {
 					+ URLEncoder.encode(mobileNumber, StandardCharsets.UTF_8.toString()) + "&message="
 					+ URLEncoder.encode(generatedMsg, StandardCharsets.UTF_8.toString()));
 		} catch (UnsupportedEncodingException e1) {
-			LOGGER.debug(e1.getStackTrace());
+			log.debug(e1.getStackTrace());
 		}
 		if (getRequest != null) {
 			try (CloseableHttpClient client = HttpClients.createDefault()) {
@@ -343,8 +330,8 @@ public class MyProfileController extends AbstractPageController {
 
 				int responseCode = httpResponse.getStatusLine().getStatusCode();
 
-				LOGGER.debug("**GET** request Url: {}", getRequest.getURI());
-				LOGGER.debug("Response Code: {}", responseCode);
+				log.debug("**GET** request Url: {}", getRequest.getURI());
+				log.debug("Response Code: {}", responseCode);
 
 				HttpEntity httpEntity = httpResponse.getEntity();
 				String apiOutput = EntityUtils.toString(httpEntity);
@@ -352,19 +339,19 @@ public class MyProfileController extends AbstractPageController {
 				OtpDTO responseDTO = objectMapper.readValue(apiOutput, OtpDTO.class);
 				responseDTO.setData(responseDTO.getResponse().toString());
 				responseDTO.setStatus(responseDTO.getStatus());
-				LOGGER.debug("Content: {}", apiOutput);
+				log.debug("Content: {}", apiOutput);
 
 				return responseDTO;
 
 			} catch (UnsupportedOperationException | IOException e) {
-				LOGGER.debug(e.getStackTrace());
+				log.debug(e.getStackTrace());
 				return null;
 			} finally {
 				if (httpResponse != null) {
 					try {
 						httpResponse.close();
 					} catch (IOException e) {
-						LOGGER.debug(e.getStackTrace());
+						log.debug(e.getStackTrace());
 					}
 				}
 				httpResponse = null;
@@ -391,7 +378,7 @@ public class MyProfileController extends AbstractPageController {
 			@ModelAttribute(MODEL_ATTRIBUTE_FOR_APPLICATION_MASTER_MAPPING) ApplicationMaster applicationMasterDTO,
 			BindingResult bindingResult, HttpServletRequest request, ModelMap model) {
 		Long userId = getUserMasterFromSession(request).getId();
-		String status = BLANK_STRING;
+		String status = CONSTANT_FOR_BLANK_STRING;
 		String columns[] = new String[] { "userMasterId" };
 		Serializable values[] = new Serializable[] { userId };
 		List<UserApplicationMapping> userApplicationMappingList = genericUserApplicationMappingService

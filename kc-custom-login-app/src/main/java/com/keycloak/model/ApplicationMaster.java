@@ -26,6 +26,7 @@ public class ApplicationMaster {
 	private String logoImageName;
 	private String logoImageExtension;
 	private CommonsMultipartFile logoImageFile;
+	private Boolean isNdmcEmployee;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -106,6 +107,16 @@ public class ApplicationMaster {
 
 	public void setLogoImageFile(CommonsMultipartFile logoImageFile) {
 		this.logoImageFile = logoImageFile;
+	}
+
+	@Column(name = "isNdmcEmployee")
+	@RemoteProperty
+	public Boolean getIsNdmcEmployee() {
+		return isNdmcEmployee;
+	}
+
+	public void setIsNdmcEmployee(Boolean isNdmcEmployee) {
+		this.isNdmcEmployee = isNdmcEmployee;
 	}
 
 }

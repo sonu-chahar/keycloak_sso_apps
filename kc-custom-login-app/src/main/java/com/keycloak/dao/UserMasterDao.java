@@ -20,4 +20,6 @@ public interface UserMasterDao extends GenericDao<UserMaster, Long> {
 
 	public void saveUserStats(UserStats userStats);
 
+	public List<ApplicationMaster> getApplicationListByUserId(Long userId, Boolean isEmployee);
+
 }

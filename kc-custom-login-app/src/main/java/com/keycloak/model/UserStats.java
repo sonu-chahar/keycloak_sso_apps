@@ -24,11 +24,21 @@ public class UserStats implements Serializable {
 	private String activeUsers;
 	private String integratedApps;
 	private String activeSessions;
+	private String inactiveUsers;
+	private String dateSaved;
+
+	public String getDateSaved() {
+		return dateSaved;
+	}
+
+	public void setDateSaved(String dateSaved) {
+		this.dateSaved = dateSaved;
+	}
 
 	public UserStats() {
 	}
 
-	public UserStats(String integratedApps,String allUsers, String activeUsers,  String activeSessions) {
+	public UserStats(String integratedApps, String allUsers, String activeUsers, String activeSessions) {
 		super();
 		this.integratedApps = integratedApps;
 		this.allUsers = allUsers;
@@ -86,6 +96,16 @@ public class UserStats implements Serializable {
 
 	public void setActiveSessions(String activeSessions) {
 		this.activeSessions = activeSessions;
+	}
+
+	@Column(name = "inactiveUsers")
+	@RemoteProperty
+	public String getInactiveUsers() {
+		return inactiveUsers;
+	}
+
+	public void setInactiveUsers(String inactiveUsers) {
+		this.inactiveUsers = inactiveUsers;
 	}
 
 }

@@ -1,12 +1,15 @@
 package com.keycloak.config;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.ClientResource;
 import org.keycloak.admin.client.resource.ClientsResource;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UsersResource;
@@ -31,7 +34,11 @@ public class UserStatsScheduledTask {
 	@Value("${keycloak.realm}")
 	private String realmName;
 
-	private static Keycloak serviceKeycloak = KeycloakAdminClientApp.getServiceKeycloak();
+	@Value("${keycloak.credentials.secret}")
+	private String clientId;
+
+	@Value("${SSO_USERID_SERVICE_ACCOUNT}")
+	private String serviceAccountUserId;
 
 	@Autowired
 	private UserMasterService userMasterService;
@@ -40,13 +47,16 @@ public class UserStatsScheduledTask {
 
 	public static final String SSO_REALM_NAME = Constants.pathString("SSO_REALM_NAME");
 
-	@Scheduled(fixedRate = 900000)
+	@Scheduled(fixedRate = 60000)
 	public void performTask() {
-		if (serviceKeycloak != null) {
 
+		try {
+			Keycloak serviceKeycloak = KeycloakAdminClientApp.getServiceKeycloak();
 			RealmResource realmResource = serviceKeycloak.realm(SSO_REALM_NAME);
 			UsersResource userRessource = realmResource.users();
+
 			List<UserRepresentation> userRepresentationList = userRessource.list();
+			
 			Integer activeUsers = 0;
 
 			for (int index = 0; index < userRepresentationList.size(); index++) {
@@ -57,34 +67,40 @@ public class UserStatsScheduledTask {
 			}
 
 			Integer allUsers = userRepresentationList.size();
+			
+			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+			String strDate = dateFormat.format(Calendar.getInstance().getTime());
 			UserStats userStats = userMasterService.getStats();
 
 			userStats.setAllUsers(allUsers.toString());
 			userStats.setActiveUsers(activeUsers.toString());
+			userStats.setInactiveUsers(((Integer) (allUsers - activeUsers)).toString());
+			userStats.setDateSaved(strDate);
+			ClientsResource clientsResource = realmResource.clients();
+			List<ClientRepresentation> clientRepresentationList = clientsResource.findAll();
+			Integer integratedApps = clientRepresentationList.size();
 
-			Integer integratedApps = 0;
-			ClientsResource clientResource = realmResource.clients();
-			List<ClientRepresentation> clientRepresentationList = clientResource.findAll();
-			for (int i = 0; i < clientRepresentationList.size(); i++) {
-				integratedApps = integratedApps + clientRepresentationList.size();
-			}
-			if (clientRepresentationList.size() > 5) {
-				userStats.setIntegratedApps((clientRepresentationList.size() - 5) + "");
+			if (integratedApps > 5) {
+				userStats.setIntegratedApps((integratedApps - 5) + "");
 			} else {
-				userStats.setIntegratedApps(clientRepresentationList.size() + "");
+				userStats.setIntegratedApps(integratedApps + "");
 			}
 
 			Integer activeSessions = 0;
-			List<Map<String, String>> list = realmResource.getClientSessionStats();
-			for (int i = 0; i < list.size(); i++) {
-				Map<String, String> map = list.get(i);
-				activeSessions = activeSessions + Integer.parseInt(map.get("active"));
-			}
-			userStats.setActiveSessions(activeSessions + "");
+
+			List<ClientRepresentation> clientRepresentations = clientsResource.findByClientId("testApp1");
+			ClientRepresentation representation = clientRepresentations.get(0);
+			ClientResource resource = clientsResource.get(representation.getId());
+			activeSessions = resource.getApplicationSessionCount().get("count");
+
+			userStats.setActiveSessions(--activeSessions + "");
 
 			userMasterService.saveUserStats(userStats);
 
 			log.debug("Regular task performed at {}", new Date());
+
+		} catch (Exception e) {
+			log.debug("error occurred while performing ScheduledTask!! ", e);
 		}
 	}
 }

@@ -50,7 +50,7 @@ public class H4SessionAjaxFilter implements AjaxFilter {
 		try (SessionFactory sessionFactory = (SessionFactory) context.getAttribute(ATTRIBUTE_SESSION)) {
 			reply = getCloseableSessionFromSessionFactoryAndDoFilter(object, method, params, chain, sessionFactory);
 		} catch (Exception e) {
-			log.debug(e.getStackTrace());
+			log.debug(e);
 		}
 		return reply;
 	}
@@ -75,7 +75,7 @@ public class H4SessionAjaxFilter implements AjaxFilter {
 
 				return reply;
 			} catch (Exception e) {
-				log.debug(e.getStackTrace());
+				log.debug(e);
 			}
 		}
 		return null;
@@ -107,7 +107,7 @@ public class H4SessionAjaxFilter implements AjaxFilter {
 				return sessionFactory.getCurrentSession();
 			}
 		} catch (Exception e) {
-			log.debug(e.getStackTrace());
+			log.debug(e);
 		}
 		return null;
 	}

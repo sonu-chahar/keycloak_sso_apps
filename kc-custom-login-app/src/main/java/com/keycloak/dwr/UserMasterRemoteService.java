@@ -30,6 +30,11 @@ public class UserMasterRemoteService {
 	}
 
 	@RemoteMethod
+	public Boolean isMobileNumberExist(String mobileNumber) {
+		return userMasterService.isMobileNubmerExist(mobileNumber);
+	}
+
+	@RemoteMethod
 	public EmployeeVO checkEmployeeDetails(String employeeCode) {
 		String[] commands = new String[] { "curl", "--request", "GET",
 				"https://eservices.ndmc.gov.in/emp_api/Emp/emp_dtls", "--header",

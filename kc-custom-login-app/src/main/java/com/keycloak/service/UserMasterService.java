@@ -22,4 +22,7 @@ public interface UserMasterService extends GenericService<UserMaster, Long> {
 
 	public List<ApplicationMaster> getApplicationListByUserId(Long userId, Boolean isEmployee);
 
+	public List<ApplicationMaster> getApplicationList(Boolean isEmployee);
+
+	public boolean isMobileNubmerExist(String mobileNumber);
 }

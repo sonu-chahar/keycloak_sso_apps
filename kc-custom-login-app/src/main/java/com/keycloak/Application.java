@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfig
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -17,7 +18,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import com.keycloak.config.MyWebConfiguration;
 
 @SpringBootApplication(exclude = { HibernateJpaAutoConfiguration.class, JpaRepositoriesAutoConfiguration.class,
-		DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class })
+		DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class,
+		ErrorMvcAutoConfiguration.class })
 @Import({ MyWebConfiguration.class })
 @EnableScheduling
 public class Application extends SpringBootServletInitializer {

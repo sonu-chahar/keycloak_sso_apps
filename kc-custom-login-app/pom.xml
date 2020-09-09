@@ -242,11 +242,11 @@
 			<artifactId>spring-context-support</artifactId>
 		</dependency>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<!-- <version>4.5</version> -->
-		</dependency>
+			<version>4.5</version>
+		</dependency> -->
 
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>

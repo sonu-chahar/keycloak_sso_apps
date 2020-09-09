@@ -72,7 +72,7 @@ public class MainPageController extends AbstractPageController {
 			return new ModelAndView(VIEW_NAME_HOME_PAGE, model);
 		}
 
-		setUserSessionStats(userMaster);
+		setUserSessionStats(userMaster, request);
 
 		if (userMaster.getUserIpAddress() != null
 				&& checkGeoLocation(userMaster.getUserIpAddress(), getClientIp(request))) {
@@ -123,7 +123,7 @@ public class MainPageController extends AbstractPageController {
 					&& !registerdGeoIp.getCountry().equals(currentGeopIP.getCountry());
 
 		} catch (IOException | GeoIp2Exception e) {
-			log.debug(e.getStackTrace());
+			log.debug(e);
 		}
 
 		return false;
@@ -147,23 +147,26 @@ public class MainPageController extends AbstractPageController {
 		return new ModelAndView(VIEW_NAME_LOGIN_HISTORY_PAGE, model);
 	}
 
-	private boolean setUserSessionStats(UserMaster userMaster) {
+	private boolean setUserSessionStats(UserMaster userMaster, HttpServletRequest request) {
 		List<CustomUserSessionRepresentation> userLoginStatList = customUserSessionRepresentationService
 				.getLoginStats(userMaster.getKcUserId());
 		CustomUserSessionRepresentation customUserSessionRepresentation = KeycloakAdminClientApp
 				.getCustomUserSessionRepresentation(userMaster);
-		if (userLoginStatList.size() > 5) {
-			customUserSessionRepresentationService.remove(userLoginStatList.get(0).getId());
-		}
-		try {
-			if (userLoginStatList.isEmpty() || (!userLoginStatList.isEmpty() && !customUserSessionRepresentation
-					.getStart().equals(userLoginStatList.get(userLoginStatList.size() - 1).getStart()))) {
-				customUserSessionRepresentation.setInsDate(new Date());
-				customUserSessionRepresentationService.save(customUserSessionRepresentation);
-				return true;
+		if (customUserSessionRepresentation != null) {
+			if (userLoginStatList.size() > 5) {
+				customUserSessionRepresentationService.remove(userLoginStatList.get(0).getId());
 			}
-		} catch (Exception e) {
-			log.debug(e.getStackTrace());
+			try {
+				if (userLoginStatList.isEmpty() || (!userLoginStatList.isEmpty() && !customUserSessionRepresentation
+						.getStart().equals(userLoginStatList.get(userLoginStatList.size() - 1).getStart()))) {
+					customUserSessionRepresentation.setInsDate(new Date());
+					customUserSessionRepresentation.setIpAddress(getClientIp(request));
+					customUserSessionRepresentationService.save(customUserSessionRepresentation);
+					return true;
+				}
+			} catch (Exception e) {
+				log.debug(e);
+			}
 		}
 		return false;
 	}

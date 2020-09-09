@@ -157,14 +157,14 @@ public class MyWebConfiguration implements WebMvcConfigurer, WebApplicationIniti
 	}
 
 	@Bean
-	RoleInterceptor demoInterceptor() {
+	RoleInterceptor keycloakRoleInterceptor() {
 		return new RoleInterceptor();
 	}
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(localeChangeInterceptor());
-		registry.addInterceptor(demoInterceptor());
+		registry.addInterceptor(keycloakRoleInterceptor());
 	}
 
 	@Bean

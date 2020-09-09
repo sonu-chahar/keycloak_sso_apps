@@ -30,7 +30,7 @@ public class Constants {
 		try (InputStream is = loader.getResourceAsStream(APPLICTION_PROFILE_PROP_FILE_NAME);) {
 			prop.load(is);
 		} catch (Exception e) {
-			LOGGER.debug(e.getStackTrace());
+			LOGGER.debug(e);
 		}
 		return prop.getProperty(property);
 	}
@@ -41,7 +41,7 @@ public class Constants {
 		try (InputStream is = loader.getResourceAsStream(APPLICTION_BASE_PROP_FILE_NAME);) {
 			properties.load(is);
 		} catch (Exception e) {
-			LOGGER.debug(e.getStackTrace());
+			LOGGER.debug(e);
 		}
 		return properties.getProperty(property);
 	}

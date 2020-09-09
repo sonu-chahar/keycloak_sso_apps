@@ -3,11 +3,12 @@
     }
  
  @media screen and (min-device-width:768px) and (max-device-width: 1366px) { 
-    #myChart{height: 317px!important;}
+    #myChart{height: 295px!important;}
+    #myChart1{height: 263px!important;}
 }
 
  @media screen and (min-device-width:800px) and (max-device-width: 1280px) { 
-    #myChart{height: 346px!important;}
+    #myChart{height: 324px!important;}
 }
 .fade.in {
     background: rgba(0, 0, 0, 0.3);
@@ -136,11 +137,12 @@ h4 {
   
 }
 .panel {
-  height: 65px;
-  border: 2px solid rgba(255, 255, 255, 0.92);
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.26);
-  cursor: pointer;
-  border-radius: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.92);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.26);
+    cursor: pointer;
+    border-radius: 16px;
+    height: 65px;
+    margin-bottom: 10px;
 }
 .panel em {
   position: absolute;
@@ -640,7 +642,7 @@ body {
 	-webkit-font-smoothing: antialiased;
 	text-rendering: optimizeLegibility;
 	color: #444;
-	background: #eee;
+ 	background: #f7b174;
 }
 
 h3 {
@@ -777,5 +779,35 @@ div.ex1 {
 	background: #ffffff;
 	box-shadow: 0px 0px 10px #777777;
 }
+.graphical-dashboard {
+	text-align:center;
+}
+.graphical-dashboard h2 {
+	font-weight: 800; 
+	font-size: 23px;
+	font-family: Montserrat, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	color: #000; margin:8px 0
+}
 
-
+@media (max-width:736px) and (min-width:320px) {
+	.graphical-dashboard h2 {
+		text-align:left;
+		font-size:11px;
+		text-indent: 10px;
+	}
+	#mainCount {
+		margin-top:17px !important;
+	}
+	.btnn a {
+	    font-size: 13px; 
+	    margin: 22px 0 10px 0;
+	}
+	#rbtnListLanguage {
+		    z-index: 99;
+    position: relative;
+	}
+	
+	
+}

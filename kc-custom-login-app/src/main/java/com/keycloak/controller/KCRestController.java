@@ -63,7 +63,7 @@ public class KCRestController extends AbstractPageController {
 				log.debug("{} :: {}", request.getContextPath(), request.getServletPath());
 				response.sendRedirect(request.getRequestURI());
 			} catch (IOException e) {
-				log.debug(e.getStackTrace());
+				log.debug(e);
 			}
 		}
 
@@ -106,7 +106,7 @@ public class KCRestController extends AbstractPageController {
 		try {
 			outputmessage = mapper.writeValueAsString(o);
 		} catch (Exception e) {
-			log.debug(e.getStackTrace());
+			log.debug(e);
 		}
 		if (outputmessage != null) {
 			outputmessage = "userDetails(" + outputmessage + ")";

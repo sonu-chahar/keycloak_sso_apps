@@ -89,7 +89,7 @@ public class H4PropertyDescriptorProperty extends PropertyDescriptorProperty {
 				return descriptor.getReadMethod().invoke(bean);
 			}
 		} catch (Exception e) {
-			log.debug(e.getStackTrace());
+			log.debug(e);
 			throw new ConversionException(bean.getClass(), e);
 		}
 		return null;

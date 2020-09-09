@@ -126,11 +126,18 @@ body {
 			</label>
 			<div class="col-sm-3 required">
 				<form:select class="form-control" id="fGender" path="gender">
-					<form:option selected="selected" value=""> ---- <spring:message code="label.profilePage.gender" /> <spring:message
-							code="label.profilePage.dropdownSelect" /> ----</form:option>
-					<form:option value="m"><spring:message code="label.profilePage.gender.male" /></form:option>
-					<form:option value="f"><spring:message code="label.profilePage.gender.female" /></form:option>
-					<form:option value="o"><spring:message code="label.profilePage.gender.other" /></form:option>
+					<form:option selected="selected" value=""> ---- <spring:message
+							code="label.profilePage.gender" />
+						<spring:message code="label.profilePage.dropdownSelect" /> ----</form:option>
+					<form:option value="m">
+						<spring:message code="label.profilePage.gender.male" />
+					</form:option>
+					<form:option value="f">
+						<spring:message code="label.profilePage.gender.female" />
+					</form:option>
+					<form:option value="o">
+						<spring:message code="label.profilePage.gender.other" />
+					</form:option>
 				</form:select>
 				*
 				<form:errors path="gender" cssClass="error" />
@@ -140,8 +147,9 @@ body {
 			<div class="col-sm-3 required">
 				<form:select class="form-control" id="fCountry" path="country">
 					<option selected="selected" value=""><spring:message
-							code="label.profilePage.lastName" /> ---- <spring:message code="label.profilePage.country" /> <spring:message
-							code="label.profilePage.dropdownSelect" /> ----
+							code="label.profilePage.lastName" /> ----
+						<spring:message code="label.profilePage.country" />
+						<spring:message code="label.profilePage.dropdownSelect" /> ----
 					</option>
 				</form:select>
 				*
@@ -155,8 +163,9 @@ body {
 			<div class="col-sm-3 required">
 				<form:select class="form-control" id="fState" path="state"
 					onchange="getLocalityByState(this.value)">
-					<option selected="selected" value="">---- <spring:message code="label.profilePage.state" /> <spring:message
-							code="label.profilePage.dropdownSelect" /> ----
+					<option selected="selected" value="">----
+						<spring:message code="label.profilePage.state" />
+						<spring:message code="label.profilePage.dropdownSelect" /> ----
 					</option>
 				</form:select>
 				*
@@ -179,8 +188,9 @@ body {
 				<form:input id="fLocality" path="locality" cssClass="form-control" />
 				<form:select path="locality" id="fLocalitySelect"
 					class="form-control">
-					<form:option selected="selected" value="">---- <spring:message code="label.profilePage.locality" /> <spring:message
-							code="label.profilePage.dropdownSelect" />  ----</form:option>
+					<form:option selected="selected" value="">---- <spring:message
+							code="label.profilePage.locality" />
+						<spring:message code="label.profilePage.dropdownSelect" />  ----</form:option>
 					<c:forEach items="${localityList}" var="locality">
 						<form:option value="${locality.localityName}">${locality.localityName}</form:option>
 					</c:forEach>
@@ -210,11 +220,18 @@ body {
 			<div class="col-sm-3 required">
 				<form:select class="form-control" id="fUserType" path="userType"
 					onchange="checkUserTypeDetails()">
-					<form:option selected="selected" value="">---- <spring:message code="label.profilePage.userType" /> <spring:message
-							code="label.profilePage.dropdownSelect" /> ----</form:option>
-					<form:option value="ndmcCitizen"><spring:message code="label.profilePage.userType.ndmcCitizen" /></form:option>
-					<form:option value="nonNdmcCitizen"><spring:message code="label.profilePage.userType.nonNdmcCitizen" /></form:option>
-					<form:option value="ndmcEmployee"><spring:message code="label.profilePage.userType.ndmcEmployee" /></form:option>
+					<form:option selected="selected" value="">---- <spring:message
+							code="label.profilePage.userType" />
+						<spring:message code="label.profilePage.dropdownSelect" /> ----</form:option>
+					<form:option value="ndmcCitizen">
+						<spring:message code="label.profilePage.userType.ndmcCitizen" />
+					</form:option>
+					<form:option value="nonNdmcCitizen">
+						<spring:message code="label.profilePage.userType.nonNdmcCitizen" />
+					</form:option>
+					<form:option value="ndmcEmployee">
+						<spring:message code="label.profilePage.userType.ndmcEmployee" />
+					</form:option>
 				</form:select>
 				*
 				<form:errors path="userType" cssClass="error" />
@@ -334,9 +351,9 @@ body {
 			<div class='modal-dialog'>
 				<div class='modal-content'>
 					<div class='modal-header'>
-						<button type='button' class='btn btn-warning close'
+						<button id="fCloseBtn" type='button' class='btn btn-warning close'
 							data-dismiss='modal'
-							onclick='return closeOpenEmployeeCodePopup();'>&times;</button>
+							onclick='return closeOpenEmployeeCodePopup("false");'>&times;</button>
 						<h4 class='modal-title'>
 							<spring:message code="label.profilePage.employee-modal-title" />
 						</h4>
@@ -353,7 +370,7 @@ body {
 					</div>
 					<div class='modal-footer'>
 						<button type='button' class='btn btn-warning' data-dismiss='modal'
-							onclick='return closeOpenEmployeeCodePopup();'>
+							onclick='return closeOpenEmployeeCodePopup("true");'>
 							<spring:message code="label.profilePage.verify" />
 						</button>
 					</div>
@@ -453,6 +470,7 @@ function isValidEmailAddress(emailAddress) {
 		}
 	</script>
 <script>
+var isMobileNumberExist=false;
 //for hiding message
 function hideMsg(){
 	$("#msg").hide("slow");
@@ -466,7 +484,6 @@ function clearImage(){
 
 //validation script
 function validate(){
-	
 	//for First Name
 	if ($("#fFirstName").val() == "") {
 		alert("First Name is required !");
@@ -541,6 +558,11 @@ function validate(){
 		return false;
 	}
 	
+	if(("${userMaster.mobileNumber}"=="" || "${userMaster.mobileNumber}" != $("#fMobileNumber").val()) && isMobileNumberExists()){
+		alert("Mobile number is already used. Please enter different mobile number!!");
+		return false;
+	};  
+	
 	//for Geneder
 	if ($("#fGender").val() == "") {
 		alert("Geneder is required !");
@@ -548,7 +570,7 @@ function validate(){
 		return false;
 	}
 	//for Locality
-	if ($("#fLocality").val() == "") {
+	if ($("#fLocality").val() == "" && $("#fLocalitySelect").val() == "") {
 		alert("Locality is required !");
 		$("#fLocality").focus();
 		return false;
@@ -591,6 +613,12 @@ function validate(){
 		$("#fUserType").focus();
 		return false;
 	}
+	if($("#fUserType").val()=="ndmcEmployee" && $("#fEmployeeCode").val()=="" ){
+		alert("Please enter a valid Employee Code!");
+		$( "#bHiddenBtnForEmployeeCodeBSModal" ).trigger( "click" );
+		$("#fEmployeeCode").focus();
+		return false;
+	}
 /* 	//for AdharCardNumber
 	if ($("#fAdharCardNumber").val() == "") {
 		alert("AdharCardNumber is required !");
@@ -622,9 +650,9 @@ function validate(){
 
 	let file=$('#file')[0].files[0];
 	if(file!= null){
-		file_size=file.size;
-		if(file.size>512000) {
-			alert("File size should not be greater than 512KB!");
+		file_size=(file.size/1024).toFixed(2);
+		if(file_size>3072) {
+			alert("File size should not be greater than 3MB!");
 			return false;
 		} 
 	}
@@ -670,8 +698,9 @@ function checkUserTypeDetails(){
 	}
 }
 
-function closeOpenEmployeeCodePopup(){
-	if($(".manage-employeecode-popup").hasClass("in")){
+function closeOpenEmployeeCodePopup(isButtonClicked){
+	
+	if(isButtonClicked=='true' && $(".manage-employeecode-popup").hasClass("in")){
 		if($("#fEmployeeCode").val()!=""){
 			
 			//$("#fLoaderGif").show();
@@ -685,6 +714,18 @@ function closeOpenEmployeeCodePopup(){
 			$(".manage-employeecode-popup").css("display", "none");
 		}
 	}
+}
+function isMobileNumberExists(){
+	userMasterRemoteService.isMobileNumberExist(
+			$("#fMobileNumber").val(), {
+			async : false,
+			callback : isMobileNumberExistCallback
+		}
+	);
+	return isMobileNumberExist;
+}
+function isMobileNumberExistCallback(isMobileNumberExistFlag){
+	isMobileNumberExist=isMobileNumberExistFlag;
 }
 function fetchEmployeeDetailsCallback(employeeVO){
 	
@@ -880,6 +921,15 @@ jQuery('.denyNumber').keyup(function () {
     }
     this.value = this.value.replace(/[^a-zA-Z\s]/g,'');
 });
+function isMobileNubmerExist(){
+	let effUrl="${baseURL}"+"/myProfile/checkMobileUniqueness"+"/"+$("#fMobileNumber").val();
+	$.get(effUrl, function(data, status,xhr){
+		  if(data.response.responsecode!=1){
+			  alert(data.response.responsemessage);
+			  return false;
+		  };
+	});
+}
 </script>
 
 

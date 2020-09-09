@@ -2,9 +2,8 @@
 <%@ include file="/static-resources/common/taglibs.jsp"%>
 <html style="overflow-x: hidden;">
 <head>
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 <title><decorator:title /> | NDMC</title>
-
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta content='IE=edge' http-equiv='X-UA-Compatible' />
 
@@ -64,9 +63,7 @@
 <decorator:head />
 </head>
 
-<body
-	<decorator:getProperty property="body.id" writeEntireProperty="true"/>
-	<decorator:getProperty property="body.class" writeEntireProperty="true"/>>
+<body>
 	<div class="wrapper">
 		<!-- Sidebar Holder -->
 		<nav id="sidebar">
@@ -129,9 +126,6 @@
 				<li><a href="<%=request.getContextPath()%>/loginHistory.html" class="hvr-shutter-in-vertical"><em
 						class="fa fa-fw fa-cog"></em> <spring:message
 							code="label.homePage.nav.loginHistory" /> </a></li>
-				<li><a href="#" class="hvr-shutter-in-vertical"><em
-						class="fa fa-fw fa-cog"></em> <spring:message
-							code="label.homePage.nav.accountSetting" /> </a></li>
 
 				<c:if test="${not empty isAuthorizedForViewUsers}">
 					<li><a

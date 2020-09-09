@@ -32,7 +32,7 @@
 						page</a>.
 				</p>
 				<hr></hr>
-				<font color="red"> <%
+				<%-- <font color="red"> <%
 									 	try(PrintWriter printWriter=new PrintWriter(out)) {
 									 		if (exception != null) {
 									 			//	print the stack trace hidden in the HTML source code for debug
@@ -42,7 +42,7 @@
 											e.printStackTrace();
 									 	}
 									 %>
-				</font>
+				</font> --%>
 
 			</div>
 		</div>

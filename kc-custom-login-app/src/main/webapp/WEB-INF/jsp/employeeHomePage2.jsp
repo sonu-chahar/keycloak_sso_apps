@@ -45,7 +45,7 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
 	font-size: 10px; /* Increase font-size */
 	padding: 6px 20px 6px 20px; /* Add some padding */
 	border: 1px solid #ddd; /* Add a grey border */
-	margin-left: 15px;
+	margin-bottom: 12px; /* Add some space below the input */
 }
 
 #myUL {
@@ -72,10 +72,9 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
 		<div class="row">
 			<div class="col-sm-3">
 				<input type="text" id="myInput" onkeyup="myFunction()"
-					placeholder="<spring:message code='label.integratedApp.search-application' />">
+					placeholder="Search for Application">
 			</div>
 		</div>
-
 		<!-- Tab panes -->
 		<div class="tab-content">
 			<div class="tab-pane fade active in" id="ndmcEmployee">
@@ -89,7 +88,7 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
 										<div class="row">
 											<div class="col-md-12">
 									</c:if>
-									<c:if test="${counter.index != 0  && counter.index%6 eq 0 }">
+									<c:if test="${counter.index != 0  && counter.index%5 eq 0 }">
 							</div>
 						</div>
 						<div class="row">
@@ -97,20 +96,21 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
 								</c:if>
 								<div class="col-sm-2">
 									<div class="base hvr-float-shadow">
+										<c:set var="classCounter" value="{}" />
 										<div class="circle bg${counter.index%8+1}-circle">
 											<a href='<c:url value="${application.applicationUrl}"/>'>
 												<img alt="applicationLogo"
 												src="<%=request.getContextPath()%>/images/icons/${application.logoImageName}.${application.logoImageExtension}"
-												width="90" height="90" />
+												id="image${application.id}" width="90" height="90" />
 											</a>
 										</div>
 										<h2>
 											<a href='<c:url value="${application.applicationUrl}"/>'>
-												<spring:message code="label.integratedApp.${application.logoImageName}" /></a>
+												${application.applicationDisplayName}</a>
 										</h2>
 									</div>
 								</div>
-								<c:if test="${fn:length(ndmcEmployeeApplicationList)==(counter.index+1)}">
+								<c:if test="${fn:length(applicationList)==(counter.index+1)}">
 							</div>
 						</div>
 						</c:if>
@@ -131,7 +131,7 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
 								<div class="row">
 									<div class="col-md-12">
 							</c:if>
-							<c:if test="${counter.index != 0  && counter.index%6 eq 0 }">
+							<c:if test="${counter.index != 0  && counter.index%5 eq 0 }">
 					</div>
 				</div>
 				<div class="row">
@@ -139,20 +139,21 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
 						</c:if>
 						<div class="col-sm-2">
 							<div class="base hvr-float-shadow">
+								<c:set var="classCounter" value="{}" />
 								<div class="circle bg${counter.index%8+1}-circle">
 									<a href='<c:url value="${application.applicationUrl}"/>'> <img
 										alt="applicationLogo"
 										src="<%=request.getContextPath()%>/images/icons/${application.logoImageName}.${application.logoImageExtension}"
-										width="90" height="90" />
+										id="image${application.id}" width="90" height="90" />
 									</a>
 								</div>
 								<h2>
 									<a href='<c:url value="${application.applicationUrl}"/>'>
-										<spring:message code="label.integratedApp.${application.logoImageName}" /></a>
+										${application.applicationDisplayName}</a>
 								</h2>
 							</div>
 						</div>
-						<c:if test="${fn:length(nonNdmcEmployeeApplicationList)==(counter.index+1)}">
+						<c:if test="${fn:length(applicationList)==(counter.index+1)}">
 					</div>
 				</div>
 				</c:if>
@@ -163,9 +164,6 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
 </div>
 </div>
 </div>
-</div>
-</div>
-
 <script>
 	function myFunction() {
 		// Declare variables

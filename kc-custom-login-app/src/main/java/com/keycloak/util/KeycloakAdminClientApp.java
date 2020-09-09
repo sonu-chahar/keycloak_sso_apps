@@ -18,8 +18,6 @@ import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.RolesResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
-import org.keycloak.admin.client.token.TokenManager;
-import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
@@ -103,7 +101,7 @@ public class KeycloakAdminClientApp {
 				if (cause instanceof ClientErrorException) {
 					handleClientErrorException((ClientErrorException) cause);
 				} else {
-					LOGGER.debug(e.getStackTrace());
+					LOGGER.debug(e);
 				}
 			}
 			return false;
@@ -112,16 +110,17 @@ public class KeycloakAdminClientApp {
 	}
 
 	public static boolean createUserAtKeycloak(UserMaster userMaster) {
-		try (Keycloak keycloak = connectServiceAccount()) {
+		serviceKeycloak = getServiceKeycloak();
+		try {
 			UserRepresentation user = setUserForKeycloak(userMaster);
 			// Get realm
-			RealmResource realmResource = keycloak.realm(SSO_REALM_NAME);
+			RealmResource realmResource = serviceKeycloak.realm(SSO_REALM_NAME);
 
 			UsersResource userRessource = realmResource.users();
 			return createUserAtKeycloak(userMaster, realmResource, userRessource, user);
 
 		} catch (Exception e) {
-			LOGGER.debug(e.getStackTrace());
+			LOGGER.debug(e);
 		}
 		return false;
 
@@ -134,44 +133,44 @@ public class KeycloakAdminClientApp {
 				.password(SSO_PASSWORD_SERVICE_ACCOUNT).build();
 	}
 
-	public static Keycloak connectServiceAccount2(UserMaster userMaster) {
-		return KeycloakBuilder.builder().serverUrl(SSO_SERVER_URL).realm(SSO_REALM_NAME)
-				.grantType(OAuth2Constants.CLIENT_CREDENTIALS).clientId(SSO_CLIENT_ID)
-				.clientSecret(SSO_CLIENT_SECRET_ID).username(userMaster.getUsername())
-				.password(userMaster.getConfirmPassword()).build();
-	}
-
-	private static Keycloak connectUserAccount2(UserMaster userMaster) {
-		return KeycloakBuilder.builder().serverUrl(SSO_SERVER_URL).realm(SSO_REALM_NAME)
-				.grantType(OAuth2Constants.PASSWORD).clientId(SSO_CLIENT_ID).clientSecret(SSO_CLIENT_SECRET_ID)
-				.username(userMaster.getUsername()).password("ndmc").build();
-	}
-
-	public static void getAccessToken(UserMaster userMaster) {
-		TokenManager tokenManager = null;
-		AccessTokenResponse accessTokenResponse = null;
-		try (Keycloak keycloak = connectUserAccount2(userMaster);) {
-			tokenManager = keycloak.tokenManager();
-			accessTokenResponse = tokenManager.getAccessToken();
-		}
-
-		try (Keycloak keycloak2 = KeycloakBuilder.builder().serverUrl(SSO_SERVER_URL).realm(SSO_REALM_NAME)
-				.grantType(OAuth2Constants.PASSWORD).clientId(SSO_CLIENT_ID).clientSecret(SSO_CLIENT_SECRET_ID)
-				.username("ndmc").password("ndmc").authorization(accessTokenResponse.getRefreshToken()).build();) {
-
-			tokenManager = keycloak2.tokenManager();
-			accessTokenResponse = tokenManager.getAccessToken();
-		} catch (Exception e) {
-			LOGGER.debug(e.getStackTrace());
-		}
-	}
+//	public static Keycloak connectServiceAccount2(UserMaster userMaster) {
+//		return KeycloakBuilder.builder().serverUrl(SSO_SERVER_URL).realm(SSO_REALM_NAME)
+//				.grantType(OAuth2Constants.CLIENT_CREDENTIALS).clientId(SSO_CLIENT_ID)
+//				.clientSecret(SSO_CLIENT_SECRET_ID).username(userMaster.getUsername())
+//				.password(userMaster.getConfirmPassword()).build();
+//	}
+//
+//	private static Keycloak connectUserAccount2(UserMaster userMaster) {
+//		return KeycloakBuilder.builder().serverUrl(SSO_SERVER_URL).realm(SSO_REALM_NAME)
+//				.grantType(OAuth2Constants.PASSWORD).clientId(SSO_CLIENT_ID).clientSecret(SSO_CLIENT_SECRET_ID)
+//				.username(userMaster.getUsername()).password("ndmc").build();
+//	}
+//
+//	public static void getAccessToken(UserMaster userMaster) {
+//		TokenManager tokenManager = null;
+//		AccessTokenResponse accessTokenResponse = null;
+//		try (Keycloak keycloak = connectUserAccount2(userMaster);) {
+//			tokenManager = keycloak.tokenManager();
+//			accessTokenResponse = tokenManager.getAccessToken();
+//		}
+//
+//		try (Keycloak keycloak2 = KeycloakBuilder.builder().serverUrl(SSO_SERVER_URL).realm(SSO_REALM_NAME)
+//				.grantType(OAuth2Constants.PASSWORD).clientId(SSO_CLIENT_ID).clientSecret(SSO_CLIENT_SECRET_ID)
+//				.username("ndmc").password("ndmc").authorization(accessTokenResponse.getRefreshToken()).build();) {
+//
+//			tokenManager = keycloak2.tokenManager();
+//			accessTokenResponse = tokenManager.getAccessToken();
+//		} catch (Exception e) {
+//			LOGGER.debug(e);
+//		}
+//	}
 
 	public static String resetPassword(UserMaster userMaster) {
 		String errorDescriptionConstant = "error_description";
-		if (serviceKeycloak == null) {
-			serviceKeycloak = connectServiceAccount();
-		}
+		serviceKeycloak = getServiceKeycloak();
+
 		RealmResource realmResource = serviceKeycloak.realm(SSO_REALM_NAME);
+
 		if (realmResource != null) {
 			UsersResource usersRessource = realmResource.users();
 			try {
@@ -183,7 +182,7 @@ public class KeycloakAdminClientApp {
 				userResource.resetPassword(passwordCred);
 				return AbstractPageController.STATUS_FOR_UPDATE;
 			} catch (ClientErrorException e) {
-				LOGGER.debug(e.getStackTrace());
+				LOGGER.debug(e);
 
 				try (Response response = e.getResponse()) {
 					LOGGER.debug("status : {}", response.getStatus());
@@ -194,14 +193,14 @@ public class KeycloakAdminClientApp {
 					LOGGER.debug("{} : {}", errorDescriptionConstant, error.get(errorDescriptionConstant));
 					return (String) error.get(errorDescriptionConstant);
 				} catch (IOException ex) {
-					LOGGER.debug(ex.getStackTrace());
+					LOGGER.debug(ex);
 				}
 			} catch (Exception e) {
 				Throwable cause = e.getCause();
 				if (cause instanceof ClientErrorException) {
 					handleClientErrorException((ClientErrorException) cause);
 				} else {
-					LOGGER.debug(e.getStackTrace());
+					LOGGER.debug(e);
 				}
 			}
 		}
@@ -224,7 +223,7 @@ public class KeycloakAdminClientApp {
 			if (cause instanceof ClientErrorException) {
 				handleClientErrorException((ClientErrorException) cause);
 			} else {
-				LOGGER.debug(e.getStackTrace());
+				LOGGER.debug(e);
 			}
 		}
 		return false;
@@ -244,8 +243,10 @@ public class KeycloakAdminClientApp {
 	}
 
 	public static boolean createRoleInGivenRealm(String role) {
-		try (Keycloak keycloak = connectServiceAccount()) {
-			RealmResource realmResource = keycloak.realm(SSO_REALM_NAME);
+
+		try {
+			serviceKeycloak = getServiceKeycloak();
+			RealmResource realmResource = serviceKeycloak.realm(SSO_REALM_NAME);
 
 			RolesResource rolesResource = realmResource.roles();
 
@@ -274,7 +275,7 @@ public class KeycloakAdminClientApp {
 			if (cause instanceof ClientErrorException) {
 				handleClientErrorException((ClientErrorException) cause);
 			} else {
-				LOGGER.debug(e.getStackTrace());
+				LOGGER.debug(e);
 			}
 		}
 		return false;
@@ -283,7 +284,7 @@ public class KeycloakAdminClientApp {
 
 	@SuppressWarnings("rawtypes")
 	private static void handleClientErrorException(ClientErrorException e) {
-		LOGGER.debug(e.getStackTrace());
+		LOGGER.debug(e);
 		try (Response response = e.getResponse();) {
 			LOGGER.debug("status: {}", response.getStatus());
 			LOGGER.debug("reason: {}", response.getStatusInfo().getReasonPhrase());
@@ -292,14 +293,12 @@ public class KeycloakAdminClientApp {
 			LOGGER.debug("error_description: {}", error.get("error_description"));
 
 		} catch (IOException ex) {
-			LOGGER.debug(e.getStackTrace());
+			LOGGER.debug(e);
 		}
 	}
 
 	public static String updateUserRepresentation(UserMaster userMaster) {
-		if (serviceKeycloak == null) {
-			serviceKeycloak = connectServiceAccount();
-		}
+		serviceKeycloak = getServiceKeycloak();
 		RealmResource realmResource = serviceKeycloak.realm(SSO_REALM_NAME);
 		if (realmResource != null) {
 			UsersResource usersRessource = realmResource.users();
@@ -319,7 +318,7 @@ public class KeycloakAdminClientApp {
 				if (cause instanceof ClientErrorException) {
 					handleClientErrorException((ClientErrorException) cause);
 				} else {
-					LOGGER.debug(e.getStackTrace());
+					LOGGER.debug(e);
 				}
 			}
 		}
@@ -328,8 +327,10 @@ public class KeycloakAdminClientApp {
 	}
 
 	public static CustomUserSessionRepresentation getCustomUserSessionRepresentation(UserMaster userMaster) {
-		try (Keycloak keycloak = connectServiceAccount()) {
-			RealmResource realmResource = keycloak.realm(KeycloakAdminClientApp.SSO_REALM_NAME);
+
+		try {
+			serviceKeycloak = getServiceKeycloak();
+			RealmResource realmResource = serviceKeycloak.realm(KeycloakAdminClientApp.SSO_REALM_NAME);
 			if (realmResource != null) {
 				UsersResource usersRessource = realmResource.users();
 
@@ -357,7 +358,7 @@ public class KeycloakAdminClientApp {
 			if (cause instanceof ClientErrorException) {
 				handleClientErrorException((ClientErrorException) cause);
 			} else {
-				LOGGER.debug(e.getStackTrace());
+				LOGGER.debug(e);
 			}
 		}
 		return null;

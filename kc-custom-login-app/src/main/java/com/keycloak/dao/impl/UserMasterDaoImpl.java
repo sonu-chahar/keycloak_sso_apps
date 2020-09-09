@@ -97,4 +97,18 @@ public class UserMasterDaoImpl extends GenericDaoImpl<UserMaster, Long> implemen
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ApplicationMaster> getApplicationList(Boolean isEmployee) {
+		return getCurrentSession().createCriteria(ApplicationMaster.class)
+				.add(Restrictions.eq("isNdmcEmployee", isEmployee)).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<UserMaster> getUserListByMobileNumber(String mobileNumber) {
+		return getCurrentSession().createCriteria(UserMaster.class).add(Restrictions.eq("mobileNumber", mobileNumber))
+				.list();
+	}
+
 }

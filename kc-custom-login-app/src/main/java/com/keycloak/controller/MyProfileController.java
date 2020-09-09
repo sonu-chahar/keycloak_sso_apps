@@ -89,7 +89,7 @@ public class MyProfileController extends AbstractPageController {
 		String verifyMobileMsg = StringUtils.isNotBlank(request.getParameter(REQUEST_ATTRIBUTE_VERIFY_MOBILE))
 				? request.getParameter(REQUEST_ATTRIBUTE_VERIFY_MOBILE)
 				: CONSTANT_FOR_BLANK_STRING;
-		if (status.equals(STATUS_FOR_UPDATE)) {
+		if (status.equals(STATUS_FOR_UPDATE) && StringUtils.isBlank(imageStatus)) {
 			return new ModelAndView(REDIRECT_URL_FOR_HOMEPAGE + status);
 		}
 
@@ -118,6 +118,12 @@ public class MyProfileController extends AbstractPageController {
 		}
 		UserMaster oldUserMaster = (UserMaster) request.getSession(false)
 				.getAttribute(SESSION_ATTRIBTE_FOR_USER_MASTER);
+		if (userMasterDTO.getMobileNumber() != null
+				&& !userMasterDTO.getMobileNumber().equals(oldUserMaster.getMobileNumber())
+				&& userMasterService.isMobileNubmerExist(userMasterDTO.getMobileNumber())) {
+			return new ModelAndView(REDIRECT_URL_FOR_PROFILE + MESSAGE_FOR_DUPLICATE_MOBILE_NUBMER);
+		}
+
 		String status = CONSTANT_FOR_BLANK_STRING;
 		String otp = request.getParameter("otp");
 		if (StringUtils.isNotEmpty(otp)
@@ -159,10 +165,6 @@ public class MyProfileController extends AbstractPageController {
 				if (!saveImage(userMasterDTO)) {
 					redirectAttributes.addFlashAttribute(CONSTANT_FOR_IMAGE_UPLOAD_STATUS, "Cannot upload image !");
 				}
-			} else {
-				if (!deleteImage(userMasterDTO)) {
-					redirectAttributes.addFlashAttribute(CONSTANT_FOR_IMAGE_UPLOAD_STATUS, "Image cannot be removed");
-				}
 			}
 
 			userMasterDTO.setUserIpAddress(getClientIp(request));
@@ -173,7 +175,7 @@ public class MyProfileController extends AbstractPageController {
 		} catch (ConstraintViolationException e) {
 			status = STATUS_FOR_DUPLICATE;
 		} catch (Exception e) {
-			log.debug(e.getStackTrace());
+			log.debug(e);
 			status = STATUS_FOR_ERROR;
 		}
 
@@ -207,7 +209,7 @@ public class MyProfileController extends AbstractPageController {
 			try {
 				success = file.createNewFile();
 			} catch (IOException e1) {
-				log.debug(e1.getStackTrace());
+				log.debug(e1);
 			}
 			if (success) {
 				try (FileOutputStream outputStream = new FileOutputStream(file);) {
@@ -216,9 +218,8 @@ public class MyProfileController extends AbstractPageController {
 					userMasterDTO.setImageName(fileName);
 					userMasterDTO.setFileExtension(extension);
 					isImageSaved = true;
-
 				} catch (Exception e) {
-					log.debug(e.getStackTrace());
+					log.debug(e);
 				}
 			}
 		}
@@ -232,8 +233,7 @@ public class MyProfileController extends AbstractPageController {
 			String filePath = fileDir + userMasterDTO.getMobileNumber();
 			try {
 				File file = new File(filePath);
-				boolean success = file.mkdirs();
-				if (!success) {
+				if (file.exists()) {
 					for (File fin : file.listFiles()) {
 						FileDeleteStrategy.FORCE.deleteQuietly(fin);
 					}
@@ -291,7 +291,7 @@ public class MyProfileController extends AbstractPageController {
 		try {
 			status = KeycloakAdminClientApp.resetPassword(userMasterDTO);
 		} catch (Exception e) {
-			log.debug(e.getStackTrace());
+			log.debug(e);
 			status = STATUS_FOR_ERROR;
 		}
 		return new ModelAndView(REDIRECT_URL_FOR_UPDATE_PASSWORD + status);
@@ -321,7 +321,7 @@ public class MyProfileController extends AbstractPageController {
 					+ URLEncoder.encode(mobileNumber, StandardCharsets.UTF_8.toString()) + "&message="
 					+ URLEncoder.encode(generatedMsg, StandardCharsets.UTF_8.toString()));
 		} catch (UnsupportedEncodingException e1) {
-			log.debug(e1.getStackTrace());
+			log.debug(e1);
 		}
 		if (getRequest != null) {
 			try (CloseableHttpClient client = HttpClients.createDefault()) {
@@ -344,14 +344,14 @@ public class MyProfileController extends AbstractPageController {
 				return responseDTO;
 
 			} catch (UnsupportedOperationException | IOException e) {
-				log.debug(e.getStackTrace());
+				log.debug(e);
 				return null;
 			} finally {
 				if (httpResponse != null) {
 					try {
 						httpResponse.close();
 					} catch (IOException e) {
-						log.debug(e.getStackTrace());
+						log.debug(e);
 					}
 				}
 				httpResponse = null;
@@ -368,8 +368,13 @@ public class MyProfileController extends AbstractPageController {
 	public ModelAndView showApplicationMappingPage(
 			@ModelAttribute(MODEL_ATTRIBUTE_FOR_APPLICATION_MASTER_MAPPING) ApplicationMaster applicationMasterDTO,
 			HttpServletRequest request, ModelMap model) {
+		model.addAttribute(SESSION_ATTRIBTE_FOR_USER_MASTER, getUserMasterFromSession(request));
+		model.addAttribute(MODEL_ATTRIBTE_FOR_NON_EMPLOYEE_APPLICATION_LIST,
+				userMasterService.getApplicationList(false));
+		model.addAttribute(MODEL_ATTRIBTE_FOR_EMPLOYEE_APPLICATION_LIST, userMasterService.getApplicationList(true));
+
 		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE, getMessageAttributeForPage(request, "ApplicationMapping"));
-		model.addAttribute("applicationList", userMasterService.getApplicationList());
+		model.addAttribute(MODEL_ATTRIBTE_FOR_APPLICATION_LIST, userMasterService.getApplicationList());
 		return new ModelAndView(VIEW_NAME_FOR_ADD_APPLICATION);
 	}
 
@@ -404,6 +409,6 @@ public class MyProfileController extends AbstractPageController {
 		return new ModelAndView(REDIRECT_URL_FOR_APPLICATION_MASTER_MAPPING + status);
 	}
 
-	public static final okhttp3.MediaType JSON = okhttp3.MediaType.parse("application/json; charset=utf-8");
+//	public static final okhttp3.MediaType JSON = okhttp3.MediaType.parse("application/json; charset=utf-8");
 
 }

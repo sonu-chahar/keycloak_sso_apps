@@ -72,7 +72,7 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
 		<div class="row">
 			<div class="col-sm-3">
 				<input type="text" id="myInput" onkeyup="myFunction()"
-					placeholder="<spring:message code='label.integratedApp.search-application' />">
+					placeholder="Search for Application">
 			</div>
 		</div>
 
@@ -82,88 +82,61 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
 				<div class="col-sm-12 col-md-12 col-lg-12">
 					<div class="row">
 						<div class="main-gap keycloak-portal">
-							<div class="row">
+
+							<div class="form-group form-group-sm">
 								<c:forEach items="${ndmcEmployeeApplicationList}"
 									var="application" varStatus="counter">
-									<c:if test="${counter.index == 0}">
-										<div class="row">
-											<div class="col-md-12">
-									</c:if>
-									<c:if test="${counter.index != 0  && counter.index%6 eq 0 }">
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12">
-								</c:if>
-								<div class="col-sm-2">
-									<div class="base hvr-float-shadow">
-										<div class="circle bg${counter.index%8+1}-circle">
-											<a href='<c:url value="${application.applicationUrl}"/>'>
-												<img alt="applicationLogo"
-												src="<%=request.getContextPath()%>/images/icons/${application.logoImageName}.${application.logoImageExtension}"
-												width="90" height="90" />
-											</a>
+									<div class="col-sm-2">
+										<div class="base hvr-float-shadow">
+											<div class="circle bg${counter.index%8+1}-circle">
+												<a href='<c:url value="${application.applicationUrl}"/>'>
+													<img alt="applicationLogo"
+													src="<%=request.getContextPath()%>/images/icons/${application.logoImageName}.${application.logoImageExtension}"
+													width="90" height="90" />
+												</a>
+											</div>
+											<h2>
+												<a href='<c:url value="${application.applicationUrl}"/>'>
+													${application.applicationDisplayName}</a>
+											</h2>
 										</div>
-										<h2>
-											<a href='<c:url value="${application.applicationUrl}"/>'>
-												<spring:message code="label.integratedApp.${application.logoImageName}" /></a>
-										</h2>
 									</div>
-								</div>
-								<c:if test="${fn:length(ndmcEmployeeApplicationList)==(counter.index+1)}">
+								</c:forEach>
 							</div>
 						</div>
-						</c:if>
-						</c:forEach>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	<div class="tab-pane fade" id="nonNdmcEmployee">
-		<div class="col-sm-12 col-md-12 col-lg-12">
-			<div class="row">
-				<div class="main-gap keycloak-portal">
+			<div class="tab-pane fade" id="nonNdmcEmployee">
+				<div class="col-sm-12 col-md-12 col-lg-12">
 					<div class="row">
-						<c:forEach items="${nonNdmcEmployeeApplicationList}"
-							var="application" varStatus="counter">
-							<c:if test="${counter.index == 0}">
-								<div class="row">
-									<div class="col-md-12">
-							</c:if>
-							<c:if test="${counter.index != 0  && counter.index%6 eq 0 }">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						</c:if>
-						<div class="col-sm-2">
-							<div class="base hvr-float-shadow">
-								<div class="circle bg${counter.index%8+1}-circle">
-									<a href='<c:url value="${application.applicationUrl}"/>'> <img
-										alt="applicationLogo"
-										src="<%=request.getContextPath()%>/images/icons/${application.logoImageName}.${application.logoImageExtension}"
-										width="90" height="90" />
-									</a>
-								</div>
-								<h2>
-									<a href='<c:url value="${application.applicationUrl}"/>'>
-										<spring:message code="label.integratedApp.${application.logoImageName}" /></a>
-								</h2>
+						<div class="main-gap keycloak-portal">
+							<div class="form-group form-group-sm">
+								<c:forEach items="${nonNdmcEmployeeApplicationList}"
+									var="application" varStatus="counter">
+									<div class="col-sm-2">
+										<div class="base hvr-float-shadow">
+											<div class="circle bg${counter.index%8+1}-circle">
+												<a href='<c:url value="${application.applicationUrl}"/>'>
+													<img alt="applicationLogo"
+													src="<%=request.getContextPath()%>/images/icons/${application.logoImageName}.${application.logoImageExtension}"
+													width="90" height="90" />
+												</a>
+											</div>
+											<h2>
+												<a href='<c:url value="${application.applicationUrl}"/>'>
+													${application.applicationDisplayName}</a>
+											</h2>
+										</div>
+									</div>
+								</c:forEach>
 							</div>
 						</div>
-						<c:if test="${fn:length(nonNdmcEmployeeApplicationList)==(counter.index+1)}">
 					</div>
 				</div>
-				</c:if>
-				</c:forEach>
 			</div>
 		</div>
 	</div>
-</div>
-</div>
-</div>
-</div>
 </div>
 
 <script>

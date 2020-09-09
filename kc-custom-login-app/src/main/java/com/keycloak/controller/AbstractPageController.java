@@ -50,6 +50,7 @@ public abstract class AbstractPageController {
 	public static final String STATUS_FOR_DELETED = "deleted";
 	public static final String STATUS_FOR_NOT_DELETED = "cannotdelete";
 	public static final String STATUS_FOR_ALREADY_DELETED = "alreadydeleted";
+	
 
 	public static final String CONSTANT_FOR_IMAGE_PATH = "fileDir";
 	public static final String CONSTANT_FOR_IMAGE_UPLOAD_STATUS = "imageStatus";
@@ -61,17 +62,19 @@ public abstract class AbstractPageController {
 	public static final String CONSTANT_FOR_SPAN_CLOSING_TAG = "</span>";
 
 	public static final String CONSTANT_FOR_LOCALHOST = "127.0.0.1";
+	public static final String MESSAGE_FOR_DUPLICATE_MOBILE_NUBMER = "Mobile number is already used. Please enter different mobile number!!!";
+
 
 	public static final String VIEW_NAME_HOME_PAGE = "homePage";
 	public static final String VIEW_NAME_EMPLOYEE_HOME_PAGE = "employeeHomePage";
-	public static final String VIEW_NAME_HOME_PAGE_WITH_CHART = "homePageWithChart";
+	public static final String VIEW_NAME_HOME_PAGE_WITH_CHART = "homePageWithChart2";
 	public static final String VIEW_NAME_LOGIN_HISTORY_PAGE = "loginStats";
 	public static final String VIEW_NAME_FOR_PROFILE = "myProfile";
 	public static final String VIEW_NAME_FOR_PASSWORD_POLICY = "passwordPolicy";
 	public static final String VIEW_NAME_FOR_WEBSITE_POLICY = "websitePolicy";
 
 	public static final String VIEW_NAME_FOR_UPDATE_PASSWORD = "changePasswordPage";
-	public static final String VIEW_NAME_FOR_ADD_APPLICATION = "addApplication";
+	public static final String VIEW_NAME_FOR_ADD_APPLICATION = "addApplication2";
 
 	public static final String SSO_SERVER_URL = Constants.pathString("SSO_SERVER_URL");
 	public static final String SSO_REALM_NAME = Constants.pathString("SSO_REALM_NAME");

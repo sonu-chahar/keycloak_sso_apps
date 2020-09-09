@@ -5,10 +5,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta content='IE=edge' http-equiv='X-UA-Compatible' />
 <title><spring:message code="label.homePageWithChart.title" /></title>
 <link rel="icon" type="image/x-icon"
 	href="<%=request.getContextPath()%>/resources/chartTheme/favicon.ico" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath()%>/resources/chartTheme/css_nn/style.css" />
 <link rel="stylesheet" type="text/css"
@@ -29,11 +31,18 @@
 <body class="dashboard-page sb-l-o sb-r-c">
 	<header
 		style="box-shadow: 0 10px 28px 0 rgba(0, 0, 0, 0.2), 0 10px 20px 0 rgba(0, 0, 0, 0.19)">
-		<img class="header_img" alt="Header Image"
-			src="<%=request.getContextPath()%>/resources/chartTheme/SCDG_header.png"
-			width="100%">
+		<div id="en">
+			<img class="header_img" alt="Header Image"
+				src="<%=request.getContextPath()%>/resources/chartTheme/SCDG_header.png"
+				width="100%">
+		</div>
+		<div id="indic" style="display: none">
+			<img class="header_img" alt="Header Image"
+				src="<%=request.getContextPath()%>/resources/chartTheme/SCDG_hindi.png"
+				width="100%">
+		</div>
 	</header>
-	<div id="main">
+	<div id="main" style="position: relative;">
 		<div style="text-align: center">
 			<div id="page-wrapper"
 				style="background: -webkit-linear-gradient(-90deg, #f7b174, #88c181 100%); background-image: -webkit-linear-gradient(-90deg, rgb(247, 177, 116), rgb(136, 193, 129) 100%); background-position-x: initial; background-position-y: initial; background-size: initial; background-repeat-x: initial; background-repeat-y: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial;">
@@ -55,16 +64,15 @@
 						</a> <a id="rbtnListLanguage_1" href="?lang=indic"
 							class="lang-en lang-select" style="color: #333"> <label
 								for="rbtnListLanguage_1"><spring:message
-										code="label.lang.indic" /></label></span>
+										code="label.lang.indic" /></label></a></span>
 					</div>
 				</div>
 
 				<div class="row">
 					<div class="col-md-12">
 						<div class="card">
-							<div style="text-align: center">
-								<h2
-									style="font-weight: 800; font-size: 23px; font-family: Montserrat, sans-serif; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; color: #000;">
+							<div class="graphical-dashboard">
+								<h2>
 									<spring:message code="label.homePageWithChart.dashBoardHeading" />
 								</h2>
 							</div>
@@ -81,101 +89,103 @@
 				<div class="row" style="margin-top: -20px;">
 					<div class="row wow fadeInDown" data-wow-duration="2s"
 						id="mainCount">
-						<div class="col-lg-3 col-md-6 dataBoxHover">
-							<div class="panel orange">
-								<em class="fa  fa-android fa-4x"></em>
-								<div class="panel-heading">
-									<div class="row">
-										<div id="pendency" class="col-xs-9 text-left">
-											<div>
-												<a href="javascript:void(0);" style="text-decoration: none;"><h3
-														id="total_pending1" data-tag="">
-														${userStats.integratedApps}<span
-															class="count_class counter"></span>
-													</h3></a>
-											</div>
-											<div style="margin-top: -32px; margin-left: 50px;">
-												<strong><spring:message
-														code="label.homePageWithChart.integratedApp"
-														var="integratedAppLabel" />${integratedAppLabel}</strong>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-						</div>
-						<div class="col-lg-3 col-md-6 dataBoxHover">
-							<div class="panel pink">
-								<em class="fa  fa-users fa-4x"></em>
-								<div class="panel-heading">
-									<div class="row">
-										<div class="col-xs-9 text-left">
-											<div>
-												<a href="javascript:void(0);" style="text-decoration: none;"><h3
-														id="pendingcomplience2">
-														${userStats.activeUsers}<span class="count_class counter"></span>
-													</h3></a>
-											</div>
-											<div style="margin-top: -32px; margin-left: 50px;">
-												<strong><spring:message
-														code="label.homePageWithChart.registeredUser"
-														var="registeredUserLabel" />${registeredUserLabel}</strong>
+						<span title="Statistics are updated on every 15 minutes">
+							<div class="col-lg-3 col-md-6 dataBoxHover">
+								<div class="panel pink">
+									<em class="fa  fa-users fa-4x"></em>
+									<div class="panel-heading">
+										<div class="row">
+											<div class="col-xs-9 text-left">
+												<div>
+													<a href="javascript:void(0);"
+														style="text-decoration: none;"><h3
+															id="pendingcomplience2">
+															${userStats.activeSessions}<span class="count_class counter"></span>
+														</h3></a>
+												</div>
+												<div style="margin-top: -32px; margin-left: 50px;">
+													<strong><spring:message
+															code="label.homePageWithChart.activeUser"
+															var="activeUserLabel" />${activeUserLabel}</strong>
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-
-						</div>
-						<div class="col-lg-3 col-md-6 dataBoxHover">
-							<div class="panel tar">
-								<em class="fa  fa-user fa-4x"></em>
-								<div class="panel-heading">
-									<div class="row">
-										<div class="col-xs-9 text-left">
-											<div>
-												<a href="javascript:void(0);" style="text-decoration: none;"><h3
-														id="fInactiveUsers">
-														${userStats.inactiveUsers}<span
-															class="count_class counter"> </span>
-													</h3></a>
-											</div>
-											<div style="margin-top: -32px; margin-left: 50px;">
-												<strong><spring:message
-														code="label.homePageWithChart.inactiveUser"
-														var="inactiveUserLabel" />${inactiveUserLabel}</strong>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-						</div>
-						<div class="col-lg-3 col-md-6">
-							<div class="panel yellow">
-								<em class="fa  fa-calendar fa-4x"></em>
-								<div class="panel-heading">
-									<div class="row">
-										<div class="col-xs-9 text-left">
-											<div>
-												<a href="javascript:void(0);" style="text-decoration: none;"><h3
-														id="#">
-														${userStats.activeSessions}<span
-															class="count_class counter"></span>
-													</h3></a>
-											</div>
-											<div style="margin-top: -32px; margin-left: 50px;">
-												<strong><spring:message
-														code="label.homePageWithChart.activeUser"
-														var="activeUserLabel" />${activeUserLabel}</strong>
+							<div class="col-lg-3 col-md-6 dataBoxHover">
+								<div class="panel orange">
+									<em class="fa  fa-android fa-4x"></em>
+									<div class="panel-heading">
+										<div class="row">
+											<div id="pendency" class="col-xs-9 text-left">
+												<div>
+													<a href="javascript:void(0);"
+														style="text-decoration: none;"><h3 id="total_pending1"
+															data-tag="">
+															${userStats.inactiveUsers}<span
+																class="count_class counter"></span>
+														</h3></a>
+												</div>
+												<div style="margin-top: -32px; margin-left: 50px;">
+													<strong><spring:message
+															code="label.homePageWithChart.inactiveUser"
+															var="inactiveUserLabel" />${inactiveUserLabel}</strong>
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
+							<div class="col-lg-3 col-md-6">
+								<div class="panel yellow">
+									<em class="fa  fa-calendar fa-4x"></em>
+									<div class="panel-heading">
+										<div class="row">
+											<div class="col-xs-9 text-left">
+												<div>
+													<a href="javascript:void(0);"
+														style="text-decoration: none;"><h3 id="#">
+															${userStats.activeUsers}<span
+																class="count_class counter"></span>
+														</h3></a>
+												</div>
+												<div style="margin-top: -32px; margin-left: 50px;">
+													<strong><spring:message
+															code="label.homePageWithChart.registeredUser"
+															var="registeredUserLabel" />${registeredUserLabel}</strong>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-3 col-md-6 dataBoxHover">
+								<div class="panel tar">
+									<em class="fa  fa-user fa-4x"></em>
+									<div class="panel-heading">
+										<div class="row">
+											<div class="col-xs-9 text-left">
+												<div>
+													<a href="javascript:void(0);"
+														style="text-decoration: none;"><h3 id="fInactiveUsers">
+															${userStats.integratedApps}<span
+																class="count_class counter"> </span>
+														</h3></a>
+												</div>
+												<div style="margin-top: -32px; margin-left: 50px;">
+													<strong><spring:message
+															code="label.homePageWithChart.integratedApp"
+															var="integratedAppLabel" />${integratedAppLabel}</strong>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</span>
 					</div>
+
 
 					<div class="tab-content"
 						style="border-radius: 10px; margin: 10px, 20px, 10px, 20px !important;">
@@ -207,28 +217,27 @@
 								</div>
 							</div>
 						</div>
-
-						<footer class="main-footer text-center"
-							style="border-radius: 10px; margin: 10px, 20px, 10px, 20px !important; padding: 0px; margin-left: 0px; color: #fff; background-color: #343A40; font-size: 12px;">
-							<spring:message code="label.homePageWithChart.footer" />
-
-							<p style="margin: 0">
-								<a href="#"><span data-toggle="modal"
-									data-target="#myModal4"><spring:message
-											code="label.homePageWithChart.helpdesk" /></span></a>&nbsp;&nbsp;|&nbsp;
-								<a href="websitePolicy.html"> <span><spring:message
-											code="label.homePageWithChart.websitePolicy" /></span></a>&nbsp;&nbsp;|&nbsp;
-								<a href="passwordPolicy.html"> <span><spring:message
-											code="label.homePageWithChart.passwordPolicy" /></span></a>&nbsp;&nbsp;|&nbsp;
-								<span><spring:message code="label.homePageWithChart.faq" /></span>&nbsp;&nbsp;|&nbsp;
-								<span><spring:message
-										code="label.homePageWithChart.sitemap" /></span>
-							</p>
-						</footer>
 					</div>
 				</div>
 
 			</div>
+		</div>
+		<div style="position: inherit; bottom: -10px;">
+			<footer class="main-footer text-center footer"
+				style="text-align: center;">
+				<spring:message code="label.homePageWithChart.footer" />
+
+				<p style="margin: 0">
+					<a href="#"><span data-toggle="modal" data-target="#myModal4"><spring:message
+								code="label.homePageWithChart.helpdesk" /></span></a>&nbsp;&nbsp;|&nbsp; <a
+						href="websitePolicy.html"> <span><spring:message
+								code="label.homePageWithChart.websitePolicy" /></span></a>&nbsp;&nbsp;|&nbsp;
+					<a href="passwordPolicy.html"> <span><spring:message
+								code="label.homePageWithChart.passwordPolicy" /></span></a>&nbsp;&nbsp;|&nbsp;
+					<span><spring:message code="label.homePageWithChart.faq" /></span>&nbsp;&nbsp;|&nbsp;
+					<span><spring:message code="label.homePageWithChart.sitemap" /></span>
+				</p>
+			</footer>
 		</div>
 	</div>
 	<div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
@@ -269,8 +278,8 @@
 						var="searchLabel" />
 					<form class="example" action="#"
 						style="margin: auto; max-width: 300px; padding: 0px; float: right; border: 0px; margin-bottom: 5px; margin-top: -11px;">
-						<input type="text" placeholder="${searchLabel}" name="search2"
-							style="padding: 3px;">
+						<input id="myInput" type="text" placeholder="${searchLabel}"
+							name="search2" style="padding: 3px;" onkeyup="searchData()" />
 						<button type="submit" disabled>
 							<em class="fa fa-search"></em>
 						</button>
@@ -290,7 +299,7 @@
 										code="label.homePageWithChart.releaseDate" /></th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="tBodyTrs">
 							<tr>
 								<td>1</td>
 								<td><spring:message
@@ -300,73 +309,6 @@
 								<td><spring:message
 										code="label.homePageWithChart.releaseCommentContent"
 										var="releaseCommentContentLabel" />${releaseCommentContentLabel}</td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>${appVersionLabel}</td>
-								<td>15-06-2020</td>
-								<td>${releaseCommentContentLabel}</td>
-							</tr>
-							<tr>
-								<td>3</td>
-								<td>${appVersionLabel}</td>
-								<td>15-06-2020</td>
-								<td>${releaseCommentContentLabel}</td>
-							</tr>
-							<tr>
-								<td>4</td>
-								<td>${appVersionLabel}</td>
-								<td>15-06-2020</td>
-								<td>${releaseCommentContentLabel}</td>
-							</tr>
-							<tr>
-								<td>5</td>
-								<td><spring:message
-										code="label.homePageWithChart.version-accountant" /></td>
-								<td>15-06-2020</td>
-								<td>${releaseCommentContentLabel}</td>
-							</tr>
-							<tr>
-								<td>6</td>
-								<td>${appVersionLabel}</td>
-								<td>15-06-2020</td>
-								<td>${releaseCommentContentLabel}</td>
-							</tr>
-							<tr>
-								<td>7</td>
-								<td>${appVersionLabel}</td>
-								<td>15-06-2020</td>
-								<td>${releaseCommentContentLabel}</td>
-							</tr>
-							<tr>
-								<td>8</td>
-								<td>${appVersionLabel}</td>
-								<td>15-06-2020</td>
-								<td>${releaseCommentContentLabel}</td>
-							</tr>
-							<tr>
-								<td>9</td>
-								<td>${appVersionLabel}</td>
-								<td>15-06-2020</td>
-								<td>${releaseCommentContentLabel}</td>
-							</tr>
-							<tr>
-								<td>10</td>
-								<td>${appVersionLabel}</td>
-								<td>15-06-2020</td>
-								<td>${releaseCommentContentLabel}</td>
-							</tr>
-							<tr>
-								<td>11</td>
-								<td>${appVersionLabel}</td>
-								<td>15-06-2020</td>
-								<td>${releaseCommentContentLabel}</td>
-							</tr>
-							<tr>
-								<td>12</td>
-								<td>${appVersionLabel}</td>
-								<td>15-06-2020</td>
-								<td>${releaseCommentContentLabel}</td>
 							</tr>
 						</tbody>
 					</table>
@@ -435,24 +377,24 @@
 	var ctx = new Chart(document.getElementById("myChart"), {
 		type : "bar",
 		data : {
-			datasets : [ {
-				label : "${integratedAppLabel}",
+			datasets : [  {
+				label : "${activeUserLabel}",
+				backgroundColor : 'rgba(40,167,69,1)',
+				data : [ ${userStats.activeSessions} ],
+			}, {
+				label : "${inactiveUserLabel}",
 				backgroundColor : 'rgba(255,0,0)',
 				borderColor : 'rgba(255,99,132,1)',
 				borderWidth : 1,
-				data : [ ${userStats.integratedApps} ],
-			}, {
+				data : [ ${userStats.inactiveUsers}  ],
+			},  {
 				label : "${registeredUserLabel}",
-				backgroundColor : 'rgba(40,167,69,1)',
-				data : [ ${userStats.activeUsers} ],
-			}, {
-				label : "${inactiveUserLabel}",
-				backgroundColor : 'rgba(23, 162, 184, 1)',
-				data : [ ${userStats.inactiveUsers} ],
-			}, {
-				label : "${activeUserLabel}",
 				backgroundColor : 'rgba(255, 193, 7, 1)',
-				data : [ ${userStats.activeSessions} ],
+				data : [ ${userStats.activeUsers} ],
+			},	{
+				label : "${integratedAppLabel}",
+				backgroundColor : 'rgba(23, 162, 184, 1)',
+				data : [ ${userStats.integratedApps}],
 			} ]
 		},
 		options : {
@@ -469,12 +411,12 @@
 	var myChart = new Chart(ctx, {
 		type : 'pie',
 		data : {
-			labels : [ "${integratedAppLabel}", "${registeredUserLabel}", "${inactiveUserLabel}",
-					"${activeUserLabel}" ],
+			labels : [ "${activeUserLabel}" ,"${inactiveUserLabel}","${registeredUserLabel}",
+				"${integratedAppLabel}" ],
 			datasets : [ {
-				backgroundColor : [ 'rgba(255,0,0)', 'rgba(40,167,69,1)',
-						'rgba(23, 162, 184, 1)', 'rgba(255, 193, 7, 1)', ],
-				data : [ ${userStats.integratedApps},${userStats.activeUsers},${userStats.inactiveUsers}, ${userStats.activeSessions} ]
+				backgroundColor : [  'rgba(40,167,69,1)','rgba(255,0,0)',
+						 'rgba(255, 193, 7, 1)', 'rgba(23, 162, 184, 1)'],
+				data : [ ${userStats.activeSessions},${userStats.inactiveUsers},${userStats.activeUsers},${userStats.integratedApps}  ]
 			} ]
 		}
 	});
@@ -504,8 +446,24 @@
 
 
  	$(document).ready(function() {
- 		debugger;
-	   // $('#fInactiveUsers').text(${userStats.inactiveUsers}));
+ 		
+ 		
+ 		if (urlParams.has('lang')) {
+
+ 			if (urlParams.get('lang') == 'indic') {
+ 				$("#en").hide();
+ 				$("#indic").show();
+			} else {
+				$("#en").show();
+ 				$("#indic").hide();
+			}
+ 		}
+ 		else {
+ 			$("#en").show();
+				$("#indic").hide();
+ 		}
+ 		
+	    //$('#fInactiveUsers').text(parseInt(${userStats.allUsers})-parseInt(${userStats.activeUsers}));
 	    setIframeSrc('#registrationIframe');
 	    $('#registrationIframe').load(function() {
 			$('#loader2').hide();
@@ -535,8 +493,27 @@
 		//$(iframeSelectorId).attr("src", "${appctx}/viewHomePage?kc_locale=en");
 	}
 	
-	</script>
+	function searchData() {
+		// Declare variables
+		var input, filter, tblTr, tblTd, i, txtValue;
+		input = document.getElementById('myInput');
+		filter = input.value.toUpperCase();
+		// ul = document.getElementById("myUL");
+		tblTr = document.getElementById('tBodyTrs').getElementsByTagName("tr");
 
+		// Loop through all list items, and hide those who don't match the search query
+		for (i = 0; i < tblTr.length; i++) {
+			tblTd = tblTr[i].getElementsByTagName("td")[1];
+			txtValue = tblTd.innerText;
+			
+			if (txtValue.toUpperCase().indexOf(filter) > -1) {
+				tblTr[i].style.display = "";
+			} else {
+				tblTr[i].style.display = "none";
+			}
+		}
+	}
+	</script>
 </body>
 </html>
 

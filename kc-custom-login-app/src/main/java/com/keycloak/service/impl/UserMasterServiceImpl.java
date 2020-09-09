@@ -77,4 +77,14 @@ public class UserMasterServiceImpl extends GenericServiceImpl<UserMaster, Long> 
 		return userMasterDao.getApplicationListByUserId(userId, isEmployee);
 	}
 
+	@Override
+	public List<ApplicationMaster> getApplicationList(Boolean isEmployee) {
+		return userMasterDao.getApplicationList(isEmployee);
+	}
+
+	@Override
+	public boolean isMobileNubmerExist(String mobileNumber) {
+		return userMasterDao.getUserListByMobileNumber(mobileNumber).isEmpty()?false:true;
+	}
+
 }

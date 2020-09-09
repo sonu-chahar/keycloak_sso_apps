@@ -22,4 +22,8 @@ public interface UserMasterDao extends GenericDao<UserMaster, Long> {
 
 	public List<ApplicationMaster> getApplicationListByUserId(Long userId, Boolean isEmployee);
 
+	public List<ApplicationMaster> getApplicationList(Boolean isEmployee);
+
+	public List<UserMaster> getUserListByMobileNumber(String mobileNumber);
+
 }

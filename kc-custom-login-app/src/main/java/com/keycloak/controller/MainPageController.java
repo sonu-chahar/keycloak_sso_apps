@@ -8,7 +8,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.ClientResource;
+import org.keycloak.admin.client.resource.ClientsResource;
+import org.keycloak.admin.client.resource.RealmResource;
+import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.representations.idm.ClientRepresentation;
+import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.keycloak.model.CustomUserSessionRepresentation;
 import com.keycloak.model.UserMaster;
+import com.keycloak.model.UserStats;
 import com.keycloak.service.CustomUserSessionRepresentationService;
 import com.keycloak.service.UserMasterService;
 import com.keycloak.util.GeoIP;
@@ -34,6 +43,21 @@ public class MainPageController extends AbstractPageController {
 	@Autowired
 	private CustomUserSessionRepresentationService customUserSessionRepresentationService;
 
+	@Value("${keycloak.auth-server-url}")
+	private String keycloakServerUrl;
+
+	@Value("${keycloak.realm}")
+	private String realmName;
+
+	@Value("${keycloak.resource}")
+	private String clientName;
+
+	@Value("${keycloak.credentials.secret}")
+	private String clientId;
+
+	@Value("${SSO_USERID_SERVICE_ACCOUNT}")
+	private String serviceAccountUserId;
+
 	@Autowired
 	public MainPageController(HttpServletRequest request) {
 		this.request = request;
@@ -46,7 +70,15 @@ public class MainPageController extends AbstractPageController {
 
 	@GetMapping(value = "/homePage")
 	public ModelAndView getHomePageWithChart(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
-		model.addAttribute("userStats", userMasterService.getStats());
+		UserStats userStats = getUserStats();
+		if (userStats == null) {
+			String zeroStr = 0 + CONSTANT_FOR_BLANK_STRING;
+			userStats = new UserStats(zeroStr, zeroStr, zeroStr, zeroStr);
+		}
+		model.addAttribute("userStats", userStats);
+		model.addAttribute("realmName", realmName);
+		model.addAttribute("clientName", clientName);
+
 		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE,
 				getMessageAttributeForPage(request, USER_STATS_CLASSNAME_FOR_MESSAGE));
 		return new ModelAndView(VIEW_NAME_HOME_PAGE_WITH_CHART, model);
@@ -139,6 +171,11 @@ public class MainPageController extends AbstractPageController {
 		return VIEW_NAME_FOR_WEBSITE_POLICY;
 	}
 
+	@GetMapping({ "/sitemap.html" })
+	public String showSitemapPage() {
+		return VIEW_NAME_FOR_SITEMAP;
+	}
+
 	@GetMapping({ "**/loginHistory.html" })
 	public ModelAndView showLoginHistoryPage(HttpServletRequest request, ModelMap model) {
 		UserMaster userMaster = getUserMasterFromSession(request);
@@ -169,5 +206,47 @@ public class MainPageController extends AbstractPageController {
 			}
 		}
 		return false;
+	}
+
+	private UserStats getUserStats() {
+		try {
+			Keycloak serviceKeycloak = KeycloakAdminClientApp.getServiceKeycloak();
+			RealmResource realmResource = serviceKeycloak.realm(SSO_REALM_NAME);
+			UsersResource userRessource = realmResource.users();
+
+			List<UserRepresentation> userRepresentationList = userRessource.list();
+
+			Integer allUsers = userRepresentationList.size();
+
+			UserStats userStats = new UserStats();
+			Integer activeSessions = 0;
+			ClientsResource clientsResource = realmResource.clients();
+			List<ClientRepresentation> clientRepresentationList = clientsResource.findAll();
+
+			List<ClientRepresentation> clientRepresentations = clientsResource.findByClientId(SSO_CLIENT_ID);
+			ClientRepresentation representation = clientRepresentations.get(0);
+			ClientResource resource = clientsResource.get(representation.getId());
+			activeSessions = resource.getApplicationSessionCount().get("count");
+
+			userStats.setActiveSessions(--activeSessions + "");
+
+			userStats.setAllUsers(allUsers.toString());
+			userStats.setActiveUsers(userStats.getActiveSessions());
+
+			userStats.setInactiveUsers(((Integer) (allUsers - activeSessions)).toString());
+
+			Integer integratedApps = clientRepresentationList.size();
+			if (integratedApps > 5) {
+				userStats.setIntegratedApps((integratedApps - 5) + "");
+			} else {
+				userStats.setIntegratedApps(integratedApps + "");
+			}
+
+			return userStats;
+
+		} catch (Exception e) {
+			log.debug("error occurred while performing ScheduledTask!! ", e);
+		}
+		return null;
 	}
 }

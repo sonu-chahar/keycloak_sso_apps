@@ -34,6 +34,9 @@ public class UserStatsScheduledTask {
 	@Value("${keycloak.realm}")
 	private String realmName;
 
+	@Value("${keycloak.resource}")
+	private String clientName;
+
 	@Value("${keycloak.credentials.secret}")
 	private String clientId;
 
@@ -47,7 +50,7 @@ public class UserStatsScheduledTask {
 
 	public static final String SSO_REALM_NAME = Constants.pathString("SSO_REALM_NAME");
 
-	@Scheduled(fixedRate = 60000)
+	@Scheduled(fixedRate = 900000)
 	public void performTask() {
 
 		try {
@@ -56,7 +59,7 @@ public class UserStatsScheduledTask {
 			UsersResource userRessource = realmResource.users();
 
 			List<UserRepresentation> userRepresentationList = userRessource.list();
-			
+
 			Integer activeUsers = 0;
 
 			for (int index = 0; index < userRepresentationList.size(); index++) {
@@ -67,7 +70,7 @@ public class UserStatsScheduledTask {
 			}
 
 			Integer allUsers = userRepresentationList.size();
-			
+
 			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
 			String strDate = dateFormat.format(Calendar.getInstance().getTime());
 			UserStats userStats = userMasterService.getStats();
@@ -88,7 +91,7 @@ public class UserStatsScheduledTask {
 
 			Integer activeSessions = 0;
 
-			List<ClientRepresentation> clientRepresentations = clientsResource.findByClientId("testApp1");
+			List<ClientRepresentation> clientRepresentations = clientsResource.findByClientId(clientName);
 			ClientRepresentation representation = clientRepresentations.get(0);
 			ClientResource resource = clientsResource.get(representation.getId());
 			activeSessions = resource.getApplicationSessionCount().get("count");

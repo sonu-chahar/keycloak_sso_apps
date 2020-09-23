@@ -55,21 +55,86 @@
 			</c:otherwise>
 		</c:choose>
 	</header>
-	<div class="row" style="margin-right: 0px !important; margin-left: 0px !important">
-		<div class=" text-right headerlangText">
+	<div class="row"
+		style="margin-right: 0px !important; margin-left: 0px !important">
+		<!-- <div class="col-md-8 text-right headerVersionText">
+			<strong><a data-toggle="modal" data-target="#myModal3"
+				style="color: black">Version 1.1</a></strong>
+		</div> -->
+		<div class="col-md-4 text-right headerlangText">
 			<ul id="breadCrumb">
-				<li><strong><a href="${appctx}/homePage?lang=en" style="color: black" class="lang-en lang-select">English |</a></strong></li>
-				<li><strong><a href="${appctx}/homePage?lang=indic" style="color: black" class="lang-indic lang-select">Hindi</a></strong></li>
+				<li><strong><a href="?lang=en" style="color: black"
+						class="lang-en lang-select">English |</a></strong></li>
+				<li><strong><a href="?lang=indic" style="color: black"
+						class="lang-indic lang-select">Hindi</a></strong></li>
 
 			</ul>
 		</div>
 	</div>
-	
 	<div id="main" style="position: relative;">
+		<%--<nav aria-label="breadcrumb">
+			<ul class="breadcrumb pull-right">
+				<li class="breadcrumb-item"><a data-toggle="modal"
+					data-target="#myModal3">Version 1.1</a></li>
+				<li class="breadcrumb-item"><a
+					href="?lang=en"
+					class="lang-en lang-select">Englsih</a></li>
+				<li class="breadcrumb-item"><a
+					href="?lang=indic"
+					class="lang-en lang-select">Hindi</a></li>
+				<li class="breadcrumb-item"><a
+					href="#"
+					onclick="setIframeSrc('#registrationIframe')"
+					data-toggle="modal" data-target="#myModal1">Login/Registration</a></li>
+
+			</ul>
+		</nav>--%>
+
+
 		<div style="text-align: center">
 			<div id="page-wrapper"
 				style="background: -webkit-linear-gradient(-90deg, #f7b174, #88c181 100%); background-image: -webkit-linear-gradient(-90deg, rgb(247, 177, 116), rgb(136, 193, 129) 100%); background-position-x: initial; background-position-y: initial; background-size: initial; background-repeat-x: initial; background-repeat-y: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial;">
-				<div class="row">
+				<%--<div class="row">
+					<div>
+						<nav aria-label="breadcrumb">
+							<ul class="breadcrumb pull-right">
+								<li class="breadcrumb-item"><a data-toggle="modal"
+									data-target="#myModal3">Version 1.1</a></li>
+								<li class="breadcrumb-item"><a href="?lang=en"
+									class="lang-en lang-select">Englsih</a></li>
+								<li class="breadcrumb-item"><a href="?lang=indic"
+									class="lang-indic lang-select">Hindi</a></li>
+								<li class="breadcrumb-item"><a href="#"
+									onclick="setIframeSrc('#registrationIframe')"
+									data-toggle="modal" data-target="#myModal1">Login/Registration</a></li>
+
+							</ul>
+						</nav>
+					</div>
+					</div>--%>
+				<%-- <div class="row">
+					<a href="#">
+						<p
+							style="margin-top: -70px; margin-left: 318px; font-weight: bold; font-size: 16px; color: #000000;">
+							<sub data-toggle="modal" data-target="#myModal3"> <spring:message
+									code="label.homePageWithChart.appVersion" /></sub>
+						</p>
+					</a>
+					<div class="languageButton-header"
+						style="margin-top: 0px; margin-right: 5px;">
+						<span id="rbtnListLanguage" class="radio-list"> <a
+							id="rbtnListLanguage_0" href="?lang=en"
+							class="lang-en lang-select" style="color: #333"> <label
+								for="rbtnListLanguage_0" style="background-image: none;"><spring:message
+										code="label.lang.en" /></label>
+						</a> <a id="rbtnListLanguage_1" href="?lang=indic"
+							class="lang-en lang-select" style="color: #333"> <label
+								for="rbtnListLanguage_1"><spring:message
+										code="label.lang.indic" /></label></a></span>
+					</div>
+				</div>
+ --%>
+				<div class="row dashboardHeaderRow">
 					<div class="col-md-12">
 						<div class="card">
 							<div class="graphical-dashboard">
@@ -494,33 +559,25 @@
 	});
 	
 	window.onload = function () {
-		/* $(".header_img").bind('click', function() {
-			  //alert( "User clicked on 'header_img.'" );
-			  let requiredFactor= screen.width/1366;
-				//let requiredFactor= screen.height/768;
-				let x1=790;
-				let y1=32;
-				let x2=910;
-				let y2=47;
-				
-				let calculatedCorrds=""+x1*requiredFactor+","+y1*requiredFactor+","+x2*requiredFactor+","+y2*requiredFactor;
-
-				//alert(calculatedCorrds);
-				$("#fArea").attr("coords",calculatedCorrds);
-		});  */
-		
-		let requiredFactor= screen.width/1366;
-		//let requiredFactor= screen.height/768;
-		let x1=790;
-		let y1=32;
-		let x2=910;
-		let y2=47;
-		
+		let requiredFactor= screen.height/768;
+		let x1=768;
+		let y1=27;
+		let x2=890;
+		let y2=43;
 		let calculatedCorrds=""+x1*requiredFactor+","+y1*requiredFactor+","+x2*requiredFactor+","+y2*requiredFactor;
-
 		//alert(calculatedCorrds);
 		$("#fArea").attr("coords",calculatedCorrds);
-		
+		/* if(screen.width>1260 && screen.width<1400){
+			alert("A: screen resolution"+screen.width+"X"+screen.height);
+			$("#fArea").attr("coords","768,27,890,43");
+		}
+		if(screen.width>1600){
+			alert("B: screen resolution"+screen.width+"X"+screen.height);
+
+			$("#fArea").attr("coords","1080,41,1260,60");
+			
+			
+		} */
 		
 	    var ImageMap = function (map) {
 	            var n,

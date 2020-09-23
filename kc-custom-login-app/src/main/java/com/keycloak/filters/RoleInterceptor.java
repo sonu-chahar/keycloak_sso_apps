@@ -1,5 +1,6 @@
 package com.keycloak.filters;
 
+import java.util.Locale;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.representations.AccessToken.Access;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -31,8 +33,10 @@ public class RoleInterceptor implements HandlerInterceptor {
 					request.setAttribute("isAuthorizedForViewUsers", "true");
 				}
 			}
-
 		}
+		Locale locale = LocaleContextHolder.getLocale();
+		
+		request.setAttribute("currentLocale", locale.getLanguage());
 	}
 
 	@Override

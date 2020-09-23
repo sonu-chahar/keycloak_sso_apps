@@ -68,10 +68,20 @@
 		<!-- Sidebar Holder -->
 		<nav id="sidebar">
 			<div class="sidebar-header">
-				<h3>
-					<img alt=""
-						src="<%=request.getContextPath()%>/resources/images/logo1.png" />
-				</h3>
+				<c:choose>
+					<c:when test="${currentLocale eq 'en'}">
+						<h3>
+							<img alt="Header Image"
+								src="<%=request.getContextPath()%>/resources/images/logo1.png" />
+						</h3>
+					</c:when>
+					<c:otherwise>
+						<h3>
+							<img alt="Header Image"
+								src="<%=request.getContextPath()%>/resources/images/logo.jpeg">
+						</h3>
+					</c:otherwise>
+				</c:choose>
 			</div>
 			<ul class="list-unstyled components">
 				<p class="centered user_image">
@@ -80,14 +90,14 @@
 								test="${userMaster.imageName ne null and userMaster.imageName ne '' and  userMaster.fileExtension ne null and userMaster.fileExtension ne ''}">
 								<img border="0" width="65px"
 									src="${baseURL}/myProfile/getImage/${userMaster.mobileNumber}/${userMaster.imageName}/${userMaster.fileExtension}"
-									alt="profilePic" />
+									alt="Profile Image" />
 								<%-- <img border="0" class="img-circle" width="100" height="100"
 									src="<%=request.getContextPath()%>/images/default-image.jpg" /> --%>
 							</c:when>
 							<c:otherwise>
 								<img border="0" class="img-circle" width="100" height="100"
 									src="<%=request.getContextPath()%>/resources/images/default-image.jpg"
-									alt="profilePic" />
+									alt="Profile Image" />
 							</c:otherwise>
 						</c:choose>
 					</a>
@@ -123,9 +133,9 @@
 					href="<%=request.getContextPath()%>/myProfile/addOrUpdateApplicationMapping"
 					class="hvr-shutter-in-vertical"><em class="fa fa-fw fa-cog"></em>
 						<spring:message code="label.homePage.nav.addApplication" /></a></li>
-				<li><a href="<%=request.getContextPath()%>/loginHistory.html" class="hvr-shutter-in-vertical"><em
-						class="fa fa-fw fa-cog"></em> <spring:message
-							code="label.homePage.nav.loginHistory" /> </a></li>
+				<li><a href="<%=request.getContextPath()%>/loginHistory.html"
+					class="hvr-shutter-in-vertical"><em class="fa fa-fw fa-cog"></em>
+						<spring:message code="label.homePage.nav.loginHistory" /> </a></li>
 
 				<c:if test="${not empty isAuthorizedForViewUsers}">
 					<li><a
@@ -137,7 +147,7 @@
 			</ul>
 		</nav>
 		<!-- Page Content Holder -->
-		<div id="content">
+		<content id="content">
 			<nav class="navbar navbar-default">
 				<div class="container-fluid">
 					<div class="navbar-header">
@@ -170,8 +180,8 @@
 									class="fa fa-fw fa-key"></em> <spring:message
 										code="label.homePage.nav.changePassword" /></a></li>
 							<li class="btn-custom"><a href="${ctx}/sso/logout"><em
-									class="fa fa-fw fa-sign-out"></em>
-								<spring:message code="label.homePage.nav.logout" /></a></li>
+									class="fa fa-fw fa-sign-out"></em> <spring:message
+										code="label.homePage.nav.logout" /></a></li>
 						</ul>
 					</div>
 				</div>
@@ -180,11 +190,11 @@
 			<div class="content-wrapper">
 				<decorator:body />
 			</div>
-		</div>
+		</content>
 	</div>
 
 
-	<div class="footer">
+	<footer class="footer">
 		<div class="col-lg-12 col-md-7 col-sm-7 col-xs-12 copyrightContainer">
 			<p style="margin: 0">
 				<spring:message code="label.homePage.footer-p1" />
@@ -192,7 +202,7 @@
 			<p style="margin: 0">
 				<spring:message code="label.homePage.footer-p2" />
 			</p>
-			<div class="sso-visitors hidden-xs" style="display: none">
+			<!-- <div class="sso-visitors hidden-xs" style="display: none">
 				<div id="visitor_count" class="odometer odometer-auto-theme">
 					<div class="odometer-inside">
 						<span class="odometer-digit"><span
@@ -202,9 +212,9 @@
 										class="odometer-value">0</span></span></span></span></span>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
-	</div>
+	</footer>
 
 
 
@@ -243,17 +253,22 @@
 	</script>
 	<script>
 		$(document).ready(function() {
-			var urlParams = new URLSearchParams(window.location.search);
-			if (urlParams.has('lang')) {
-				if (urlParams.get('lang') == 'en') {
-					$("#enLi a").click(function () {return false;});
-				} else {
-					$("#indicLi a").click(function () {return false;});
-				}
-			}else{
-				$("#enLi a").click(function () {return false;});
+			if ('${currentLocale}' == 'en') {
+				$("#enLi a").click(function() {
+					return false;
+				});
+			} else {
+				$("#indicLi a").click(function() {
+					return false;
+				});
 			}
+			
+			// alert(screen.height);
+			// $(".user-portal").height(screen.height-100)
+		
 		});
+		
+		
 	</script>
 
 

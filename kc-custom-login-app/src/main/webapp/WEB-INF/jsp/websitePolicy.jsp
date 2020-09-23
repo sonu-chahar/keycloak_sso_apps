@@ -34,12 +34,18 @@
 	font-size: 22px;
 	padding-right: 12px;
 }
+
+#close {
+	float: right;
+	display: inline-block;
+	padding: 2px 5px;
+	background: #ccc;
+}
 </style>
 </head>
 
 
 <body class="dashboard-page sb-l-o sb-r-c">
-	<!-- <div id="google_translate_element"></div> -->
 	<div id="main">
 		<div class="container no-padding">
 			<div class="row wow fadeInDown animated animated"
@@ -50,9 +56,22 @@
 
 	<header
 		style="box-shadow: 0 10px 28px 0 rgba(0, 0, 0, 0.2), 0 10px 20px 0 rgba(0, 0, 0, 0.19)">
-		<img class="header_img" alt="Header Image"
-			src="<%=request.getContextPath()%>/resources/chartTheme/SCDG_header.png"
-			width="100%">
+		<c:choose>
+			<c:when test="${currentLocale eq 'en'}">
+				<div>
+					<img class="header_img" alt="Header Image"
+						src="<%=request.getContextPath()%>/resources/chartTheme/SCDG_header.png"
+						width="100%">
+				</div>
+			</c:when>
+			<c:otherwise>
+				<div>
+					<img class="header_img" alt="Header Image"
+						src="<%=request.getContextPath()%>/resources/chartTheme/SCDG_hindi.png"
+						width="100%">
+				</div>
+			</c:otherwise>
+		</c:choose>
 	</header>
 
 	<div style="text-align: center">
@@ -73,13 +92,11 @@
 				<div class="languageButton-header"
 					style="margin-top: 0px; margin-right: 5px;">
 					<span id="rbtnListLanguage" class="radio-list"> <a
-						id="rbtnListLanguage_0"
-						href="?lang=en"
+						id="rbtnListLanguage_0" href="?lang=en"
 						class="lang-en lang-select" style="color: #333"> <label
 							for="rbtnListLanguage_0" style="background-image: none;"><spring:message
 									code="label.lang.en" /></label>
-					</a> <a id="rbtnListLanguage_1"
-						href="?lang=indic"
+					</a> <a id="rbtnListLanguage_1" href="?lang=indic"
 						class="lang-en lang-select" style="color: #333"> <label
 							for="rbtnListLanguage_1"><spring:message
 									code="label.lang.indic" /></label></a></span>
@@ -151,6 +168,7 @@
 
 												<h3 class="m-0" style="margin: 10px; padding: 5px;">
 													<spring:message code="label.websitePolicy.heading" />
+													<a href="${appctx}"><span id='close'>x</span></a>
 												</h3>
 											</div>
 										</div>
@@ -283,9 +301,9 @@
 										code="label.homePageWithChart.websitePolicy" /></span></a>&nbsp;&nbsp;|&nbsp;
 							<a href="passwordPolicy.html"> <span><spring:message
 										code="label.homePageWithChart.passwordPolicy" /></span></a>&nbsp;&nbsp;|&nbsp;
+							<a href="sitemap.html"><span> <spring:message
+										code="label.homePageWithChart.sitemap" /></span></a>&nbsp;&nbsp;|&nbsp;
 							<span><spring:message code="label.homePageWithChart.faq" /></span>&nbsp;&nbsp;|&nbsp;
-							<span><spring:message
-									code="label.homePageWithChart.sitemap" /></span>
 						</p>
 					</footer>
 				</div>
@@ -318,19 +336,12 @@
 		</script>
 		<script>
 			$(document).ready(function() {
-				var urlParams = new URLSearchParams(window.location.search);
-				if (urlParams.has('lang')) {
-					if (urlParams.get('lang') == 'en') {
-						$("#rbtnListLanguage_0").click(function() {
-							return false;
-						});
-					} else {
-						$("#rbtnListLanguage_1").click(function() {
-							return false;
-						});
-					}
-				} else {
+				if ('${currentLocale}' == 'en') {
 					$("#rbtnListLanguage_0").click(function() {
+						return false;
+					});
+				} else {
+					$("#rbtnListLanguage_1").click(function() {
 						return false;
 					});
 				}

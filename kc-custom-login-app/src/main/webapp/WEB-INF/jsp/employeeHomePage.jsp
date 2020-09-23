@@ -29,7 +29,7 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
 }
 
 .ul-dashboard-heading {
-	margin: 0 0 10px 0;
+	margin: 0 0px 10px 0;
 	font-size: 14px;
 	font-weight: 600;
 	color: #ff8a00;
@@ -59,7 +59,7 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
 	<h1 class="heading">
 		<spring:message code="label.homePage.dashboard-heading" />
 	</h1>
-	<div class="container">
+	<div class="container-fluid">
 		<ul class="nav nav-tabs ul-dashboard-heading" role="tablist">
 			<li class="active"><a href="#ndmcEmployee" role="tab"
 				data-toggle="tab"> <spring:message
@@ -81,7 +81,7 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
 			<div class="tab-pane fade active in" id="ndmcEmployee">
 				<div class="col-sm-12 col-md-12 col-lg-12">
 					<div class="row">
-						<div class="main-gap keycloak-portal">
+						<div>
 							<div class="row">
 								<c:forEach items="${ndmcEmployeeApplicationList}"
 									var="application" varStatus="counter">
@@ -89,7 +89,7 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
 										<div class="row">
 											<div class="col-md-12">
 									</c:if>
-									<c:if test="${counter.index != 0  && counter.index%6 eq 0 }">
+									<c:if test="${counter.index != 0  && counter.index%5 eq 0 }">
 							</div>
 						</div>
 						<div class="row">
@@ -123,7 +123,7 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
 	<div class="tab-pane fade" id="nonNdmcEmployee">
 		<div class="col-sm-12 col-md-12 col-lg-12">
 			<div class="row">
-				<div class="main-gap keycloak-portal">
+				<div>
 					<div class="row">
 						<c:forEach items="${nonNdmcEmployeeApplicationList}"
 							var="application" varStatus="counter">
@@ -131,7 +131,7 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
 								<div class="row">
 									<div class="col-md-12">
 							</c:if>
-							<c:if test="${counter.index != 0  && counter.index%6 eq 0 }">
+							<c:if test="${counter.index != 0  && counter.index%5 eq 0 }">
 					</div>
 				</div>
 				<div class="row">

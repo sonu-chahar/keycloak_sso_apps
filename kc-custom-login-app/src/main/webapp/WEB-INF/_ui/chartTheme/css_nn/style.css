@@ -1156,6 +1156,43 @@ select option
 }
 @media(min-width:1280px) {
 }
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  list-style: none;
+  background-color: #f7b174 !important;
+  font-family: Georgia,serif !important;
+  margin-bottom: 0px !important;
+  border-radius: 0.25rem;
+  font-weight: bold;
+  font-size: 12px;
+
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  display: inline-block;
+  padding-right: 0.5rem;
+  content: "|";
+color:black;
+}
+
+.breadcrumb a {
+cursor:pointer;
+color:aliceblue;
+
+}
+.breadcrumb a:hover {
+cursor:pointer;
+color: aliceblue;
+
+}
+.breadcrumb li { 
+  font-size: 17px;
+  padding-left: 0px;
+  padding-right:0px
+}
+
 /*-------------------------------------------customize css ends here-----------------------------------------------*/
 
 

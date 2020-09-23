@@ -405,8 +405,8 @@ display:none !important;
 			text-align:center;
 			font-size:14px;
 			}
-			.card{
-			padding:10px;}
+		 	.card{
+			padding:15px;} 
 			.tab-content{
 			border:1px solid #ccc;}
 .legend rect {
@@ -496,6 +496,13 @@ div.tooltip {
 
 /******** 30 nov 2018  end *******/
 
+.red{
+	background:#ff0000 !important;
+	border:0px solid transparent;
+}
+.red:hover {
+    background: #cc0000 !important;
+}
 .orange:hover {
     background: #cc0000 !important;
 }

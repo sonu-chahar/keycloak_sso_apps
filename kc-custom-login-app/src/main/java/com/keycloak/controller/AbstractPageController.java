@@ -1,5 +1,11 @@
 package com.keycloak.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -7,14 +13,23 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.keycloak.KeycloakSecurityContext;
+import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.ClientResource;
+import org.keycloak.admin.client.resource.ClientsResource;
+import org.keycloak.admin.client.resource.RealmResource;
+import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.IDToken;
+import org.keycloak.representations.idm.ClientRepresentation;
+import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.keycloak.model.UserMaster;
+import com.keycloak.model.UserStats;
 import com.keycloak.service.UserMasterService;
 import com.keycloak.util.Constants;
+import com.keycloak.util.KeycloakAdminClientApp;
 
 public abstract class AbstractPageController {
 	public static final String SESSION_ATTRIBTE_FOR_USER_MASTER = "userMaster";
@@ -50,7 +65,6 @@ public abstract class AbstractPageController {
 	public static final String STATUS_FOR_DELETED = "deleted";
 	public static final String STATUS_FOR_NOT_DELETED = "cannotdelete";
 	public static final String STATUS_FOR_ALREADY_DELETED = "alreadydeleted";
-	
 
 	public static final String CONSTANT_FOR_IMAGE_PATH = "fileDir";
 	public static final String CONSTANT_FOR_IMAGE_UPLOAD_STATUS = "imageStatus";
@@ -64,7 +78,6 @@ public abstract class AbstractPageController {
 	public static final String CONSTANT_FOR_LOCALHOST = "127.0.0.1";
 	public static final String MESSAGE_FOR_DUPLICATE_MOBILE_NUBMER = "Mobile number is already used. Please enter different mobile number!!!";
 
-
 	public static final String VIEW_NAME_HOME_PAGE = "homePage";
 	public static final String VIEW_NAME_EMPLOYEE_HOME_PAGE = "employeeHomePage";
 	public static final String VIEW_NAME_HOME_PAGE_WITH_CHART = "homePageWithChart2";
@@ -72,6 +85,8 @@ public abstract class AbstractPageController {
 	public static final String VIEW_NAME_FOR_PROFILE = "myProfile";
 	public static final String VIEW_NAME_FOR_PASSWORD_POLICY = "passwordPolicy";
 	public static final String VIEW_NAME_FOR_WEBSITE_POLICY = "websitePolicy";
+	public static final String VIEW_NAME_FOR_SITEMAP = "sitemap";
+
 
 	public static final String VIEW_NAME_FOR_UPDATE_PASSWORD = "changePasswordPage";
 	public static final String VIEW_NAME_FOR_ADD_APPLICATION = "addApplication2";

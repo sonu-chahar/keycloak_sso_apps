@@ -34,6 +34,12 @@
 	font-size: 22px;
 	padding-right: 12px;
 }
+#close {
+   float: right;
+    display: inline-block;
+    padding: 5px 5px;
+    margin: -5px -15px 0px 0px;
+}
 </style>
 </head>
 
@@ -49,9 +55,22 @@
 
 	<header
 		style="box-shadow: 0 10px 28px 0 rgba(0, 0, 0, 0.2), 0 10px 20px 0 rgba(0, 0, 0, 0.19)">
-		<img class="header_img" alt="Header Image"
-			src="<%=request.getContextPath()%>/resources/chartTheme/SCDG_header.png"
-			width="100%">
+		<c:choose>
+			<c:when test="${currentLocale eq 'en'}">
+				<div>
+					<img class="header_img" alt="Header Image"
+						src="<%=request.getContextPath()%>/resources/chartTheme/SCDG_header.png"
+						width="100%">
+				</div>
+			</c:when>
+			<c:otherwise>
+				<div>
+					<img class="header_img" alt="Header Image"
+						src="<%=request.getContextPath()%>/resources/chartTheme/SCDG_hindi.png"
+						width="100%">
+				</div>
+			</c:otherwise>
+		</c:choose>
 	</header>
 
 	<div style="text-align: center">
@@ -146,6 +165,7 @@
 										style="margin-bottom: 20px;">
 										<h3 class="m-0" style="margin: 10px; padding: 5px;">
 											<spring:message code="label.passwordPolicy.heading" />
+											<a href="${appctx}"><span id='close'>x</span></a>
 										</h3>
 									</div>
 								</div>
@@ -318,9 +338,9 @@
 										code="label.homePageWithChart.websitePolicy" /></span></a>&nbsp;&nbsp;|&nbsp;
 							<a href="passwordPolicy.html"> <span><spring:message
 										code="label.homePageWithChart.passwordPolicy" /></span></a>&nbsp;&nbsp;|&nbsp;
-							<span><spring:message code="label.homePageWithChart.faq" /></span>&nbsp;&nbsp;|&nbsp;
-							<span><spring:message
-									code="label.homePageWithChart.sitemap" /></span>
+							<a href="sitemap.html"><span> <spring:message
+								code="label.homePageWithChart.sitemap" /></span></a>&nbsp;&nbsp;|&nbsp; <span><spring:message
+							code="label.homePageWithChart.faq" /></span>&nbsp;&nbsp;|&nbsp;
 						</p>
 					</footer>
 				</div>
@@ -354,19 +374,12 @@
 	</script>
 	<script>
 		$(document).ready(function() {
-			var urlParams = new URLSearchParams(window.location.search);
-			if (urlParams.has('lang')) {
-				if (urlParams.get('lang') == 'en') {
-					$("#rbtnListLanguage_0").click(function() {
-						return false;
-					});
-				} else {
-					$("#rbtnListLanguage_1").click(function() {
-						return false;
-					});
-				}
-			} else {
+			if ('${currentLocale}' == 'en') {
 				$("#rbtnListLanguage_0").click(function() {
+					return false;
+				});
+			} else {
+				$("#rbtnListLanguage_1").click(function() {
 					return false;
 				});
 			}

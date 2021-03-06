@@ -3,6 +3,7 @@ package com.keycloak.util;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -165,6 +166,38 @@ public class KeycloakAdminClientApp {
 //		}
 //	}
 
+	public static String updateMobileNumber(UserMaster userMaster) {
+		serviceKeycloak = getServiceKeycloak();
+
+		RealmResource realmResource = serviceKeycloak.realm(SSO_REALM_NAME);
+
+		if (realmResource != null) {
+			UsersResource usersRessource = realmResource.users();
+			try {
+				UserResource userResource = usersRessource.get(userMaster.getKcUserId());
+
+				UserRepresentation userRepresentation = userResource.toRepresentation();
+				Map<String, List<String>> attributes = userRepresentation.getAttributes();
+				if (attributes == null) {
+					attributes = new HashMap<>();
+				}
+				attributes.put("mobile_number", Arrays.asList(userMaster.getMobileNumber()));
+
+				userResource.update(userRepresentation);
+				return AbstractPageController.STATUS_FOR_UPDATE;
+			} catch (Exception e) {
+				Throwable cause = e.getCause();
+				if (cause instanceof ClientErrorException) {
+					handleClientErrorException((ClientErrorException) cause);
+				} else {
+					LOGGER.debug(e);
+				}
+			}
+		}
+		return AbstractPageController.STATUS_FOR_ERROR;
+
+	}
+
 	public static String resetPassword(UserMaster userMaster) {
 		String errorDescriptionConstant = "error_description";
 		serviceKeycloak = getServiceKeycloak();
@@ -180,6 +213,7 @@ public class KeycloakAdminClientApp {
 				passwordCred.setType(CredentialRepresentation.PASSWORD);
 				passwordCred.setValue(userMaster.getConfirmPassword());
 				userResource.resetPassword(passwordCred);
+				UserRepresentation userRepresentation = userResource.toRepresentation();
 				return AbstractPageController.STATUS_FOR_UPDATE;
 			} catch (ClientErrorException e) {
 				LOGGER.debug(e);
@@ -309,6 +343,13 @@ public class KeycloakAdminClientApp {
 				userRepresentation.setLastName(userMaster.getLastName());
 				userRepresentation.setEmail(userMaster.getEmailId());
 				userRepresentation.setEnabled(userMaster.getIsActive());
+				Map<String, List<String>> attributes = userRepresentation.getAttributes();
+				if (attributes == null) {
+					attributes = new HashMap<>();
+				}
+				attributes.put("mobile_number", Arrays.asList(userMaster.getMobileNumber()));
+
+				
 				userResource.update(userRepresentation);
 				return AbstractPageController.STATUS_FOR_UPDATE;
 			} catch (ClientErrorException e) {

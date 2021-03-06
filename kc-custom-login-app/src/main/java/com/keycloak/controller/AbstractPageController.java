@@ -1,10 +1,6 @@
 package com.keycloak.controller;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,23 +9,14 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.keycloak.KeycloakSecurityContext;
-import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.resource.ClientResource;
-import org.keycloak.admin.client.resource.ClientsResource;
-import org.keycloak.admin.client.resource.RealmResource;
-import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.IDToken;
-import org.keycloak.representations.idm.ClientRepresentation;
-import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.keycloak.model.UserMaster;
-import com.keycloak.model.UserStats;
 import com.keycloak.service.UserMasterService;
 import com.keycloak.util.Constants;
-import com.keycloak.util.KeycloakAdminClientApp;
 
 public abstract class AbstractPageController {
 	public static final String SESSION_ATTRIBTE_FOR_USER_MASTER = "userMaster";
@@ -67,6 +54,7 @@ public abstract class AbstractPageController {
 	public static final String STATUS_FOR_ALREADY_DELETED = "alreadydeleted";
 
 	public static final String CONSTANT_FOR_IMAGE_PATH = "fileDir";
+	public static final String CONSTANT_FOR_APPLICATION_ICON_IMAGE_PATH = "applicationIcons";
 	public static final String CONSTANT_FOR_IMAGE_UPLOAD_STATUS = "imageStatus";
 	public static final String CONSTANT_FOR_SLASH = "/";
 	public static final String CONSTANT_FOR_DOT = ".";
@@ -86,7 +74,6 @@ public abstract class AbstractPageController {
 	public static final String VIEW_NAME_FOR_PASSWORD_POLICY = "passwordPolicy";
 	public static final String VIEW_NAME_FOR_WEBSITE_POLICY = "websitePolicy";
 	public static final String VIEW_NAME_FOR_SITEMAP = "sitemap";
-
 
 	public static final String VIEW_NAME_FOR_UPDATE_PASSWORD = "changePasswordPage";
 	public static final String VIEW_NAME_FOR_ADD_APPLICATION = "addApplication2";
@@ -150,7 +137,7 @@ public abstract class AbstractPageController {
 				userMaster = userMasterFromSession;
 			} else {
 				userMaster = getUserMasterFromSecurityContext(request);
-				session = request.getSession();
+				//session = request.getSession();
 				log.debug(session);
 				session.setAttribute(SESSION_ATTRIBTE_FOR_USER_MASTER, userMaster);
 			}
@@ -177,29 +164,52 @@ public abstract class AbstractPageController {
 				.getAttribute(KeycloakSecurityContext.class.getName());
 		if (context != null) {
 			IDToken token = context.getIdToken();
+			Map<String, Object> otherClaims = token.getOtherClaims();
+
 			if (username != null) {
 				persistedUserMaster = userMasterService.findByUsername(username);
 
 				if (persistedUserMaster != null) {
 					if (persistedUserMaster.getKcUserId() == null) {
 						userMasterService.remove(persistedUserMaster.getId());
-					} else if (!token.getSubject().equals(persistedUserMaster.getKcUserId())) {
+					} else {
 						persistedUserMaster.setKcUserId(token.getSubject());
-						userMasterService.save(persistedUserMaster);
+						persistedUserMaster.setUsername(token.getPreferredUsername());
+						persistedUserMaster.setEmailId(token.getEmail());
+						persistedUserMaster.setFirstName(token.getGivenName());
+						persistedUserMaster.setLastName(token.getFamilyName());
+						
+						if (getMobileNumberFromClaims(otherClaims) != null) {
+							persistedUserMaster.setMobileNumber(getMobileNumberFromClaims(otherClaims));
+						}
 					}
-					persistedUserMaster.setConfirmPassword(password);
 				} else {
 					persistedUserMaster = new UserMaster();
-					persistedUserMaster.setKcUserId(token.getId());
+					persistedUserMaster.setKcUserId(token.getSubject());
 					persistedUserMaster.setUsername(token.getPreferredUsername());
 					persistedUserMaster.setEmailId(token.getEmail());
 					persistedUserMaster.setFirstName(token.getGivenName());
 					persistedUserMaster.setLastName(token.getFamilyName());
+
+					if (getMobileNumberFromClaims(otherClaims) != null) {
+						persistedUserMaster.setMobileNumber(getMobileNumberFromClaims(otherClaims));
+					}
+
 					persistedUserMaster = userMasterService.save(persistedUserMaster);
 				}
 			}
 		}
 		return persistedUserMaster;
+	}
+
+	public String getMobileNumberFromClaims(Map<String, Object> otherClaims) {
+		if (otherClaims.containsKey("phoneNumber")) {
+			String mobileNumber = String.valueOf(otherClaims.get("phoneNumber"));
+			if (mobileNumber.length() >= 10) {
+				return mobileNumber.substring(mobileNumber.length() - 10);
+			}
+		}
+		return null;
 	}
 
 	public KeycloakSecurityContext getKeycloakSecurityContext(HttpServletRequest request) {

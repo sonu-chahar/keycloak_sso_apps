@@ -66,7 +66,7 @@
 			<c:otherwise>
 				<div>
 					<img class="header_img" alt="Header Image"
-						src="<%=request.getContextPath()%>/resources/chartTheme/SCDG_hindi.png"
+						src="<%=request.getContextPath()%>/resources/chartTheme/SCDG_hindi_versionIncluded.png"
 						width="100%">
 				</div>
 			</c:otherwise>

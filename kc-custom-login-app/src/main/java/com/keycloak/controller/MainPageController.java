@@ -1,9 +1,14 @@
 package com.keycloak.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +25,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.keycloak.model.CustomUserSessionRepresentation;
@@ -27,6 +34,7 @@ import com.keycloak.model.UserMaster;
 import com.keycloak.model.UserStats;
 import com.keycloak.service.CustomUserSessionRepresentationService;
 import com.keycloak.service.UserMasterService;
+import com.keycloak.util.Constants;
 import com.keycloak.util.GeoIP;
 import com.keycloak.util.KeycloakAdminClientApp;
 import com.keycloak.util.RawDBDemoGeoIPLocationUtil;
@@ -81,7 +89,36 @@ public class MainPageController extends AbstractPageController {
 
 		model.addAttribute(MODEL_ATTRIBUTE_MESSAGE,
 				getMessageAttributeForPage(request, USER_STATS_CLASSNAME_FOR_MESSAGE));
+		model.addAttribute(MODEL_ATTRIBTE_FOR_APPLICATION_LIST, userMasterService.getApplicationList());
 		return new ModelAndView(VIEW_NAME_HOME_PAGE_WITH_CHART, model);
+	}
+
+	@GetMapping(value = "/applicationIcons/{imageName}/{imageExtension}")
+	@ResponseBody
+	public void getApplciationIconImage(@PathVariable("imageName") String imageName,
+			@PathVariable("imageExtension") String imageExtension, HttpServletResponse response) {
+//		log.debug("request to get application Icon Image....");
+		String fileDir = Constants.pathString(CONSTANT_FOR_APPLICATION_ICON_IMAGE_PATH);
+
+		String filePath = fileDir + CONSTANT_FOR_SLASH + imageName + CONSTANT_FOR_DOT + imageExtension;
+
+		List<String> imageExtensionList = new ArrayList<>();
+		imageExtensionList.add("png");
+		imageExtensionList.add("jpeg");
+		imageExtensionList.add("jpg");
+		imageExtensionList.add("gif");
+		if (imageExtensionList.contains(imageExtension)) {
+			response.setContentType("image/" + imageExtension);
+			BufferedImage img = null;
+			try (OutputStream out = response.getOutputStream();) {
+				img = ImageIO.read(new File(filePath));
+				ImageIO.write(img, imageExtension, out);
+			} catch (IOException e) {
+				log.error("File is not present OR access denied!");
+			} finally {
+				img = null;
+			}
+		}
 	}
 
 	@GetMapping(value = "/sso/logout")
@@ -112,7 +149,7 @@ public class MainPageController extends AbstractPageController {
 			return new ModelAndView(REDIRECT_URL_FOR_PROFILE, model);
 		}
 
-		if (userMaster.getImageName() == null) {
+		if (userMaster.getPinCode() == null) {
 			return new ModelAndView(REDIRECT_URL_FOR_PROFILE, model);
 		}
 
@@ -214,7 +251,7 @@ public class MainPageController extends AbstractPageController {
 			RealmResource realmResource = serviceKeycloak.realm(SSO_REALM_NAME);
 			UsersResource userRessource = realmResource.users();
 
-			List<UserRepresentation> userRepresentationList = userRessource.list();
+			List<UserRepresentation> userRepresentationList = userRessource.list(0, Integer.MAX_VALUE);
 
 			Integer allUsers = userRepresentationList.size();
 

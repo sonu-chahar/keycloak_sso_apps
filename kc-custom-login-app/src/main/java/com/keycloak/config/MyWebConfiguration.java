@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.ClassPathResource;
@@ -56,7 +57,7 @@ import com.opensymphony.module.sitemesh.filter.PageFilter;
 @Configuration
 @EnableWebMvc
 @ImportResource({ "classpath:dwr-config.xml", "classpath:jasper-views.xml" })
-@Import({ HibernateConfig.class, KeycloakSecurityConfig.class, UserStatsScheduledTask.class })
+@Import({ HibernateConfig.class, KeycloakSecurityConfig.class })
 //@PropertySource("classpath:applicationResources.properties")
 public class MyWebConfiguration implements WebMvcConfigurer, WebApplicationInitializer {
 
@@ -92,6 +93,8 @@ public class MyWebConfiguration implements WebMvcConfigurer, WebApplicationIniti
 				.setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
 		registry.addResourceHandler("/images/**").addResourceLocations("/WEB-INF/_ui/images/")
 				.setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
+//		registry.addResourceHandler("/applicationIcons/**").addResourceLocations("file:/home/chahar/ndmcDir/icons")
+//		.setCacheControl(CacheControl.maxAge(1, TimeUnit.MINUTES).cachePublic());
 	}
 
 	@Bean
@@ -181,11 +184,24 @@ public class MyWebConfiguration implements WebMvcConfigurer, WebApplicationIniti
 		return localeResolver;
 	}
 
+	@Profile("dev")
+	@Bean(name = "messageSource")
+	public MessageSource messageResource() {
+		ReloadableResourceBundleMessageSource messageResource = new ReloadableResourceBundleMessageSource();
+//		messageResource.setBasename("classpath:i18n/messages");
+		messageResource.setBasename("file:/home/chahar/ndmcDir/i18n/messages");
+		messageResource.setDefaultEncoding("UTF-8");
+		messageResource.setCacheSeconds(60);
+		return messageResource;
+	}
+
+	@Profile("prod")
 	@Bean(name = "messageSource")
 	public MessageSource getMessageResource() {
 		ReloadableResourceBundleMessageSource messageResource = new ReloadableResourceBundleMessageSource();
-		messageResource.setBasename("classpath:i18n/messages");
+		messageResource.setBasename("file:/usr/share/keycloak-8.0.1/i18n/messages");
 		messageResource.setDefaultEncoding("UTF-8");
+		messageResource.setCacheSeconds(60);
 		return messageResource;
 	}
 

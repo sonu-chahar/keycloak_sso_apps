@@ -1,0 +1,35 @@
+HTTrack3.49-2+htsswf+htsjava launched on Wed, 20 May 2020 15:18:02 at http://limbs.gov.in/ +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar
+(winhttrack -qwC2%Ps2u1%s%uN0%I0p3DaK0H0%kf2A25000%f#f -F "Mozilla/4.5 (compatible; HTTrack 3.0x; Windows 98)" -%F "<!-- Mirrored from %s%s by HTTrack Website Copier/3.x [XR&CO'2014], %s -->" -%l "en, *" http://limbs.gov.in/ -O1 "C:\My Web Sites\limbus" +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+15:21:21	Error: 	"Forbidden" (403) at link limbs.gov.in/css-new/style.css (from limbs.gov.in/)
+15:21:34	Error: 	"Not Found" (404) at link limbs.gov.in/Institution_Vs_disposal.pdf (from limbs.gov.in/)
+15:22:01	Error: 	"Not Found" (404) at link limbs.gov.in/fonts/glyphicons-halflings-regular.eot (from limbs.gov.in/css_nn/bootstrap.css)
+15:22:01	Error: 	"Not Found" (404) at link limbs.gov.in/fonts/glyphicons-halflings-regular.eot? (from limbs.gov.in/css_nn/bootstrap.css)
+15:22:01	Error: 	"Not Found" (404) at link limbs.gov.in/fonts/glyphicons-halflings-regular.woff2 (from limbs.gov.in/css_nn/bootstrap.css)
+15:22:01	Error: 	"Not Found" (404) at link limbs.gov.in/fonts/glyphicons-halflings-regular.woff (from limbs.gov.in/css_nn/bootstrap.css)
+15:22:01	Error: 	"Not Found" (404) at link limbs.gov.in/fonts/glyphicons-halflings-regular.ttf (from limbs.gov.in/css_nn/bootstrap.css)
+15:22:01	Error: 	"Not Found" (404) at link limbs.gov.in/fonts/glyphicons-halflings-regular.svg (from limbs.gov.in/css_nn/bootstrap.css)
+15:22:01	Error: 	"Not Found" (404) at link limbs.gov.in/font/fonts/fontawesome-webfont.eot?v=4.1.0 (from limbs.gov.in/css_nn/style.css)
+15:22:01	Error: 	"Not Found" (404) at link limbs.gov.in/font/fonts/fontawesome-webfont.eot (from limbs.gov.in/css_nn/style.css)
+15:22:01	Error: 	"Not Found" (404) at link limbs.gov.in/images/banner2.jpg (from limbs.gov.in/css_nn/style.css)
+15:22:01	Warning: 	File not parsed, looks like binary: limbs.gov.in/fonts/fontawesome-webfont.woff2?v=4.6.3
+15:22:02	Error: 	"Not Found" (404) at link limbs.gov.in/images/sort_both.png (from limbs.gov.in/css-new/jquery.dataTables.min.css)
+15:22:02	Error: 	"Not Found" (404) at link limbs.gov.in/images/sort_asc.png (from limbs.gov.in/css-new/jquery.dataTables.min.css)
+15:22:02	Error: 	"Not Found" (404) at link limbs.gov.in/css-new/images/sort_desc.png (from limbs.gov.in/css-new/jquery.dataTables.min.css)
+15:22:02	Error: 	"Not Found" (404) at link limbs.gov.in/css-new/images/sort_asc_disabled.png (from limbs.gov.in/css-new/jquery.dataTables.min.css)
+15:22:02	Error: 	"Not Found" (404) at link limbs.gov.in/images/sort_desc_disabled.png (from limbs.gov.in/css-new/jquery.dataTables.min.css)
+15:27:30	Warning: 	Retry after error -4 (Incorrect length (6548333 Bytes, 6879407 expected)) at link limbs.gov.in/limbs/limbs-guidelines.pdf (from limbs.gov.in/limbs/)
+15:27:30	Error: 	"Not Found" (404) at link limbs.gov.in/limbs/viewministry (from limbs.gov.in/limbs/)
+15:27:39	Error: 	"Not Found" (404) at link limbs.gov.in/limbs/images/background_box_02.jpg (from limbs.gov.in/limbs/)
+15:27:39	Warning: 	File not parsed, looks like binary: limbs.gov.in/limbs/assets/plugins/fontawesome-free/webfonts/fa-brands-400.woff2
+15:27:40	Warning: 	File not parsed, looks like binary: limbs.gov.in/limbs/assets/plugins/fontawesome-free/webfonts/fa-regular-400.woff2
+15:27:40	Warning: 	File not parsed, looks like binary: limbs.gov.in/limbs/assets/plugins/fontawesome-free/webfonts/fa-solid-900.woff2
+15:27:42	Error: 	"Not Found" (404) at link limbs.gov.in/limbs/assets/dist/js/jquery.min.js (from limbs.gov.in/limbs/helpdesk)
+
+HTTrack Website Copier/3.49-2 mirror complete in 10 minutes 16 seconds : 110 links scanned, 89 files written (17703885 bytes overall) [17734535 bytes received at 28789 bytes/sec]
+(19 errors, 5 warnings, 0 messages)

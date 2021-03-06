@@ -65,10 +65,9 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
 
 		super.configure(http);
 		http.authorizeRequests()
-				.antMatchers("/images/**", "/landingPage", "/homePage*", "/passwordPolicy.html*",
+				.antMatchers("/images/**", "/applicationIcons/**","/landingPage", "/homePage*", "/passwordPolicy.html*",
 						"/websitePolicy.html*","/sitemap.html*")
-				.permitAll().antMatchers("/books").hasAnyRole("NDMC_EMPLOYEE", "Citizen").antMatchers("/manager")
-				.hasRole("NDMC_EMPLOYEE").antMatchers("/fetchUserDetail**").authenticated().anyRequest()
+				.permitAll().antMatchers("/fetchUserDetail**").authenticated().anyRequest()
 				.authenticated();
 		http.headers().frameOptions().sameOrigin();
 		http.csrf().disable();

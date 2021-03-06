@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
@@ -11,7 +12,7 @@
 <title><spring:message code="label.homePageWithChart.title" /></title>
 <link rel="icon" type="image/x-icon"
 	href="<%=request.getContextPath()%>/resources/chartTheme/favicon.ico" />
-<link rel="stylesheet" type="text/css"
+<%-- <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath()%>/resources/chartTheme/css_nn/style.css" />
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath()%>/resources/chartTheme/css/style.css" />
@@ -26,7 +27,13 @@
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath()%>/resources/chartTheme/css/homePageWithChart.css" />
 <link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/resources/chartTheme/css-new/jquery.dataTables.min.css" />
+	href="<%=request.getContextPath()%>/resources/chartTheme/css-new/jquery.dataTables.min.css" /> --%>
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/resources/chartTheme/css/all-css-new-homePageWithChart.css" />
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/resources/chartTheme/css/font-awesome.min.css" />
+
+
 </head>
 <body class="dashboard-page sb-l-o sb-r-c">
 	<header
@@ -39,32 +46,39 @@
 						width="100%" usemap="#HeaderMap">
 
 					<map name="HeaderMap" id="HeaderMap">
-						<!-- <area shape="rect" coords="805,27,907,41" alt="Version1.1"
-							data-toggle="modal" data-target="#myModal3"> -->
-						<area shape="rect" id="fArea" coords="0,0,0,0" alt="Version1.1"
-							data-toggle="modal" data-target="#myModal3">
+						<area shape="rect" id="fArea" style="border: 1px #fff solid;"
+							coords="0,0,0,0" alt="Version1.1" data-toggle="modal"
+							data-target="#myModal3">
 					</map>
 				</div>
 			</c:when>
 			<c:otherwise>
 				<div>
 					<img class="header_img" alt="Header Image"
-						src="<%=request.getContextPath()%>/resources/chartTheme/SCDG_hindi.png"
-						width="100%">
+						src="<%=request.getContextPath()%>/resources/chartTheme/SCDG_hindi_versionIncluded.png"
+						width="100%" usemap="#HeaderMap">
+
+					<map name="HeaderMap" id="HeaderMap" style="cursor: pointer">
+						<area shape="rect" id="fArea" coords="0,0,0,0" alt="Version1.1"
+							data-toggle="modal" data-target="#myModal3">
+					</map>
 				</div>
 			</c:otherwise>
 		</c:choose>
 	</header>
-	<div class="row" style="margin-right: 0px !important; margin-left: 0px !important">
+	<div class="row"
+		style="margin-right: 0px !important; margin-left: 0px !important">
 		<div class=" text-right headerlangText">
 			<ul id="breadCrumb">
-				<li><strong><a href="${appctx}/homePage?lang=en" style="color: black" class="lang-en lang-select">English |</a></strong></li>
-				<li><strong><a href="${appctx}/homePage?lang=indic" style="color: black" class="lang-indic lang-select">Hindi</a></strong></li>
+				<li><strong><a href="${appctx}/homePage?lang=en"
+						style="color: black" class="lang-en lang-select">English |</a></strong></li>
+				<li><strong><a href="${appctx}/homePage?lang=indic"
+						style="color: black" class="lang-indic lang-select">Hindi</a></strong></li>
 
 			</ul>
 		</div>
 	</div>
-	
+
 	<div id="main" style="position: relative;">
 		<div style="text-align: center">
 			<div id="page-wrapper"
@@ -92,18 +106,20 @@
 						id="mainCount">
 						<div class="col-lg-3 col-md-6 dataBoxHover">
 							<div class="panel pink">
-								<em class="fa  fa-users fa-4x"></em>
+								<em class="fa  fa-users fa-4x" style="cursor: default;"></em>
 								<div class="panel-heading">
 									<div class="row">
 										<div class="col-xs-9 text-left">
 											<div>
-												<a href="javascript:void(0);" style="text-decoration: none;"><h3
+												<a href="javascript:void(0);"
+													style="text-decoration: none; cursor: default !important;"><h3
 														id="pendingcomplience2">
 														${userStats.activeSessions}<span
 															class="count_class counter"></span>
 													</h3></a>
 											</div>
-											<div style="margin-top: -32px; margin-left: 50px;">
+											<div style="margin-top: -32px; margin-left: 90px;"
+												class="text-center">
 												<strong><spring:message
 														code="label.homePageWithChart.activeUser"
 														var="activeUserLabel" />${activeUserLabel}</strong>
@@ -115,18 +131,20 @@
 						</div>
 						<div class="col-lg-3 col-md-6 dataBoxHover">
 							<div class="panel red">
-								<em class="fa  fa-users fa-4x"></em>
+								<em class="fa  fa-users fa-4x" style="cursor: default;"></em>
 								<div class="panel-heading">
 									<div class="row">
 										<div id="pendency" class="col-xs-9 text-left">
 											<div>
-												<a href="javascript:void(0);" style="text-decoration: none;"><h3
+												<a href="javascript:void(0);"
+													style="text-decoration: none; cursor: default !important;"><h3
 														id="total_pending1" data-tag="">
 														${userStats.inactiveUsers}<span
 															class="count_class counter"></span>
 													</h3></a>
 											</div>
-											<div style="margin-top: -32px; margin-left: 50px;">
+											<div style="margin-top: -32px; margin-left: 90px;"
+												class="text-center">
 												<strong><spring:message
 														code="label.homePageWithChart.inactiveUser"
 														var="inactiveUserLabel" />${inactiveUserLabel}</strong>
@@ -138,17 +156,19 @@
 						</div>
 						<div class="col-lg-3 col-md-6">
 							<div class="panel yellow">
-								<em class="fa  fa-user-plus fa-4x"></em>
+								<em class="fa  fa-user-plus fa-4x" style="cursor: default;"></em>
 								<div class="panel-heading">
 									<div class="row">
 										<div class="col-xs-9 text-left">
 											<div>
-												<a href="javascript:void(0);" style="text-decoration: none;"><h3
+												<a href="javascript:void(0);"
+													style="text-decoration: none; cursor: default !important;"><h3
 														id="#">
 														${userStats.allUsers}<span class="count_class counter"></span>
 													</h3></a>
 											</div>
-											<div style="margin-top: -32px; margin-left: 50px;">
+											<div style="margin-top: -32px; margin-left: 90px;"
+												class="text-center">
 												<strong><spring:message
 														code="label.homePageWithChart.registeredUser"
 														var="registeredUserLabel" />${registeredUserLabel}</strong>
@@ -160,10 +180,11 @@
 						</div>
 						<div class="col-lg-3 col-md-6 dataBoxHover">
 							<div class="panel tar">
-								<em class="fa  fa-android fa-4x"></em>
-								<div class="panel-heading">
+								<em class="fa  fa-android fa-4x" style="cursor: default;"></em>
+								<div class="panel-heading" style="cursor: pointer;">
 									<div class="row">
-										<div class="col-xs-9 text-left">
+										<div class="col-xs-9 text-left" data-toggle="modal"
+											data-target="#integratedAppModal">
 											<div>
 												<a href="javascript:void(0);" style="text-decoration: none;"><h3
 														id="fInactiveUsers">
@@ -171,7 +192,8 @@
 															class="count_class counter"> </span>
 													</h3></a>
 											</div>
-											<div style="margin-top: -32px; margin-left: 50px;">
+											<div style="margin-top: -32px; margin-left: 90px;"
+												class="text-center">
 												<strong><spring:message
 														code="label.homePageWithChart.integratedApp"
 														var="integratedAppLabel" />${integratedAppLabel}</strong>
@@ -252,7 +274,7 @@
 						src="<%=request.getContextPath()%>/resources/chartTheme/images/iframeLoading.gif"
 						width="36" height="36" alt="loading gif" />
 					<iframe id="registrationIframe" title="registrationPage"
-						style="width: 100%; overflow: hidden; border: 0;" src="#"></iframe>
+						style="width: 100%; overflow: hidden; border: 0;"></iframe>
 				</div>
 			</div>
 		</div>
@@ -314,7 +336,6 @@
 			</div>
 		</div>
 	</div>
-
 	<!-- helpdesk -->
 	<div class="modal fade" id="myModal4" tabindex="-1" role="dialog"
 		aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -356,199 +377,267 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- Integrated App-->
+	<div class="modal fade" id="integratedAppModal" tabindex="-1"
+		role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="modal-header">
+					<small class="card-title" style="float: left; color: #ffffff;">Integrated
+						App</small>
+
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true"
+						style="float: right; font-size: 21px; font-weight: 700; line-height: 1; color: #d30b0b; text-shadow: 0 1px 0 #fff; opacity: 0.6;">×</button>
+				</div>
+				<div class="modal-body">
+					<div class="main-gap keycloak-portal">
+						<div class="row">
+							<c:forEach items="${applicationList}" var="application"
+								varStatus="counter">
+								<c:if test="${counter.index == 0}">
+									<div class="row">
+										<div class="col-md-12">
+								</c:if>
+								<c:if test="${counter.index != 0  && counter.index%3 eq 0 }">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							</c:if>
+							<div class="col-sm-4">
+								<div class="base hvr-float-shadow">
+									<div class="circle bg${counter.index%8+1}-circle">
+										<img alt="application-logo"
+											src="<%=request.getContextPath()%>/applicationIcons/${application.logoImageName}/${application.logoImageExtension}"
+											id="image${application.id}" width="90" height="90" />
+									</div>
+									<h2>
+										<input type='hidden' value='false'
+											id='hidden_app_${application.id}'
+											name="applicationMappingToBeRemoved" /> <a
+											href='<c:url value="${application.applicationUrl}"/>'></a>
+										<spring:message
+											code="label.integratedApp.${application.logoImageName}" />
+									</h2>
+								</div>
+							</div>
+							<c:if test="${fn:length(applicationList)==(counter.index+1)}">
+						</div>
+					</div>
+					</c:if>
+					</c:forEach>
+				</div>
+
+
+
+
+			</div>
+		</div>
+	</div>
+	</div>
+
 	<script
-		src="<%=request.getContextPath()%>/resources/chartTheme/js/jquery-1.11.1.js"></script>
+		src="<%=request.getContextPath()%>/resources/chartTheme/js/jquery-1.11.1.min.js"></script>
 	<script
 		src="<%=request.getContextPath()%>/resources/chartTheme/js/jquery-ui.min.js"></script>
 	<script
 		src="<%=request.getContextPath()%>/resources/chartTheme/js/bootstrap.min.js"></script>
 	<script
-		src="<%=request.getContextPath()%>/resources/chartTheme/js/fusioncharts.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/resources/chartTheme/js/themes/fusioncharts.theme.fint.js"></script>
-	<script
 		src="<%=request.getContextPath()%>/resources/chartTheme/js/jquery.dataTables.min.js"></script>
+
+	<%-- <script
+		src="<%=request.getContextPath()%>/resources/chartTheme/js/fusioncharts.js"></script> --%>
+	<%-- <script
+		src="<%=request.getContextPath()%>/resources/chartTheme/js/themes/fusioncharts.theme.fint.js"></script> --%>
+
 	<script
 		src="<%=request.getContextPath()%>/resources/chartTheme/js/Chart.bundle.js"></script>
 	<script>
-	// Bar Chart
-	var ctx = new Chart(document.getElementById("myChart"), {
-		type : "bar",
-		data : {
-			datasets : [  {
-				label : "${activeUserLabel}",
-				backgroundColor : 'rgba(40,167,69,1)',
-				data : [ ${userStats.activeSessions} ],
-			}, {
-				label : "${inactiveUserLabel}",
-				backgroundColor : 'rgba(255,0,0)',
-				borderColor : 'rgba(255,99,132,1)',
-				borderWidth : 1,
-				data : [ ${userStats.inactiveUsers}  ],
-			},  {
-				label : "${registeredUserLabel}",
-				backgroundColor : 'rgba(255, 193, 7, 1)',
-				data : [ ${userStats.allUsers} ],
-			},	{
-				label : "${integratedAppLabel}",
-				backgroundColor : 'rgba(23, 162, 184, 1)',
-				data : [ ${userStats.integratedApps}],
-			} ]
-		},
-		options : {
-			legend : {
-				position : 'top'
+		// Bar Chart
+		var ctx = new Chart(document.getElementById("myChart"), {
+			type : "bar",
+			data : {
+				datasets : [ {
+					label : "${activeUserLabel}",
+					backgroundColor : 'rgba(40,167,69,1)',
+					data : [ '${userStats.activeSessions}' ],
+				}, {
+					label : "${inactiveUserLabel}",
+					backgroundColor : 'rgba(255,0,0)',
+					borderColor : 'rgba(255,99,132,1)',
+					borderWidth : 1,
+					data : [ '${userStats.inactiveUsers}' ],
+				}, {
+					label : "${registeredUserLabel}",
+					backgroundColor : 'rgba(255, 193, 7, 1)',
+					data : [ '${userStats.allUsers}' ],
+				}, {
+					label : "${integratedAppLabel}",
+					backgroundColor : 'rgba(23, 162, 184, 1)',
+					data : [ '${userStats.integratedApps}' ],
+				} ]
 			},
-			title : {
-				display : true,
-			},
-		}
-	});
-	// Application Chart
-	var ctx = document.getElementById("myChart1").getContext('2d');
-	var myChart = new Chart(ctx, {
-		type : 'pie',
-		data : {
-			labels : [ "${activeUserLabel}" ,"${inactiveUserLabel}","${registeredUserLabel}",
-				"${integratedAppLabel}" ],
-			datasets : [ {
-				backgroundColor : [  'rgba(40,167,69,1)','rgba(255,0,0)',
-						 'rgba(255, 193, 7, 1)', 'rgba(23, 162, 184, 1)'],
-				data : [ ${userStats.activeSessions},${userStats.inactiveUsers},${userStats.allUsers},${userStats.integratedApps}  ]
-			} ]
-		}
-	});
-	</script>
-	<script>
-	var eventMethod = window.addEventListener ? "addEventListener"
-			: "attachEvent";
-	var eventer = window[eventMethod];
-	var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-
-	eventer(
-			messageEvent,
-			function(e) {
-				if ((typeof e.data === 'string')
-						&& (e.data.indexOf('documentHeight') > -1)) {
-					var height = e.data.split('documentHeight:')[1], height = parseInt(height) + 50; // add a bit of extra space
-					document.getElementById('registrationIframe').height = height + 'px';
-				}
-				if ((typeof e.data === 'string')
-						&& e.data == 'showIframeLoadingGIF') {
-					$('#loader1').show();
-				} else if ((typeof e.data === 'string')
-						&& e.data == 'hideIframeLoadingGIF') {
-					$('#loader1').hide();
-				}
-			}, false);
-
-
- 	$(document).ready(function() {
-	    setIframeSrc('#registrationIframe');
-	    $('#registrationIframe').load(function() {
-			$('#loader2').hide();
-			let iframeUrl=this.contentWindow.location;
-			let iframeUrlSplittedArr=(iframeUrl+"").split("/");
-			if(iframeUrlSplittedArr[3]!="auth"){
-				window.location.replace(this.contentWindow.location);
+			options : {
+				legend : {
+					position : 'top'
+				},
+				title : {
+					display : true,
+				},
 			}
 		});
-	});
- 	
-	function setIframeSrc(iframeSelectorId){
-		
-		let iframeSrcUrl="${appctx}/viewHomePage?lang=${currentLocale}";
-		$(iframeSelectorId).attr("src", iframeSrcUrl);
-	}
-	
-	function searchData() {
-		// Declare variables
-		var input, filter, tblTr, tblTd, i, txtValue;
-		input = document.getElementById('myInput');
-		filter = input.value.toUpperCase();
-		// ul = document.getElementById("myUL");
-		tblTr = document.getElementById('tBodyTrs').getElementsByTagName("tr");
+		// Application Chart
+		var ctx = document.getElementById("myChart1").getContext('2d');
+		var myChart = new Chart(ctx, {
+			type : 'pie',
+			data : {
+				labels : [ "${activeUserLabel}", "${inactiveUserLabel}",
+						"${registeredUserLabel}", "${integratedAppLabel}" ],
+				datasets : [ {
+					backgroundColor : [ 'rgba(40,167,69,1)', 'rgba(255,0,0)',
+							'rgba(255, 193, 7, 1)', 'rgba(23, 162, 184, 1)' ],
+					data : [ '${userStats.activeSessions}',
+							'${userStats.inactiveUsers}',
+							'${userStats.allUsers}',
+							'${userStats.integratedApps}' ]
+				} ]
+			}
+		});
+	</script>
+	<script>
+		var eventMethod = window.addEventListener ? "addEventListener"
+				: "attachEvent";
+		var eventer = window[eventMethod];
+		var messageEvent = eventMethod == "attachEvent" ? "onmessage"
+				: "message";
 
-		// Loop through all list items, and hide those who don't match the search query
-		for (i = 0; i < tblTr.length; i++) {
-			tblTd = tblTr[i].getElementsByTagName("td")[1];
-			txtValue = tblTd.innerText;
-			
-			if (txtValue.toUpperCase().indexOf(filter) > -1) {
-				tblTr[i].style.display = "";
-			} else {
-				tblTr[i].style.display = "none";
+		eventer(
+				messageEvent,
+				function(e) {
+					if ((typeof e.data === 'string')
+							&& (e.data.indexOf('documentHeight') > -1)) {
+						var height = e.data.split('documentHeight:')[1], height = parseInt(height) + 50; // add a bit of extra space
+						document.getElementById('registrationIframe').height = height
+								+ 'px';
+					}
+					if ((typeof e.data === 'string')
+							&& e.data == 'showIframeLoadingGIF') {
+						$('#loader1').show();
+					} else if ((typeof e.data === 'string')
+							&& e.data == 'hideIframeLoadingGIF') {
+						$('#loader1').hide();
+					}
+				}, false);
+
+		$(document).ready(function() {
+			setIframeSrc('#registrationIframe');
+			$('#registrationIframe').load(function() {
+				$('#loader2').hide();
+				let iframeUrl = this.contentWindow.location;
+				let iframeUrlSplittedArr = (iframeUrl + "").split("/");
+				if (iframeUrlSplittedArr[3] != "auth") {
+					window.location.replace(this.contentWindow.location);
+				}
+			});
+		});
+
+		function setIframeSrc(iframeSelectorId) {
+
+			let iframeSrcUrl = "${appctx}/viewHomePage?lang=${currentLocale}";
+			$(iframeSelectorId).attr("src", iframeSrcUrl);
+		}
+
+		function searchData() {
+			// Declare variables
+			var input, filter, tblTr, tblTd, i, txtValue;
+			input = document.getElementById('myInput');
+			filter = input.value.toUpperCase();
+			// ul = document.getElementById("myUL");
+			tblTr = document.getElementById('tBodyTrs').getElementsByTagName(
+					"tr");
+
+			// Loop through all list items, and hide those who don't match the search query
+			for (i = 0; i < tblTr.length; i++) {
+				tblTd = tblTr[i].getElementsByTagName("td")[1];
+				txtValue = tblTd.innerText;
+
+				if (txtValue.toUpperCase().indexOf(filter) > -1) {
+					tblTr[i].style.display = "";
+				} else {
+					tblTr[i].style.display = "none";
+				}
 			}
 		}
-	}
-	$(document).ready(function() {
-		if ('${currentLocale}' == 'en') {
-			$(".lang-en").click(function() {
-				return false;
-			});
-		} else {
-			$(".lang-indic").click(function() {
-				return false;
-			});
+		$(document).ready(function() {
+			if ('${currentLocale}' == 'en') {
+				$(".lang-en").click(function() {
+					return false;
+				});
+			} else {
+				$(".lang-indic").click(function() {
+					return false;
+				});
+			}
+		});
+
+		window.onload = function() {
+			//let requiredFactor= screen.width/1368;
+			let requiredFactor = screen.height / 768;
+			var calculatedCorrds;
+			if (screen.height == 768) {
+				if ('${currentLocale}' == 'en') {
+					calculatedCorrds = "768,25,847,45";
+				} else {
+					calculatedCorrds = "756,24,847,47";
+				}
+			} else if (screen.height == 1080) {
+
+				if ('${currentLocale}' == 'en') {
+					calculatedCorrds = "1100,37,1206,65";
+				} else {
+					calculatedCorrds = "1086,33,1203,65";
+				}
+			} else {
+				let requiredFactor = screen.height / 1080;
+				if ('${currentLocale}' == 'en') {
+					calculatedCorrds = "" + 1100 * requiredFactor + "," + 37
+							* requiredFactor + "," + 1206 * requiredFactor
+							+ "," + 65 * requiredFactor;
+				} else {
+					calculatedCorrds = "" + 1086 * requiredFactor + "," + 33
+							* requiredFactor + "," + 1203 * requiredFactor
+							+ "," + 65 * requiredFactor;
+				}
+			}
+
+			//alert(screen.width+"X"+screen.height+" :: "+calculatedCorrds);
+
+			$("#fArea").attr("coords", calculatedCorrds);
+
+			var ImageMap = function(map) {
+				var n, areas = map.getElementsByTagName('area'), len = areas.length, coords = [], previousWidth = document.body.clientWidth;
+				for (n = 0; n < len; n++) {
+					coords[n] = areas[n].coords.split(',');
+				}
+				this.resize = function() {
+					var n, m, clen, x = document.body.clientWidth
+							/ previousWidth;
+					for (n = 0; n < len; n++) {
+						clen = coords[n].length;
+						for (m = 0; m < clen; m++) {
+							coords[n][m] *= x;
+						}
+						areas[n].coords = coords[n].join(',');
+					}
+					previousWidth = document.body.clientWidth;
+					return true;
+				};
+				window.onresize = this.resize;
+			}, imageMap = new ImageMap(document.getElementById('HeaderMap'));
+			imageMap.resize();
 		}
-	});
-	
-	window.onload = function () {
-		/* $(".header_img").bind('click', function() {
-			  //alert( "User clicked on 'header_img.'" );
-			  let requiredFactor= screen.width/1366;
-				//let requiredFactor= screen.height/768;
-				let x1=790;
-				let y1=32;
-				let x2=910;
-				let y2=47;
-				
-				let calculatedCorrds=""+x1*requiredFactor+","+y1*requiredFactor+","+x2*requiredFactor+","+y2*requiredFactor;
-
-				//alert(calculatedCorrds);
-				$("#fArea").attr("coords",calculatedCorrds);
-		});  */
-		
-		let requiredFactor= screen.width/1366;
-		//let requiredFactor= screen.height/768;
-		let x1=790;
-		let y1=32;
-		let x2=910;
-		let y2=47;
-		
-		let calculatedCorrds=""+x1*requiredFactor+","+y1*requiredFactor+","+x2*requiredFactor+","+y2*requiredFactor;
-
-		//alert(calculatedCorrds);
-		$("#fArea").attr("coords",calculatedCorrds);
-		
-		
-	    var ImageMap = function (map) {
-	            var n,
-	                areas = map.getElementsByTagName('area'),
-	                len = areas.length,
-	                coords = [],
-	                previousWidth = document.body.clientWidth;
-	            for (n = 0; n < len; n++) {
-	                coords[n] = areas[n].coords.split(',');
-	            }
-	            this.resize = function () {
-	                var n, m, clen,
-	                    x = document.body.clientWidth / previousWidth;
-	                for (n = 0; n < len; n++) {
-	                    clen = coords[n].length;
-	                    for (m = 0; m < clen; m++) {
-	                        coords[n][m] *= x;
-	                    }
-	                    areas[n].coords = coords[n].join(',');
-	                }
-	                previousWidth = document.body.clientWidth;
-	                return true;
-	            };
-	            window.onresize = this.resize;
-	        },
-	        imageMap = new ImageMap(document.getElementById('HeaderMap'));
-	    imageMap.resize();
-	}
 	</script>
 </body>
 </html>

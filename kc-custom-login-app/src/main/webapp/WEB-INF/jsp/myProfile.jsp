@@ -236,16 +236,16 @@ body {
 				*
 				<form:errors path="userType" cssClass="error" />
 			</div>
-			<label class="col-sm-2 control-label label-inn"><spring:message
+			<%-- <label class="col-sm-2 control-label label-inn"><spring:message
 					code="label.profilePage.adharCardNumber" /> </label>
 			<div class="col-sm-3 required">
 				<form:input id="fAdharCardNumber" path="adharCardNumber"
 					maxlength="16" cssClass="form-control"
 					onkeypress='return isNumberKeyAdharCardNumber(event)' />
 				<form:errors path="adharCardNumber" cssClass="error" />
-			</div>
+			</div> --%>
 		</div>
-		<div class="form-group form-group-sm">
+		<%-- <div class="form-group form-group-sm">
 			<label class="col-sm-3 control-label label-inn"><spring:message
 					code="label.profilePage.voterIdNumber" /> </label>
 			<div class="col-sm-3">
@@ -260,6 +260,23 @@ body {
 				<form:input id="fPassportNumber" path="passportNumber"
 					class="form-control" />
 				<form:errors path="passportNumber" cssClass="error" />
+			</div> 
+		</div>--%>
+		<div id="isNdmcEmployee" class="form-group form-group-sm">
+			<label class="col-sm-3 control-label label-inn"><spring:message
+					code="label.profilePage.employeeDepartment" /> </label>
+			<div class="col-sm-3">
+				<form:input id="fEmployeeDepartment" path="employeeDepartment"
+					class="form-control" />
+				<form:errors path="employeeDepartment" cssClass="error" />
+			</div>
+			<label class="col-sm-2 control-label label-inn"> <spring:message
+					code="label.profilePage.employeeDesignation" />
+			</label>
+			<div class="col-sm-3">
+				<form:input id="fEmployeeDesignation" path="employeeDesignation"
+					class="form-control" />
+				<form:errors path="employeeDesignation" cssClass="error" />
 			</div>
 		</div>
 		<div class="form-group form-group-sm">
@@ -627,11 +644,11 @@ function validate(){
 	}*/
 	
 	//for AdharCardNumber
-	if ($("#fAdharCardNumber").val() != ""&& $("#fAdharCardNumber").val().length<12) {
+	/* if ($("#fAdharCardNumber").val() != ""&& $("#fAdharCardNumber").val().length<12) {
 		alert("Please enter a valid AdharCardNumber!");
 		$("#fAdharCardNumber").focus();
 		return false;
-	}
+	} */
 	
 
 	if($("#fGeoLocFlag").val() == "true" || (("${userMaster.mobileNumber}" != $("#fMobileNumber").val()) && $("#fEmployeeCodeOTPFlag").val()!="true" )){
@@ -695,6 +712,7 @@ function checkUserTypeDetails(){
 	//alert("abcd: "+$("#fEmployeeCode").val()+" :: "+ '${userMaster.employeeCode}');
 	if($("#fUserType").val()=="ndmcEmployee"){
 		$( "#bHiddenBtnForEmployeeCodeBSModal" ).trigger( "click" );
+		$("#isNdmcEmployee").show();
 	}
 }
 
@@ -738,6 +756,10 @@ function fetchEmployeeDetailsCallback(employeeVO){
 	}else if(employeeVO.mobileNumber !=null && employeeVO.mobileNumber !="" && $("#fEmployeeCode").val()!='${userMaster.employeeCode}'){
 		// alert(employeeVO.mobileNumber);
 		$("#fMobileNumber").val(employeeVO.mobileNumber);
+	
+		$("#fEmployeeDepartment").val(employeeVO.department);
+		$("#fEmployeeDesignation").val(employeeVO.designation);
+		
 		//$("#fMobileNumber").val("7428058043");
 		//alert("fetchEmployeeDetailsCallback sendOtp")
 		sendOtp();
@@ -877,6 +899,13 @@ $(document).ready(function() {
 	}
 	if(${userMaster.userType ne null}){
 		$("#fUserType").val('${userMaster.userType}');
+		if($("#fUserType").val()=="ndmcEmployee"){
+			$("#isNdmcEmployee").show();
+		}else{
+			$("#isNdmcEmployee").hide();
+		}
+	}else{
+		$("#isNdmcEmployee").hide();
 	}
 	if(${userMaster.adharCardNumber ne null}){
 		$("#fAdharCardNumber").val('${userMaster.adharCardNumber}');

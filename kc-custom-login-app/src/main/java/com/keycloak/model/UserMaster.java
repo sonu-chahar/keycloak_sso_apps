@@ -69,6 +69,8 @@ public class UserMaster implements Serializable {
 	private String employeeCode;
 	private Boolean isEmployeeVerified;
 	private String employeeVerifiedStatus;
+	private String employeeDesignation;
+	private String employeeDepartment;
 
 	// private Set<RoleMaster> roles;
 	@Column(name = "kcUserId")
@@ -440,6 +442,22 @@ public class UserMaster implements Serializable {
 		this.employeeCode = employeeCode;
 	}
 
+	public String getEmployeeDesignation() {
+		return employeeDesignation;
+	}
+
+	public void setEmployeeDesignation(String employeeDesignation) {
+		this.employeeDesignation = employeeDesignation;
+	}
+
+	public String getEmployeeDepartment() {
+		return employeeDepartment;
+	}
+
+	public void setEmployeeDepartment(String employeeDepartment) {
+		this.employeeDepartment = employeeDepartment;
+	}
+
 	@Override
 	public String toString() {
 		return "UserMaster [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", fatherName="
@@ -454,8 +472,11 @@ public class UserMaster implements Serializable {
 				+ ", fileExtension=" + fileExtension + ", imageFile=" + imageFile + ", isSSOUserCreated="
 				+ isSSOUserCreated + ", ssoUserCreatedStatus=" + ssoUserCreatedStatus + ", tempPassword=" + tempPassword
 				+ ", kcUserId=" + kcUserId + ", userIpAddress=" + userIpAddress + ", isPhoneVerified=" + isPhoneVerified
-				+ ", phoneVerifiedStatus=" + phoneVerifiedStatus + ", isEmployeeVerified=" + isEmployeeVerified
-				+ ", employeeVerifiedStatus=" + employeeVerifiedStatus + "]";
+				+ ", phoneVerifiedStatus=" + phoneVerifiedStatus + ", employeeCode=" + employeeCode
+				+ ", isEmployeeVerified=" + isEmployeeVerified + ", employeeVerifiedStatus=" + employeeVerifiedStatus
+				+ ", employeeDesignation=" + employeeDesignation + ", employeeDepartment=" + employeeDepartment + "]";
 	}
+
+	
 
 }

@@ -60,8 +60,11 @@
 							<div class="col-sm-2">
 								<div class="base hvr-float-shadow">
 									<div class="circle bg${counter.index%8+1}-circle">
-										<img alt="application-logo"
+										<%-- <img alt="application-logo"
 											src="<%=request.getContextPath()%>/images/icons/${application.logoImageName}.${application.logoImageExtension}"
+											id="image${application.id}" width="90" height="90" /> --%>
+											<img alt="application-logo"
+											src="<%=request.getContextPath()%>/applicationIcons/${application.logoImageName}/${application.logoImageExtension}"
 											id="image${application.id}" width="90" height="90" />
 									</div>
 									<h2>
@@ -106,8 +109,11 @@
 
 								<div class="base hvr-float-shadow">
 									<div class="circle bg${counter.index%8+1}-circle">
-										<img alt="application-logo"
+										<%-- <img alt="application-logo"
 											src="<%=request.getContextPath()%>/images/icons/${application.logoImageName}.${application.logoImageExtension}"
+											id="image${application.id}" width="90" height="90" /> --%>
+											<img alt="application-logo"
+											src="<%=request.getContextPath()%>/applicationIcons/${application.logoImageName}/${application.logoImageExtension}"
 											id="image${application.id}" width="90" height="90" />
 									</div>
 									<h2>

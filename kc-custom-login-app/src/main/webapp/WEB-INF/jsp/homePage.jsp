@@ -51,10 +51,13 @@
 						<div class="col-sm-2">
 							<div class="base hvr-float-shadow">
 								<div class="circle bg${counter.index%8+1}-circle">
-									<a href='<c:url value="${application.applicationUrl}"/>'> <img
+									<a href='<c:url value="${application.applicationUrl}"/>'><%--  <img
 										alt="applicationLogo"
 										src="<%=request.getContextPath()%>/images/icons/${application.logoImageName}.${application.logoImageExtension}"
-										width="90" height="90" />
+										width="90" height="90" /> --%>
+										<img alt="application-logo"
+											src="<%=request.getContextPath()%>/applicationIcons/${application.logoImageName}/${application.logoImageExtension}"
+											id="image${application.id}" width="90" height="90" />
 									</a>
 								</div>
 								<h2>

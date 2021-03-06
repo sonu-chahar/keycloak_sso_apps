@@ -116,8 +116,9 @@ public class MyProfileController extends AbstractPageController {
 			log.error("Error in User Master object....");
 			return new ModelAndView(REDIRECT_URL_FOR_PROFILE + CONSTANT_FOR_BLANK_STRING);
 		}
-		UserMaster oldUserMaster = (UserMaster) request.getSession(false)
-				.getAttribute(SESSION_ATTRIBTE_FOR_USER_MASTER);
+		UserMaster oldUserMaster = getUserMasterFromSession(request);
+//		UserMaster oldUserMaster = (UserMaster) request.getSession(false)
+//				.getAttribute(SESSION_ATTRIBTE_FOR_USER_MASTER);
 		if (userMasterDTO.getMobileNumber() != null
 				&& !userMasterDTO.getMobileNumber().equals(oldUserMaster.getMobileNumber())
 				&& userMasterService.isMobileNubmerExist(userMasterDTO.getMobileNumber())) {
@@ -147,24 +148,25 @@ public class MyProfileController extends AbstractPageController {
 		}
 		try {
 			userMasterDTO.setUsername(oldUserMaster.getUsername());
-			userMasterDTO.setPassword(oldUserMaster.getPassword());
+//			userMasterDTO.setPassword(oldUserMaster.getPassword());
 			userMasterDTO.setId(oldUserMaster.getId());
 			userMasterDTO.setKcUserId(oldUserMaster.getKcUserId());
 			userMasterDTO.setIsActive(true);
 			userMasterDTO.setActiveStatus(CONSTANT_FOR_TRUE_FLAG);
-			if ((!oldUserMaster.getFirstName().equals(userMasterDTO.getFirstName()))
+			if (StringUtils.isNotEmpty(userMasterDTO.getMobileNumber())&&(!oldUserMaster.getFirstName().equals(userMasterDTO.getFirstName()))
 					|| (!oldUserMaster.getLastName().equals(userMasterDTO.getLastName()))
-					|| (!oldUserMaster.getEmailId().equals(userMasterDTO.getEmailId()))) {
+					|| (!oldUserMaster.getEmailId().equals(userMasterDTO.getEmailId()))
+					|| (!oldUserMaster.getMobileNumber().equals(userMasterDTO.getMobileNumber()))) {
+
 				status = KeycloakAdminClientApp.updateUserRepresentation(userMasterDTO);
 			}
 
 			if (STATUS_FOR_ERROR.equals(status)) {
 				return new ModelAndView(REDIRECT_URL_FOR_PROFILE + status);
 			}
-			if (userMasterDTO.getImageFile() != null && userMasterDTO.getImageFile().getSize() > 0) {
-				if (!saveImage(userMasterDTO)) {
-					redirectAttributes.addFlashAttribute(CONSTANT_FOR_IMAGE_UPLOAD_STATUS, "Cannot upload image !");
-				}
+			if (userMasterDTO.getImageFile() != null && userMasterDTO.getImageFile().getSize() > 0
+					&& !saveImage(userMasterDTO)) {
+				redirectAttributes.addFlashAttribute(CONSTANT_FOR_IMAGE_UPLOAD_STATUS, "Cannot upload image !");
 			}
 
 			userMasterDTO.setUserIpAddress(getClientIp(request));
@@ -224,25 +226,6 @@ public class MyProfileController extends AbstractPageController {
 			}
 		}
 		return isImageSaved;
-	}
-
-	private boolean deleteImage(UserMaster userMasterDTO) {
-		if (StringUtils.isBlank(userMasterDTO.getImageName())
-				&& StringUtils.isBlank(userMasterDTO.getFileExtension())) {
-			String fileDir = Constants.pathString(CONSTANT_FOR_IMAGE_PATH);
-			String filePath = fileDir + userMasterDTO.getMobileNumber();
-			try {
-				File file = new File(filePath);
-				if (file.exists()) {
-					for (File fin : file.listFiles()) {
-						FileDeleteStrategy.FORCE.deleteQuietly(fin);
-					}
-				}
-			} catch (Exception e) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	@GetMapping(value = "/getImage/{mobileNumber}/{imageName}/{imageExtension}")
@@ -384,8 +367,8 @@ public class MyProfileController extends AbstractPageController {
 			BindingResult bindingResult, HttpServletRequest request, ModelMap model) {
 		Long userId = getUserMasterFromSession(request).getId();
 		String status = CONSTANT_FOR_BLANK_STRING;
-		String columns[] = new String[] { "userMasterId" };
-		Serializable values[] = new Serializable[] { userId };
+		String[] columns = new String[] { "userMasterId" };
+		Serializable[] values = new Serializable[] { userId };
 		List<UserApplicationMapping> userApplicationMappingList = genericUserApplicationMappingService
 				.findValuesByColumns(columns, values, UserApplicationMapping.class);
 		if (userApplicationMappingList != null) {
@@ -408,7 +391,5 @@ public class MyProfileController extends AbstractPageController {
 		}
 		return new ModelAndView(REDIRECT_URL_FOR_APPLICATION_MASTER_MAPPING + status);
 	}
-
-//	public static final okhttp3.MediaType JSON = okhttp3.MediaType.parse("application/json; charset=utf-8");
 
 }

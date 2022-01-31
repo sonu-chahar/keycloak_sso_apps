@@ -56,7 +56,7 @@ import com.opensymphony.module.sitemesh.filter.PageFilter;
 @SuppressWarnings("deprecation")
 @Configuration
 @EnableWebMvc
-@ImportResource({ "classpath:dwr-config.xml", "classpath:jasper-views.xml" })
+@ImportResource({ "classpath:dwr-config.xml" })
 @Import({ HibernateConfig.class, KeycloakSecurityConfig.class })
 //@PropertySource("classpath:applicationResources.properties")
 public class MyWebConfiguration implements WebMvcConfigurer, WebApplicationInitializer {
@@ -125,14 +125,14 @@ public class MyWebConfiguration implements WebMvcConfigurer, WebApplicationIniti
 		return filter;
 	}
 
-	@Bean
-	public XmlViewResolver xmlViewResolver() {
-		XmlViewResolver resolver = new XmlViewResolver();
-		Resource resource = new ClassPathResource("jasper-views.xml");
-		resolver.setLocation(resource);
-		resolver.setOrder(0);
-		return resolver;
-	}
+//	@Bean
+//	public XmlViewResolver xmlViewResolver() {
+//		XmlViewResolver resolver = new XmlViewResolver();
+//		Resource resource = new ClassPathResource("jasper-views.xml");
+//		resolver.setLocation(resource);
+//		resolver.setOrder(0);
+//		return resolver;
+//	}
 
 	@Bean(name = "multipartResolver")
 	public CommonsMultipartResolver multipartResolver() {
@@ -188,8 +188,8 @@ public class MyWebConfiguration implements WebMvcConfigurer, WebApplicationIniti
 	@Bean(name = "messageSource")
 	public MessageSource messageResource() {
 		ReloadableResourceBundleMessageSource messageResource = new ReloadableResourceBundleMessageSource();
-//		messageResource.setBasename("classpath:i18n/messages");
-		messageResource.setBasename("file:/home/chahar/ndmcDir/i18n/messages");
+		messageResource.setBasename("classpath:i18n/messages");
+//		messageResource.setBasename("file:/home/chahar/ndmcDir/i18n/messages");
 		messageResource.setDefaultEncoding("UTF-8");
 		messageResource.setCacheSeconds(60);
 		return messageResource;
